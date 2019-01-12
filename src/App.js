@@ -1,25 +1,32 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import './Bee.css';
 
 class App extends Component {
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <div className="wrap">
+          <div className="wrap2">
+            <div className="body"></div>
+            <div className="wing1"></div>
+            <div className="wing2"></div>
+            <div className="stinger"></div>
+            <div className="eyes"></div>
+          </div>
+          <div className="cloud1"></div>
+          <div className="cloud2"></div>
+          <div className="cloud3"></div>
+          <div className="cloud4"></div>
+
+          <div className="debri1"></div>
+          <div className="debri2"></div>
+          <div className="debri3"></div>
+          <div className="debri4"></div>
+          <div className="debri5"></div>
+          <div className="debri6"></div>
+        </div>
       </div>
     );
   }
