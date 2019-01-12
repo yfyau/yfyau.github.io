@@ -1,9 +1,33 @@
-.wrap {
+.beeContainer {
   position: relative;
   height: 100%;
+	background-color:#369;
+  overflow:hidden;
 }
 
-/* THE BEE   THE BEE   THE BEE   THE BEE    */
+.skip {
+  position: absolute;
+  top: 0;
+  right: 30px;
+  background-color: transparent;
+  font-size: 30px;
+  color: #fff;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.skip:hover {
+  text-shadow: 2px 2px #000;
+}
+
+/* BEE BEE BEE BEE BEE BEE BEE BEE */
 @-webkit-keyframes dodging1 {
   0% {
     top: 50%;
@@ -49,7 +73,8 @@
   }
 }
 
-.wrap2 {
+.bee {
+  z-index: 1;
   position: relative;
   top: 50%;
   left: 50%;
@@ -59,14 +84,9 @@
   -webkit-transform: translate(-50%, -50%);
   -webkit-animation: dodging1 5s ease-in-out infinite;
           animation: dodging1 5s ease-in-out infinite;
-  
-  z-index: 1;
-
-  /* background-color: #fff; */
 }
+/* BEE BEE BEE BEE BEE BEE BEE BEE */
 
-/* THE BEE   THE BEE   THE BEE   THE BEE    */
-/* BODY BODY BODY BODY  */
 .body {
   position: absolute;
   height: 100px;
@@ -74,20 +94,8 @@
   border-radius: 46%;
   background: linear-gradient(to right, #FFB733 60%,#000 40%);
   background-size:60px 100%;
-  /* #FFB733; */
-  
-
-  /* -webkit-box-shadow: 20px 0 0 #000,
- 40px -3px 0 #ffb733,
- 60px -7px 0 #000,
- 80px -11px 0 #ffb733;
-          box-shadow: 20px 0 0 #000,
- 40px -3px 0 #ffb733,
- 60px -7px 0 #000,
- 80px -11px 0 #ffb733; */
 }
 
-/* BODY BODY BODY BODY  */
 /* WINGS WINGS WINGS WINGS */
 @-webkit-keyframes flutter2 {
   0% {
@@ -173,26 +181,22 @@
   -webkit-animation: flutter2 0.3s linear infinite;
           animation: flutter2 0.3s linear infinite;
 }
-
 /* WINGS WINGS WINGS WINGS */
+
 /* STINGER STINGER STINGER STINGER  */
 .stinger {
+  z-index: -1;
   position: absolute;
-  /* -webkit-transform: rotate(320deg);
-          transform: rotate(320deg); */
   top: 40%;
   right: 0px;
-  
   width: 0;
   height: 0;
   border-style: solid;
   border-width: 15px 0 15px 30px;
   border-color: transparent transparent transparent #f5f5f5;
-          
-  z-index: -1;
 }
-
 /* STINGER STINGER STINGER STINGER  */
+
 /* EYES EYES EYES EYES  */
 .eyes {
   position: absolute;
@@ -201,8 +205,6 @@
   background-color: #000;
   top: 30px;
   left: 10px;
-  /* -webkit-box-shadow: 20px 0 0 #eee;
-          box-shadow: 20px 0 0 #eee; */
   border-radius: 100%;
 }
 
@@ -217,8 +219,8 @@
   -webkit-box-shadow: 20px 0 0 #000;
           box-shadow: 20px 0 0 #000;
 }
-
 /* EYES EYES EYES EYES  */
+
 /* DEBRIS DEBRIS DEBRIS DEBRIS  */
 @-webkit-keyframes debri {
   0% {
@@ -303,9 +305,8 @@
   -webkit-animation: debri 0.6s 0.3s ease-out infinite;
           animation: debri 0.6s 0.3s ease-out infinite;
 }
-
-
 /* DEBRIS DEBRIS DEBRIS DEBRIS  */
+
 /* CLOUDS CLOUDS CLOUDS CLOUDS  */
 @-webkit-keyframes cloud {
   0% {
@@ -397,6 +398,6 @@
           animation: cloud2 3s 1s linear infinite;
   z-index: 2;
 }
-
 /* CLOUDS CLOUDS CLOUDS CLOUDS  */
+
 /*# sourceMappingURL=Bee.css.map */
