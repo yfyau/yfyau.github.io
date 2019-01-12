@@ -1,0 +1,403 @@
+.beeContainer {
+  position: relative;
+  height: 100%;
+	background-color:#369;
+  overflow:hidden;
+}
+
+.skip {
+  position: absolute;
+  top: 0;
+  right: 30px;
+  background-color: transparent;
+  font-size: 30px;
+  color: #fff;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.skip:hover {
+  text-shadow: 2px 2px #000;
+}
+
+/* BEE BEE BEE BEE BEE BEE BEE BEE */
+@-webkit-keyframes dodging1 {
+  0% {
+    top: 50%;
+    left: 50%;
+  }
+  20% {
+    top: 40%;
+    left: 40%;
+  }
+  60% {
+    top: 50%;
+    left: 50%;
+  }
+  80% {
+    top: 55%;
+    left: 55%;
+  }
+  100% {
+    top: 50%;
+    left: 50%;
+  }
+}
+@keyframes dodging1 {
+  0% {
+    top: 50%;
+    left: 50%;
+  }
+  25% {
+    top: 40%;
+    left: 40%;
+  }
+  60% {
+    top: 50%;
+    left: 50%;
+  }
+  75% {
+    top: 55%;
+    left: 55%;
+  }
+  100% {
+    top: 50%;
+    left: 50%;
+  }
+}
+
+.bee {
+  z-index: 1;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  height: 75px;
+  width: 175px;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -webkit-animation: dodging1 5s ease-in-out infinite;
+          animation: dodging1 5s ease-in-out infinite;
+}
+/* BEE BEE BEE BEE BEE BEE BEE BEE */
+
+.body {
+  position: absolute;
+  height: 100px;
+  width: 150px;
+  border-radius: 46%;
+  background: linear-gradient(to right, #FFB733 60%,#000 40%);
+  background-size:60px 100%;
+}
+
+/* WINGS WINGS WINGS WINGS */
+@-webkit-keyframes flutter2 {
+  0% {
+    -webkit-transform: rotate(80deg);
+            transform: rotate(80deg);
+  }
+  50% {
+    -webkit-transform: rotate(100deg);
+            transform: rotate(100deg);
+  }
+}
+@keyframes flutter2 {
+  0% {
+    -webkit-transform: rotate(80deg);
+            transform: rotate(80deg);
+  }
+  50% {
+    -webkit-transform: rotate(100deg);
+            transform: rotate(100deg);
+  }
+}
+
+@-webkit-keyframes flutter1 {
+  0% {
+    -webkit-transform: rotate(20deg);
+            transform: rotate(20deg);
+  }
+  50% {
+    -webkit-transform: rotate(40deg);
+            transform: rotate(40deg);
+  }
+}
+
+@keyframes flutter1 {
+  0% {
+    -webkit-transform: rotate(20deg);
+            transform: rotate(20deg);
+  }
+  50% {
+    -webkit-transform: rotate(40deg);
+            transform: rotate(40deg);
+  }
+}
+
+.wing1 {
+  position: absolute;
+  height: 55px;
+  width: 55px;
+  margin-top: -30px;
+  left: 10%;
+  -webkit-transform: rotate(20deg);
+          transform: rotate(20deg);
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+  border-top-right-radius: 100%;
+  border-bottom-left-radius: 100%;
+  border-top-left-radius: 10px;
+  background-color: #fff;
+  z-index: -1;
+  -webkit-filter: blur(1px);
+          filter: blur(1px);
+  -webkit-animation: flutter1 0.3s linear reverse infinite;
+          animation: flutter1 0.3s linear reverse infinite;
+}
+
+.wing2 {
+  position: absolute;
+  height: 55px;
+  width: 55px;
+  margin-top: -30px;
+  left: 10%;
+  -webkit-transform: rotate(80deg);
+          transform: rotate(80deg);
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+  border-top-right-radius: 100%;
+  border-bottom-left-radius: 100%;
+  border-top-left-radius: 10px;
+  background-color: #ddd;
+  z-index: 1;
+  -webkit-filter: blur(1px);
+          filter: blur(1px);
+  -webkit-animation: flutter2 0.3s linear infinite;
+          animation: flutter2 0.3s linear infinite;
+}
+/* WINGS WINGS WINGS WINGS */
+
+/* STINGER STINGER STINGER STINGER  */
+.stinger {
+  z-index: -1;
+  position: absolute;
+  top: 40%;
+  right: 0px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 15px 0 15px 30px;
+  border-color: transparent transparent transparent #f5f5f5;
+}
+/* STINGER STINGER STINGER STINGER  */
+
+/* EYES EYES EYES EYES  */
+.eyes {
+  position: absolute;
+  height: 10px;
+  width: 10px;
+  background-color: #000;
+  top: 30px;
+  left: 10px;
+  border-radius: 100%;
+}
+
+.eyes .pupil {
+  position: absolute;
+  height: 4px;
+  width: 4px;
+  top: 13px;
+  left: 2px;
+  background-color: #000;
+  border-radius: 100%;
+  -webkit-box-shadow: 20px 0 0 #000;
+          box-shadow: 20px 0 0 #000;
+}
+/* EYES EYES EYES EYES  */
+
+/* DEBRIS DEBRIS DEBRIS DEBRIS  */
+@-webkit-keyframes debri {
+  0% {
+    left: -150px;
+  }
+  100% {
+    left: 125%;
+  }
+}
+@keyframes debri {
+  0% {
+    left: -150px;
+  }
+  100% {
+    left: 125%;
+  }
+}
+
+.debri1 {
+  position: absolute;
+  width: 100px;
+  height: 1px;
+  background-color: #dddddd;
+  top: 10%;
+  left: -150px;
+  -webkit-animation: debri 0.6s 1.5s ease-out infinite;
+          animation: debri 0.6s 1.5s ease-out infinite;
+}
+
+.debri2 {
+  position: absolute;
+  width: 75px;
+  height: 2px;
+  background-color: #dddddd;
+  top: 30%;
+  left: -150px;
+  -webkit-animation: debri 0.6s 0.75s ease-out infinite;
+          animation: debri 0.6s 0.75s ease-out infinite;
+}
+
+.debri3 {
+  position: absolute;
+  width: 60px;
+  height: 2px;
+  background-color: #dddddd;
+  top: 40%;
+  left: -150px;
+  z-index: -1;
+  -webkit-animation: debri 0.6s 0.5s ease-out infinite;
+          animation: debri 0.6s 0.5s ease-out infinite;
+}
+
+.debri4 {
+  position: absolute;
+  width: 80px;
+  height: 1px;
+  background-color: #dddddd;
+  top: 50%;
+  left: -150px;
+  -webkit-animation: debri 0.6s 0.45s ease-out infinite;
+          animation: debri 0.6s 0.45s ease-out infinite;
+}
+
+.debri5 {
+  position: absolute;
+  width: 90px;
+  height: 2px;
+  background-color: #dddddd;
+  top: 60%;
+  left: -150px;
+  -webkit-animation: debri 0.6s 0.4s ease-out infinite;
+          animation: debri 0.6s 0.4s ease-out infinite;
+}
+
+.debri6 {
+  position: absolute;
+  width: 100px;
+  height: 2px;
+  background-color: #dddddd;
+  top: 80%;
+  left: -150px;
+  -webkit-animation: debri 0.6s 0.3s ease-out infinite;
+          animation: debri 0.6s 0.3s ease-out infinite;
+}
+/* DEBRIS DEBRIS DEBRIS DEBRIS  */
+
+/* CLOUDS CLOUDS CLOUDS CLOUDS  */
+@-webkit-keyframes cloud {
+  0% {
+    left: -150px;
+  }
+  100% {
+    left: calc(100% + 150px);
+  }
+}
+@keyframes cloud {
+  0% {
+    left: -150px;
+  }
+  100% {
+    left: calc(100% + 150px);
+  }
+}
+
+@-webkit-keyframes cloud2 {
+  0% {
+    left: -100px;
+  }
+  100% {
+    left: calc(100% + 200px);
+  }
+}
+
+@keyframes cloud2 {
+  0% {
+    left: -150px;
+  }
+  100% {
+    left: 175%;
+  }
+}
+
+.cloud1 {
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  top: 5%;
+  left: -150px;
+  border-radius: 100%;
+  -webkit-box-shadow: 50px 50px 2px rgba(255, 255, 255, 0.95), 30px 55px 1px rgba(255, 255, 255, 0.95), 10px 50px 1px rgba(255, 255, 255, 0.95), 20px 35px 1px rgba(255, 255, 255, 0.95), 40px 35px 1px rgba(255, 255, 255, 0.95);
+          box-shadow: 50px 50px 2px rgba(255, 255, 255, 0.95), 30px 55px 1px rgba(255, 255, 255, 0.95), 10px 50px 1px rgba(255, 255, 255, 0.95), 20px 35px 1px rgba(255, 255, 255, 0.95), 40px 35px 1px rgba(255, 255, 255, 0.95);
+  -webkit-animation: cloud 10s linear infinite;
+          animation: cloud 10s linear infinite;
+  z-index: 0;
+}
+
+.cloud2 {
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  top: 15%;
+  left: -150px;
+  border-radius: 100%;
+  -webkit-box-shadow: 80px 100px 2px rgba(255, 255, 255, 0.95), 45px 105px 1px rgba(255, 255, 255, 0.95), 10px 100px 1px rgba(255, 255, 255, 0.95), 60px 75px 1px rgba(255, 255, 255, 0.95), 30px 75px 1px rgba(255, 255, 255, 0.95);
+          box-shadow: 80px 100px 2px rgba(255, 255, 255, 0.95), 45px 105px 1px rgba(255, 255, 255, 0.95), 10px 100px 1px rgba(255, 255, 255, 0.95), 60px 75px 1px rgba(255, 255, 255, 0.95), 30px 75px 1px rgba(255, 255, 255, 0.95);
+  -webkit-animation: cloud 7s linear infinite;
+          animation: cloud 7s linear infinite;
+  z-index: 0;
+}
+
+.cloud3 {
+  position: absolute;
+  height: 60px;
+  width: 60px;
+  top: 30%;
+  left: -950px;
+  border-radius: 100%;
+  -webkit-box-shadow: 100px 200px 2px rgba(255, 255, 255, 0.95), 50px 205px 1px rgba(255, 255, 255, 0.95), 10px 200px 1px rgba(255, 255, 255, 0.95), 35px 170px 1px rgba(255, 255, 255, 0.95), 70px 170px 1px rgba(255, 255, 255, 0.95);
+          box-shadow: 100px 200px 2px rgba(255, 255, 255, 0.95), 50px 205px 1px rgba(255, 255, 255, 0.95), 10px 200px 1px rgba(255, 255, 255, 0.95), 35px 170px 1px rgba(255, 255, 255, 0.95), 70px 170px 1px rgba(255, 255, 255, 0.95);
+  -webkit-animation: cloud 5s 2s linear infinite;
+          animation: cloud 5s 2s linear infinite;
+  z-index: 0;
+}
+
+.cloud4 {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  top: 50%;
+  left: -950px;
+  border-radius: 100%;
+  -webkit-box-shadow: 150px 200px 2px rgba(255, 255, 255, 0.95), 75px 205px 1px rgba(255, 255, 255, 0.95), 10px 200px 1px rgba(255, 255, 255, 0.95), 45px 150px 1px rgba(255, 255, 255, 0.95), 120px 150px 1px rgba(255, 255, 255, 0.95);
+          box-shadow: 150px 200px 2px rgba(255, 255, 255, 0.95), 75px 205px 1px rgba(255, 255, 255, 0.95), 10px 200px 1px rgba(255, 255, 255, 0.95), 45px 150px 1px rgba(255, 255, 255, 0.95), 120px 150px 1px rgba(255, 255, 255, 0.95);
+  -webkit-animation: cloud2 3s 1s linear infinite;
+          animation: cloud2 3s 1s linear infinite;
+  z-index: 2;
+}
+/* CLOUDS CLOUDS CLOUDS CLOUDS  */
+
+/*# sourceMappingURL=Bee.css.map */
