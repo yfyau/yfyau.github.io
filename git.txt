@@ -1,0 +1,3 @@
+git checkout gh-pages
+git pull --force
+git push origin gh-pages:master

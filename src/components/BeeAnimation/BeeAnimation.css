@@ -5,6 +5,24 @@
   overflow:hidden;
 }
 
+@-moz-keyframes blinker {  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes blinker {  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+@keyframes blinker {  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
 .skip {
   position: absolute;
   top: 0;
@@ -12,8 +30,13 @@
   background-color: transparent;
   font-size: 30px;
   color: #fff;
+
   -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
+          transition-duration: 0.4s;
+
+  -webkit-animation: 2s blinker linear infinite;
+     -moz-animation: 2s blinker linear infinite;
+          animation: 2s blinker linear infinite;
 
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -21,6 +44,7 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
 }
 
 .skip:hover {
@@ -28,7 +52,7 @@
 }
 
 /* BEE BEE BEE BEE BEE BEE BEE BEE */
-@-webkit-keyframes dodging1 {
+@-webkit-keyframes dodging {
   0% {
     top: 50%;
     left: 50%;
@@ -50,7 +74,7 @@
     left: 50%;
   }
 }
-@keyframes dodging1 {
+@keyframes dodging {
   0% {
     top: 50%;
     left: 50%;
@@ -73,6 +97,30 @@
   }
 }
 
+@-webkit-keyframes leaving {
+  0% {
+    top: 50%;
+    left: 50%;
+  }
+  100% {
+    top: 50%;
+    left: 0%;
+  }
+}
+@keyframes leaving {
+  0% {
+    
+  }
+  100% {
+    left: -150px;
+  }
+}
+
+.leaving {
+  -webkit-animation: leaving 2s ease-in-out 1 !important; 
+          animation: leaving 2s ease-in-out 1 !important;
+}
+
 .bee {
   z-index: 1;
   position: relative;
@@ -82,8 +130,8 @@
   width: 175px;
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
-  -webkit-animation: dodging1 5s ease-in-out infinite;
-          animation: dodging1 5s ease-in-out infinite;
+  -webkit-animation: dodging 5s ease-in-out infinite;
+          animation: dodging 5s ease-in-out infinite;
 }
 /* BEE BEE BEE BEE BEE BEE BEE BEE */
 

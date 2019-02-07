@@ -1,0 +1,58 @@
+@-webkit-keyframes zoomIn {
+    0% {
+        -webkit-transform: rotate3d(1, 0, 0, -90deg) scale(0);
+        transform: rotate3d(1, 0, 0, -90deg) scale(0);
+    }
+    50% {
+        -webkit-transform: rotate3d(1, 0, 0, -20deg) scale(0.8);
+        transform: rotate3d(1, 0, 0, -20deg) scale(0.8);
+    }
+    100% {
+        -webkit-transform: rotate3d(1, 0, 0, 0deg) scale(1);
+        transform: rotate3d(1, 0, 0, 0deg) scale(1);
+    }
+}
+  
+@keyframes zoomIn {
+    0% {
+        -webkit-transform: rotate3d(1, 0, 0, -90deg) scale(0);
+        transform: rotate3d(1, 0, 0, -90deg) scale(0);
+    }
+    50% {
+        -webkit-transform: rotate3d(1, 0, 0, -20deg) scale(0.8);
+        transform: rotate3d(1, 0, 0, -20deg) scale(0.8);
+    }
+    100% {
+        -webkit-transform: rotate3d(1, 0, 0, 0deg) scale(1);
+        transform: rotate3d(1, 0, 0, 0deg) scale(1);
+    }
+}
+
+.background {
+    position: relative;
+    height: 100%;
+
+    background: #fff;
+
+    /* -webkit-animation: zoomIn 3s ease-in-out 1;
+            animation: zoomIn 3s ease-in-out 1; */
+}
+
+.mainContainer {
+    position: relative;
+    height: 100%;
+    background-color: #000;
+}
+
+.content {
+    height: 100%;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .content {
+        position: absolute;
+        top: 60px;
+        height: calc(100% - 60px);
+    }
+}
