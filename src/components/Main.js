@@ -75,9 +75,9 @@ export default class Main extends Component {
                             containerHeight="100%"
                             containerWidth="100%">
                             <Home />
-                            <div style={{ height: "100%" }}><h1>2</h1></div>
-                            <div style={{ height: "100%" }}><h1>3</h1></div>
-                            <div style={{ height: "100%" }}><h1>4</h1></div>
+                            <div style={{ height: "100%" }}><h1>2 TODO</h1></div>
+                            <div style={{ height: "100%" }}><h1>3 TODO</h1></div>
+                            <div style={{ height: "100%" }}><h1>4 TODO</h1></div>
                         </PageScroller>
                     </main>
                 </div>

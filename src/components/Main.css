@@ -1,4 +1,4 @@
-@-webkit-keyframes zoomIn {
+/* @-webkit-keyframes zoomIn {
     0% {
         -webkit-transform: rotate3d(1, 0, 0, -90deg) scale(0);
         transform: rotate3d(1, 0, 0, -90deg) scale(0);
@@ -26,7 +26,26 @@
         -webkit-transform: rotate3d(1, 0, 0, 0deg) scale(1);
         transform: rotate3d(1, 0, 0, 0deg) scale(1);
     }
+} */
+
+@-webkit-keyframes in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
+  
+@keyframes in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 
 .background {
     position: relative;
@@ -34,8 +53,8 @@
 
     background: #fff;
 
-    /* -webkit-animation: zoomIn 3s ease-in-out 1;
-            animation: zoomIn 3s ease-in-out 1; */
+    -webkit-animation: in 3s ease-in-out;
+            animation: in 3s ease-in-out;
 }
 
 .mainContainer {
