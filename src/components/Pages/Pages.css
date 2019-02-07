@@ -1,0 +1,25 @@
+p {
+    margin: 0;
+}
+
+.page-flex {
+    height: 100%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.all-center {
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.home-background {
+    background: rgb(240, 240, 170);
+}
+
+.fixed-ar-1-1::before {
+    padding-top: 100%;
+}

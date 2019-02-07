@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 
-import './Main.css'
 import Toolbar from './Toolbar/Toolbar'
 import SideDrawer from './SideDrawer/SideDrawer'
 import Backdrop from './Backdrop/Backdrop'
 import PageScroller from './PageScroller/PageScroller'
 import FloatButtonGroup from './FloatButtonGroup/FloatButtonGroup'
+import { Home } from './Pages/Pages'
 
-import _ from 'lodash'
-
-const MAX_PAGE_NUM = 4
+import './Main.css'
 
 export default class Main extends Component {
 
@@ -33,7 +31,7 @@ export default class Main extends Component {
     componentWillUnmount = () => {
         window.removeEventListener('resize', this.onWindowResized);
     };
-    
+
     onWindowResized = () => {
         this.forceUpdate();
     };
@@ -76,10 +74,10 @@ export default class Main extends Component {
                             ref={ref => this._pageScroller = ref}
                             containerHeight="100%"
                             containerWidth="100%">
-                            <div style={{ height: "100%" }} ref={ref => this.page1 = ref}><h1>1</h1></div>
-                            <div style={{ height: "100%" }} ref={ref => this.page2 = ref}><h1>2</h1></div>
-                            <div style={{ height: "100%" }} ref={ref => this.page3 = ref}><h1>3</h1></div>
-                            <div style={{ height: "100%" }} ref={ref => this.page4 = ref}><h1>4</h1></div>
+                            <Home />
+                            <div style={{ height: "100%" }}><h1>2</h1></div>
+                            <div style={{ height: "100%" }}><h1>3</h1></div>
+                            <div style={{ height: "100%" }}><h1>4</h1></div>
                         </PageScroller>
                     </main>
                 </div>
