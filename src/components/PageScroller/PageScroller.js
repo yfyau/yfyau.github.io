@@ -4,6 +4,11 @@ import _ from "lodash"
 
 import './PageScroller.css'
 
+import Toolbar from '../Toolbar/Toolbar'
+import SideDrawer from '../SideDrawer/SideDrawer'
+import Backdrop from '../Backdrop/Backdrop'
+import FloatButtonGroup from '../FloatButtonGroup/FloatButtonGroup'
+
 /*
     Reference to "react-page-scroller":
         https://github.com/VikLiegostaiev/react-page-scroller
@@ -24,16 +29,20 @@ export default class PageScroller extends React.Component {
         containerHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
         containerWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
         blockScrollUp: PropTypes.bool,
-        blockScrollDown: PropTypes.bool
+        blockScrollDown: PropTypes.bool,
+
+        navOptions: PropTypes.array
     };
 
     static defaultProps = {
         animationTimer: 1000,
-        transitionTimingFunction: "ease-in-out",
+        transitionTimingFunction: "ease",
         containerHeight: "100vh",
         containerWidth: "100vw",
         blockScrollUp: false,
-        blockScrollDown: false
+        blockScrollDown: false,
+
+        navOptions: []
     };
 
     constructor(props) {
@@ -41,7 +50,8 @@ export default class PageScroller extends React.Component {
 
         this.state = {
             currentIndex: 0,
-            currentToRenderLength: 0
+            currentToRenderLength: 0,
+            sideDrawerOpen: false
         }
 
         this.previousTouchMove = null
@@ -66,8 +76,6 @@ export default class PageScroller extends React.Component {
         } else {
             componentsToRenderLength++;
         }
-
-        console.log("componentsToRenderLength: ", componentsToRenderLength)
 
         this.addNextComponent(componentsToRenderLength);
     };
@@ -117,17 +125,14 @@ export default class PageScroller extends React.Component {
                 this.scrolling = true;
                 this._pageContainer.style.transform = `translate3d(0, ${(this.state.currentIndex - 1) * -100}%, 0)`;
 
-                console.log("UP: ", this.state.currentIndex)
-
                 if (this.props.pageOnChange) {
                     this.props.pageOnChange(this.state.currentIndex);
                 }
 
+                this.setState((prevState) => ({ currentIndex: prevState.currentIndex - 1 }));
                 setTimeout(() => {
-                    this.setState((prevState) => ({ currentIndex: prevState.currentIndex - 1 }), () => {
-                        this.scrolling = false;
-                        this.previousTouchMove = null;
-                    });
+                    this.scrolling = false;
+                    this.previousTouchMove = null;
                 }, this.props.animationTimer + ANIMATION_TIMER)
 
             } else if (this.props.scrollUnavailable) {
@@ -142,18 +147,16 @@ export default class PageScroller extends React.Component {
                 this.scrolling = true;
                 this._pageContainer.style.transform = `translate3d(0, ${(this.state.currentIndex + 1) * -100}%, 0)`;
 
-                console.log("DOWN: ", this.state.currentIndex+2)
-
                 if (this.props.pageOnChange) {
                     this.props.pageOnChange(this.state.currentIndex + 2);
                 }
 
+                this.setState((prevState) => ({ currentIndex: prevState.currentIndex + 1 }), () => {
+                    this.addNextComponent();
+                });
                 setTimeout(() => {
-                    this.setState((prevState) => ({ currentIndex: prevState.currentIndex + 1 }), () => {
-                        this.scrolling = false;
-                        this.previousTouchMove = null;
-                        this.addNextComponent();
-                    });
+                    this.scrolling = false;
+                    this.previousTouchMove = null;
                 }, this.props.animationTimer + ANIMATION_TIMER)
 
             } else if (this.props.scrollUnavailable) {
@@ -167,6 +170,8 @@ export default class PageScroller extends React.Component {
         const { currentIndex, currentToRenderLength } = this.state;
 
         let newComponentsToRenderLength = currentToRenderLength;
+
+        console.log(currentIndex, number, currentToRenderLength, !this.scrolling, !_.isNil(this["container_" + (number)]))
 
         if (!_.isEqual(currentIndex, number)) {
             if (!_.isNil(this["container_" + (number)]) && !this.scrolling) {
@@ -182,11 +187,11 @@ export default class PageScroller extends React.Component {
                     newComponentsToRenderLength++;
                 }
 
+
+                this.setState({ currentIndex: number, currentToRenderLength: newComponentsToRenderLength });
                 setTimeout(() => {
-                    this.setState({ currentIndex: number, currentToRenderLength: newComponentsToRenderLength }, () => {
-                        this.scrolling = false;
-                        this.previousTouchMove = null;
-                    });
+                    this.scrolling = false;
+                    this.previousTouchMove = null;
                 }, this.props.animationTimer + ANIMATION_TIMER)
 
             } else if (!this.scrolling && !_.isNil(children[number])) {
@@ -208,11 +213,10 @@ export default class PageScroller extends React.Component {
                         pageOnChange(number + 1);
                     }
 
+                    this.setState({ currentIndex: number });
                     setTimeout(() => {
-                        this.setState({ currentIndex: number }, () => {
-                            this.scrolling = false;
-                            this.previousTouchMove = null;
-                        });
+                        this.scrolling = false;
+                        this.previousTouchMove = null;
                     }, this.props.animationTimer + ANIMATION_TIMER)
                 });
             }
@@ -254,12 +258,49 @@ export default class PageScroller extends React.Component {
         return newComponentsToRender;
     };
 
-    render() {
 
+    // For NavBar
+
+    drawerToggleClickHandler = () => {
+        this.setState((prevState) => {
+            return { sideDrawerOpen: !prevState.sideDrawerOpen }
+        })
+    }
+
+    backdropClickHandler = () => {
+        this.setState({ sideDrawerOpen: false })
+    }
+
+
+
+    render() {
         const { animationTimer, transitionTimingFunction, containerHeight, containerWidth } = this.props;
+        const { navOptions } = this.props;
+        const { currentIndex, sideDrawerOpen } = this.state
+
+        let backdrop;
+
+        if (sideDrawerOpen) {
+            backdrop = <Backdrop click={this.backdropClickHandler} />
+        }
+
+        const number = this.props.children && this.props.children.length
 
         return (
             <div className="page-scroller" style={{ height: containerHeight, width: containerWidth }}>
+
+                <Toolbar drawerClick={this.drawerToggleClickHandler} />
+                <SideDrawer show={sideDrawerOpen} />
+                {backdrop}
+
+                <FloatButtonGroup
+                    number={number}
+                    index={currentIndex}
+                    options={navOptions}
+                    onClickHandler={this.goToPage}
+                    animationTimer={animationTimer}
+                    transitionTimingFunction={transitionTimingFunction} />
+
                 <div className="page-container"
                     ref={ref => this._pageContainer = ref}
                     onWheel={this.wheelScroll}

@@ -25,10 +25,10 @@
 
 .skip {
   position: absolute;
-  top: 0;
+  top: 10px;
   right: 30px;
   background-color: transparent;
-  font-size: 30px;
+  font-size: 5vw;
   color: #fff;
 
   -webkit-transition-duration: 0.4s;
@@ -448,4 +448,8 @@
 }
 /* CLOUDS CLOUDS CLOUDS CLOUDS  */
 
-/*# sourceMappingURL=Bee.css.map */
+@media (min-width: 769px) {
+  .skip {
+    font-size: 40px;
+  }
+}

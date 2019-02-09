@@ -1,13 +1,32 @@
 import React, { Component } from 'react';
 
-import Toolbar from './Toolbar/Toolbar'
-import SideDrawer from './SideDrawer/SideDrawer'
-import Backdrop from './Backdrop/Backdrop'
 import PageScroller from './PageScroller/PageScroller'
-import FloatButtonGroup from './FloatButtonGroup/FloatButtonGroup'
-import { Home } from './Pages/Pages'
+import { Home, Contact } from './Pages/Pages'
 
 import './Main.css'
+
+const navOptions = [
+    {
+        text: "Home",
+        color: "rgb(50, 50, 50)"
+    },
+    {
+        text: "Page 2",
+        color: "rgb(100, 100, 100)"
+    },
+    {
+        text: "Home",
+        color: "rgb(150, 150, 150)"
+    },
+    {
+        text: "Page 2",
+        color: "rgb(200, 200, 200)"
+    },
+    {
+        text: "Contact Me",
+        color: "rgb(250, 250, 250)"
+    }
+]
 
 export default class Main extends Component {
 
@@ -16,12 +35,8 @@ export default class Main extends Component {
 
         this.state = {
             sideDrawerOpen: false,
-            currentPage: 1,
             scrolling: false
         }
-
-        this.containerHeight = 0;
-        this.containerWidth = 0;
     }
 
     componentDidMount = () => {
@@ -36,48 +51,23 @@ export default class Main extends Component {
         this.forceUpdate();
     };
 
-    drawerToggleClickHandler = () => {
-        this.setState((prevState) => {
-            return { sideDrawerOpen: !prevState.sideDrawerOpen }
-        })
-    }
-
-    backdropClickHandler = () => {
-        this.setState({ sideDrawerOpen: false })
-    }
-
-    goToPage = (index) => {
-        this._pageScroller.goToPage(index);
-    }
-
     render() {
-        const { sideDrawerOpen } = this.state
-
-        let backdrop;
-
-        if (sideDrawerOpen) {
-            backdrop = <Backdrop click={this.backdropClickHandler} />
-        }
 
         return (
             <div className="mainContainer">
                 <div className="background">
-                    {/* For Moblie */}
-                    <Toolbar drawerClick={this.drawerToggleClickHandler} />
-                    <SideDrawer show={sideDrawerOpen} />
-                    {backdrop}
-
-                    {/* For PC */}
-                    <FloatButtonGroup />
-                    <main className="content" ref={ref => this._content = ref}>
+                    <main className="content">
                         <PageScroller
                             ref={ref => this._pageScroller = ref}
+                            navOptions={navOptions}
                             containerHeight="100%"
-                            containerWidth="100%">
+                            containerWidth="100%"
+                        >
                             <Home />
-                            <div style={{ height: "100%" }}><h1>2 TODO</h1></div>
-                            <div style={{ height: "100%" }}><h1>3 TODO</h1></div>
-                            <div style={{ height: "100%" }}><h1>4 TODO</h1></div>
+                            <div style={{ height: "100%", background: `linear-gradient(rgb(240, 212, 136), rgb(240, 184, 102))` }}></div>
+                            <div style={{ height: "100%", background: `linear-gradient(rgb(240, 184, 102), rgb(240, 156, 68))` }}></div>
+                            <div style={{ height: "100%", background: `linear-gradient(rgb(240, 156, 68), rgb(240, 128, 34))` }}></div>
+                            <Contact />
                         </PageScroller>
                     </main>
                 </div>

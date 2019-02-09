@@ -51,8 +51,6 @@
     position: relative;
     height: 100%;
 
-    background: #fff;
-
     -webkit-animation: in 3s ease-in-out;
             animation: in 3s ease-in-out;
 }
@@ -60,7 +58,7 @@
 .mainContainer {
     position: relative;
     height: 100%;
-    background-color: #000;
+    background-color: #fff;
 }
 
 .content {

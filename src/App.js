@@ -11,7 +11,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      isSkip: false
+      isSkip: true
     }
   }
 
