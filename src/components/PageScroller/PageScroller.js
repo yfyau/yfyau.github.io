@@ -9,6 +9,9 @@ import SideDrawer from '../SideDrawer/SideDrawer'
 import Backdrop from '../Backdrop/Backdrop'
 import FloatButtonGroup from '../FloatButtonGroup/FloatButtonGroup'
 
+import angle_up from './angle-up-solid.svg'
+import angle_down from './angle-down-solid.svg'
+
 /*
     Reference to "react-page-scroller":
         https://github.com/VikLiegostaiev/react-page-scroller
@@ -65,7 +68,7 @@ export default class PageScroller extends React.Component {
             event.preventDefault();
         };
 
-        this._pageContainer.addEventListener("touchmove", this.touchMove);
+        // this._pageContainer.addEventListener("touchmove", this.touchMove);
         this._pageContainer.addEventListener("keydown", this.keyPress);
 
         let componentsToRenderLength = 0;
@@ -83,7 +86,7 @@ export default class PageScroller extends React.Component {
     componentWillUnmount = () => {
         window.removeEventListener('resize', this.onWindowResized);
 
-        this._pageContainer.removeEventListener("touchmove", this.touchMove);
+        // this._pageContainer.removeEventListener("touchmove", this.touchMove);
         this._pageContainer.removeEventListener("keydown", this.keyPress);
     };
 
@@ -260,7 +263,6 @@ export default class PageScroller extends React.Component {
 
 
     // For NavBar
-
     drawerToggleClickHandler = () => {
         this.setState((prevState) => {
             return { sideDrawerOpen: !prevState.sideDrawerOpen }
@@ -289,9 +291,15 @@ export default class PageScroller extends React.Component {
         return (
             <div className="page-scroller" style={{ height: containerHeight, width: containerWidth }}>
 
-                <Toolbar drawerClick={this.drawerToggleClickHandler} />
+                {/* <Toolbar drawerClick={this.drawerToggleClickHandler} />
                 <SideDrawer show={sideDrawerOpen} />
-                {backdrop}
+                {backdrop} */}
+
+                <div className="mobile-fbg">
+                    <img src={angle_down} onClick={this.scrollWindowDown}/>
+                    <p> {currentIndex+1} / {number} </p>
+                    <img src={angle_up} onClick={this.scrollWindowUp}/>
+                </div>
 
                 <FloatButtonGroup
                     number={number}
