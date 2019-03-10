@@ -9,8 +9,8 @@ const Home = props => (
         {/* <div style={{ height: 350, width: 350, background: "black", borderRadius: "100%" }}>
             <img style={{ height: "80%" }} src={svg_logo} />
         </div> */}
-        <p style={{ fontSize: "5vw" }}>HELLO WORLD !</p>
-        <p style={{ fontSize: "10vw" }}>I am Jason Yau</p>
+        <p style={{ fontSize: "4vw" }}>HELLO WORLD ! 😙</p>
+        <p style={{ fontSize: "8vw" }}>I am Jason Yau 😆</p>
 
     </div>
 )
