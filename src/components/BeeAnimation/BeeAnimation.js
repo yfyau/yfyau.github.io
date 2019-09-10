@@ -25,8 +25,7 @@ export default class BeeAnimation extends Component {
 
         return (
             <div className="beeContainer">
-                <p className="skip" onClick={onClick}> SKIP >>> </p>
-                <div className={this.state.beeClassName}>
+                <div className={this.state.beeClassName} onClick={onClick}>
                     <div className="body" />
                     <div className="wing1" />
                     <div className="wing2" />
