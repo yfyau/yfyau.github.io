@@ -29,7 +29,7 @@ export default class BeeAnimation extends Component {
         }
 
         return (
-            <div className="beeContainer">
+            <div className="AnimationContainer">
                 <Bee 
                     dodging = {this.state.beeDodging}
                     leaving = {this.state.beeLeaving}

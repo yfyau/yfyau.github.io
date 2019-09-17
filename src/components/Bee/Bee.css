@@ -77,22 +77,24 @@
     cursor: pointer;
   }
 
-  .bee {
+  .beeContainer {
     z-index: 1;
     position: relative;
+    display: block;
     top: 50%;
     left: 50%;
-    
-    /* ratio: 6:5 */
-    width: 20%;
-    padding-bottom: 13%;
 
-
-    /* width: 32%; */
-    /* height: 100px; */
-    /* width: 160px; */
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
+
+    width: 20%;
+    max-width: 20%;
+  }
+
+  .bee {
+    /* ratio: 100:65 */
+    width: 100%;
+    padding-bottom: 65%;
   }
   /* BEE BEE BEE BEE BEE BEE BEE BEE */
 
