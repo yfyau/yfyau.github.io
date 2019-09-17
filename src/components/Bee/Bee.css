@@ -82,20 +82,27 @@
     position: relative;
     top: 50%;
     left: 50%;
-    height: 75px;
-    width: 175px;
+    
+    /* ratio: 6:5 */
+    width: 20%;
+    padding-bottom: 13%;
+
+
+    /* width: 32%; */
+    /* height: 100px; */
+    /* width: 160px; */
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
   }
   /* BEE BEE BEE BEE BEE BEE BEE BEE */
-  
+
   .body {
     position: absolute;
-    height: 100px;
-    width: 150px;
+    height: 100%;
+    width: 85%;
     border-radius: 46%;
     background: linear-gradient(to right, #FFB733 60%,#000 40%);
-    background-size:60px 100%;
+    background-size:40% 100%;
   }
   
   /* WINGS WINGS WINGS WINGS */
@@ -144,9 +151,9 @@
   
   .wing1 {
     position: absolute;
-    height: 55px;
-    width: 55px;
-    margin-top: -30px;
+    height: 55%;
+    width: 35%;
+    margin-top: -20%;
     left: 10%;
     -webkit-transform: rotate(20deg);
             transform: rotate(20deg);
@@ -154,20 +161,19 @@
             transform-origin: bottom right;
     border-top-right-radius: 100%;
     border-bottom-left-radius: 100%;
-    border-top-left-radius: 10px;
-    background-color: #fff;
-    z-index: -1;
-    -webkit-filter: blur(1px);
-            filter: blur(1px);
+    border-top-left-radius: 10%;
+    background-color: #fff; 
+    -webkit-filter: blur(1%);
+            filter: blur(1%);
     -webkit-animation: flutter1 0.3s linear reverse infinite;
             animation: flutter1 0.3s linear reverse infinite;
   }
   
   .wing2 {
     position: absolute;
-    height: 55px;
-    width: 55px;
-    margin-top: -30px;
+    height: 55%;
+    width: 35%;
+    margin-top: -20%;
     left: 10%;
     -webkit-transform: rotate(80deg);
             transform: rotate(80deg);
@@ -175,38 +181,68 @@
             transform-origin: bottom right;
     border-top-right-radius: 100%;
     border-bottom-left-radius: 100%;
-    border-top-left-radius: 10px;
+    border-top-left-radius: 10%;
     background-color: #ddd;
     z-index: 1;
-    -webkit-filter: blur(1px);
-            filter: blur(1px);
+    -webkit-filter: blur(1%);
+            filter: blur(1%);
     -webkit-animation: flutter2 0.3s linear infinite;
             animation: flutter2 0.3s linear infinite;
   }
   /* WINGS WINGS WINGS WINGS */
   
   /* STINGER STINGER STINGER STINGER  */
+
   .stinger {
-    z-index: -1;
     position: absolute;
-    top: 40%;
-    right: 0px;
+    top: 50%;
+    right: 0;
     width: 0;
     height: 0;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    padding-left: 10%;
+    padding-right: 2%;
+    overflow: hidden;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+  }
+  .stinger:after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    margin-top:-500px;
+    margin-left: -500px;
+    
+    border-top: 500px solid transparent;
+    border-bottom: 500px solid transparent;
+    border-left: 500px solid #FFF;
+  }
+
+  /* .stinger {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 0;
+    box-sizing:border-box;
     border-style: solid;
     border-width: 15px 0 15px 30px;
     border-color: transparent transparent transparent #f5f5f5;
-  }
+    
+    transform: translate(0%, -50%);
+    -webkit-transform: translate(0%, -50%);
+  } */
   /* STINGER STINGER STINGER STINGER  */
   
   /* EYES EYES EYES EYES  */
   .eyes {
     position: absolute;
-    height: 10px;
-    width: 10px;
+    height: 8%;
+    width: 5%;
     background-color: #000;
-    top: 30px;
-    left: 10px;
+    top: 30%;
+    left: 10%;
     border-radius: 100%;
   }
   

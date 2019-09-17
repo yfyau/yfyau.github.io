@@ -11,10 +11,10 @@ const Bee = (props) => {
 
     return (
         <div className={className} style={props.style} onClick={props.onClick}>
-            <div className="body" />
-            <div className="wing1" />
-            <div className="wing2" />
             <div className="stinger" />
+            <div className="wing1" />
+            <div className="body" />
+            <div className="wing2" />
             <div className="eyes" />
         </div>
     )
