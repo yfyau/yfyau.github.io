@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Main from './components/Main'
-import BeeAnimation from './components/BeeAnimation/BeeAnimation'
+import BeeAnimation from './components/Bee/BeeAnimation'
 
 import './App.css';
 
@@ -11,7 +11,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      isSkip: false
+      isSkip: true
     }
   }
 
@@ -23,7 +23,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {this.state.isSkip ? <Main /> : <BeeAnimation onSkip={this.onSkip} />}
+        {
+          this.state.isSkip
+            ?
+            <Main />
+            :
+            <BeeAnimation onSkip={this.onSkip} />
+        }
       </div>
     );
   }

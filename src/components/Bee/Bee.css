@@ -1,0 +1,225 @@
+/* BEE BEE BEE BEE BEE BEE BEE BEE */
+@-webkit-keyframes dodging {
+    0% {
+      top: 50%;
+      left: 50%;
+    }
+    20% {
+      top: 40%;
+      left: 40%;
+    }
+    60% {
+      top: 50%;
+      left: 50%;
+    }
+    80% {
+      top: 55%;
+      left: 55%;
+    }
+    100% {
+      top: 50%;
+      left: 50%;
+    }
+  }
+  @keyframes dodging {
+    0% {
+      top: 50%;
+      left: 50%;
+    }
+    25% {
+      top: 40%;
+      left: 40%;
+    }
+    60% {
+      top: 50%;
+      left: 50%;
+    }
+    75% {
+      top: 55%;
+      left: 55%;
+    }
+    100% {
+      top: 50%;
+      left: 50%;
+    }
+  }
+  
+  @-webkit-keyframes leaving {
+    0% {
+      top: 50%;
+      left: 50%;
+    }
+    100% {
+      top: 50%;
+      left: 0%;
+    }
+  }
+  @keyframes leaving {
+    0% {
+      
+    }
+    100% {
+      left: -150px;
+    }
+  }
+  
+  .leaving {
+    -webkit-animation: leaving 2s ease-in-out forwards !important; 
+            animation: leaving 2s ease-in-out forwards !important;
+  }
+  
+  .dodging {
+    -webkit-animation: dodging 5s ease-in-out infinite;
+            animation: dodging 5s ease-in-out infinite;
+  }
+
+  .pointer {
+    cursor: pointer;
+  }
+
+  .bee {
+    z-index: 1;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    height: 75px;
+    width: 175px;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+  }
+  /* BEE BEE BEE BEE BEE BEE BEE BEE */
+  
+  .body {
+    position: absolute;
+    height: 100px;
+    width: 150px;
+    border-radius: 46%;
+    background: linear-gradient(to right, #FFB733 60%,#000 40%);
+    background-size:60px 100%;
+  }
+  
+  /* WINGS WINGS WINGS WINGS */
+  @-webkit-keyframes flutter2 {
+    0% {
+      -webkit-transform: rotate(80deg);
+              transform: rotate(80deg);
+    }
+    50% {
+      -webkit-transform: rotate(100deg);
+              transform: rotate(100deg);
+    }
+  }
+  @keyframes flutter2 {
+    0% {
+      -webkit-transform: rotate(80deg);
+              transform: rotate(80deg);
+    }
+    50% {
+      -webkit-transform: rotate(100deg);
+              transform: rotate(100deg);
+    }
+  }
+  
+  @-webkit-keyframes flutter1 {
+    0% {
+      -webkit-transform: rotate(20deg);
+              transform: rotate(20deg);
+    }
+    50% {
+      -webkit-transform: rotate(40deg);
+              transform: rotate(40deg);
+    }
+  }
+  
+  @keyframes flutter1 {
+    0% {
+      -webkit-transform: rotate(20deg);
+              transform: rotate(20deg);
+    }
+    50% {
+      -webkit-transform: rotate(40deg);
+              transform: rotate(40deg);
+    }
+  }
+  
+  .wing1 {
+    position: absolute;
+    height: 55px;
+    width: 55px;
+    margin-top: -30px;
+    left: 10%;
+    -webkit-transform: rotate(20deg);
+            transform: rotate(20deg);
+    -webkit-transform-origin: bottom right;
+            transform-origin: bottom right;
+    border-top-right-radius: 100%;
+    border-bottom-left-radius: 100%;
+    border-top-left-radius: 10px;
+    background-color: #fff;
+    z-index: -1;
+    -webkit-filter: blur(1px);
+            filter: blur(1px);
+    -webkit-animation: flutter1 0.3s linear reverse infinite;
+            animation: flutter1 0.3s linear reverse infinite;
+  }
+  
+  .wing2 {
+    position: absolute;
+    height: 55px;
+    width: 55px;
+    margin-top: -30px;
+    left: 10%;
+    -webkit-transform: rotate(80deg);
+            transform: rotate(80deg);
+    -webkit-transform-origin: bottom right;
+            transform-origin: bottom right;
+    border-top-right-radius: 100%;
+    border-bottom-left-radius: 100%;
+    border-top-left-radius: 10px;
+    background-color: #ddd;
+    z-index: 1;
+    -webkit-filter: blur(1px);
+            filter: blur(1px);
+    -webkit-animation: flutter2 0.3s linear infinite;
+            animation: flutter2 0.3s linear infinite;
+  }
+  /* WINGS WINGS WINGS WINGS */
+  
+  /* STINGER STINGER STINGER STINGER  */
+  .stinger {
+    z-index: -1;
+    position: absolute;
+    top: 40%;
+    right: 0px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 15px 0 15px 30px;
+    border-color: transparent transparent transparent #f5f5f5;
+  }
+  /* STINGER STINGER STINGER STINGER  */
+  
+  /* EYES EYES EYES EYES  */
+  .eyes {
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    background-color: #000;
+    top: 30px;
+    left: 10px;
+    border-radius: 100%;
+  }
+  
+  .eyes .pupil {
+    position: absolute;
+    height: 4px;
+    width: 4px;
+    top: 13px;
+    left: 2px;
+    background-color: #000;
+    border-radius: 100%;
+    -webkit-box-shadow: 20px 0 0 #000;
+            box-shadow: 20px 0 0 #000;
+  }
+  /* EYES EYES EYES EYES  */
+  

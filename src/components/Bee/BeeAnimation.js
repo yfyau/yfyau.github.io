@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Bee from './Bee'
 
 import './BeeAnimation.css';
 
@@ -8,7 +9,8 @@ export default class BeeAnimation extends Component {
         super(props)
 
         this.state = {
-            beeClassName: "bee"
+            beeDodging: true,
+            beeLeaving: false
         }
     }
 
@@ -16,7 +18,10 @@ export default class BeeAnimation extends Component {
         const { onSkip } = this.props
 
         const onClick = () => {
-            this.setState({ beeClassName: "bee leaving" })
+            this.setState({ 
+                beeDodging: false,
+                beeLeaving: true
+             })
 
             setTimeout(() => {
                 onSkip()
@@ -25,13 +30,11 @@ export default class BeeAnimation extends Component {
 
         return (
             <div className="beeContainer">
-                <div className={this.state.beeClassName} onClick={onClick}>
-                    <div className="body" />
-                    <div className="wing1" />
-                    <div className="wing2" />
-                    <div className="stinger" />
-                    <div className="eyes" />
-                </div>
+                <Bee 
+                    dodging = {this.state.beeDodging}
+                    leaving = {this.state.beeLeaving}
+                    onClick = {onClick}
+                />
                 <div className="cloud1" />
                 <div className="cloud2" />
                 <div className="cloud3" />
