@@ -46,20 +46,18 @@
   
   @-webkit-keyframes leaving {
     0% {
-      top: 50%;
       left: 50%;
     }
     100% {
-      top: 50%;
-      left: 0%;
+      left: -50%;
     }
   }
   @keyframes leaving {
     0% {
-      
+      left: 50%;
     }
     100% {
-      left: -150px;
+      left: -50%;
     }
   }
   
@@ -88,7 +86,8 @@
     -webkit-transform: translate(-50%, -50%);
 
     width: 20%;
-    max-width: 20%;
+    min-width: 20px;
+    max-width: 500px;
   }
 
   .bee {

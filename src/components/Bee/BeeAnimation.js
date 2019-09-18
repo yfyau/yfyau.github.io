@@ -5,7 +5,7 @@ import './BeeAnimation.css';
 
 export default class BeeAnimation extends Component {
 
-    constructor (props) {
+    constructor(props) {
         super(props)
 
         this.state = {
@@ -18,10 +18,10 @@ export default class BeeAnimation extends Component {
         const { onSkip } = this.props
 
         const onClick = () => {
-            this.setState({ 
+            this.setState({
                 beeDodging: false,
                 beeLeaving: true
-             })
+            })
 
             setTimeout(() => {
                 onSkip()
@@ -30,10 +30,11 @@ export default class BeeAnimation extends Component {
 
         return (
             <div className="AnimationContainer">
-                <Bee 
-                    dodging = {this.state.beeDodging}
-                    leaving = {this.state.beeLeaving}
-                    onClick = {onClick}
+                <Bee
+                    style={{ width: "20%", maxWidth: 200 }}
+                    dodging={this.state.beeDodging}
+                    leaving={this.state.beeLeaving}
+                    onClick={onClick}
                 />
                 <div className="cloud1" />
                 <div className="cloud2" />

@@ -8,9 +8,11 @@ const Bee = (props) => {
     className += props.dodging ? " dodging" : "";
     className += props.leaving ? " leaving" : "";
     className += props.onClick ? " pointer" : "";
+    className += props.className ? " " + props.className : "";
 
     return (
         <div className={className} style={props.style} onClick={props.onClick}>
+            {props.children}
             <div className="bee">
                 <div className="stinger" />
                 <div className="wing1" />

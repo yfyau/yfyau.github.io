@@ -50,6 +50,23 @@
     }
 }
 
+@-webkit-keyframes rightIn {
+    0% {
+      left: 100%;
+    }
+    100% {
+      left: 0%;
+    }
+}
+@keyframes rightIn {
+    0% {
+      left: 100%;
+    }
+    100% {
+      left: 0%;
+    }
+}
+
 .mainContainer {
     position: relative;
     height: 100%;
@@ -67,10 +84,15 @@
     /* animation-fill-mode: forwards; */
 }
 
+.rightInAnimation {
+    -webkit-animation: rightIn 2s ease-in-out forwards; 
+            animation: rightIn 2s ease-in-out forwards;
+}
+
 .background {
     position: relative;
     height: 100%;
-    background-color: red;
+    background-color: white;
 }
 
 .content {

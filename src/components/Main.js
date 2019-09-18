@@ -10,8 +10,7 @@ export default class Main extends Component {
         super(props)
 
         this.state = {
-            sideDrawerOpen: false,
-            scrolling: false
+
         }
     }
 
@@ -33,13 +32,29 @@ export default class Main extends Component {
             <div className="mainContainer">
                 <div className="zoomOutAnimation" />
                 <div className="background">
-                    <Bee 
-                        // leaving={true}
-                        // style={{height: 25, width: 58}}
-                    />
-                    <main className="content">
+                    <Bee
+                        leaving
+                        style={{
+                            position: "absolute",
+                            width: "2%"
+                        }}
+                    >
+                        <div
+                            style={{
+                                position: "absolute",
+                                top: "50%",
+                                left: "50%",
+                                transform: "translate(0%, -50%)",
+                                height: "20%",
+                                width: "50vw",
+                                backgroundColor: "black"
+                            }}
+                        />
+                    </Bee>
 
-                    </main>
+                    <div className={"rightInAnimation"} style={{ position: "relative", display: "block", height: "100%", width: "100%", backgroundColor: "pink" }}>
+
+                    </div>
                 </div>
             </div>
         )
