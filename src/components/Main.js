@@ -10,11 +10,14 @@ export default class Main extends Component {
         super(props)
 
         this.state = {
-
+            overflowYHidden: true
         }
     }
 
     componentDidMount = () => {
+        // Waiting for bee leaving animation
+        setTimeout(() => this.setState({ overflowYHidden: false }), 2500)
+
         window.addEventListener('resize', this.onWindowResized);
     }
 
@@ -28,8 +31,10 @@ export default class Main extends Component {
 
     render() {
 
+        const { overflowYHidden } = this.state
+
         return (
-            <div className="mainContainer">
+            <div className="mainContainer" style={{ overflowY: overflowYHidden ? "hidden" : "scroll" }}>
                 <div className="zoomOutAnimation" />
                 <div className="background">
                     <Bee
@@ -53,6 +58,10 @@ export default class Main extends Component {
                     </Bee>
 
                     <div className={"rightInAnimation"} style={{ position: "relative", display: "block", height: "100%", width: "100%", backgroundColor: "pink" }}>
+
+                    </div>
+
+                    <div style={{ position: "relative", display: "block", height: "100%", width: "100%", backgroundColor: "green" }}>
 
                     </div>
                 </div>
