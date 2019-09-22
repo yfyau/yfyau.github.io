@@ -7,6 +7,7 @@ const Bee = (props) => {
 
     className += props.dodging ? " dodging" : "";
     className += props.leaving ? " leaving" : "";
+    className += props.rightIn ? " rightIn" : "";
     className += props.onClick ? " pointer" : "";
     className += props.className ? " " + props.className : "";
 

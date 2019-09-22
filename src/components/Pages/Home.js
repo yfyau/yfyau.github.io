@@ -1,17 +1,23 @@
 import React from "react"
 
-import "./Pages.css"
-import svg_logo from '../../images/Poly-Bee.svg'
+import Bee from "../Bee/Bee"
 
+import "./Pages.css"
+import HomeImg from '../../images/HomeImg.jpg'
 
 const Home = props => (
-    <div className="page-flex all-center home-background">
-        {/* <div style={{ height: 350, width: 350, background: "black", borderRadius: "100%" }}>
-            <img style={{ height: "80%" }} src={svg_logo} />
-        </div> */}
-        <p style={{ fontSize: "4vw" }}>HELLO WORLD ! 😙</p>
-        <p style={{ fontSize: "8vw" }}>I am Jason Yau 😆</p>
+    <div style={{ position: "relative", height: "100%", width: "100%" }}>
+        <Bee
+            rightIn
+            style={{ position: "absolute", width: "2%", left: "70%" }}
+        >
+            <div className="rope" />
+        </Bee>
 
+        <div className={"homeBackground homeRightInAnimation"}
+            style={{ backgroundImage: `url(${HomeImg})` }}>
+
+        </div>
     </div>
 )
 

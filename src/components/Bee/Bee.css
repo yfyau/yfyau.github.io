@@ -1,227 +1,255 @@
 /* BEE BEE BEE BEE BEE BEE BEE BEE */
+
 @-webkit-keyframes dodging {
-    0% {
-      top: 50%;
-      left: 50%;
-    }
-    20% {
-      top: 40%;
-      left: 40%;
-    }
-    60% {
-      top: 50%;
-      left: 50%;
-    }
-    80% {
-      top: 55%;
-      left: 55%;
-    }
-    100% {
-      top: 50%;
-      left: 50%;
-    }
-  }
-  @keyframes dodging {
-    0% {
-      top: 50%;
-      left: 50%;
-    }
-    25% {
-      top: 40%;
-      left: 40%;
-    }
-    60% {
-      top: 50%;
-      left: 50%;
-    }
-    75% {
-      top: 55%;
-      left: 55%;
-    }
-    100% {
-      top: 50%;
-      left: 50%;
-    }
-  }
-  
-  @-webkit-keyframes leaving {
-    0% {
-      left: 50%;
-    }
-    100% {
-      left: -50%;
-    }
-  }
-  @keyframes leaving {
-    0% {
-      left: 50%;
-    }
-    100% {
-      left: -50%;
-    }
-  }
-  
-  .leaving {
-    -webkit-animation: leaving 2s ease-in-out forwards !important; 
-            animation: leaving 2s ease-in-out forwards !important;
-  }
-  
-  .dodging {
-    -webkit-animation: dodging 5s ease-in-out infinite;
-            animation: dodging 5s ease-in-out infinite;
-  }
-
-  .pointer {
-    cursor: pointer;
-  }
-
-  .beeContainer {
-    z-index: 1;
-    position: relative;
-    display: block;
+  0% {
     top: 50%;
     left: 50%;
-
-    transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
-
-    width: 20%;
-    min-width: 20px;
-    max-width: 500px;
   }
-
-  .bee {
-    /* ratio: 100:65 */
-    width: 100%;
-    padding-bottom: 65%;
+  20% {
+    top: 40%;
+    left: 40%;
   }
-  /* BEE BEE BEE BEE BEE BEE BEE BEE */
-
-  .body {
-    position: absolute;
-    height: 100%;
-    width: 85%;
-    border-radius: 46%;
-    background: linear-gradient(to right, #FFB733 60%,#000 40%);
-    background-size:40% 100%;
-  }
-  
-  /* WINGS WINGS WINGS WINGS */
-  @-webkit-keyframes flutter2 {
-    0% {
-      -webkit-transform: rotate(80deg);
-              transform: rotate(80deg);
-    }
-    50% {
-      -webkit-transform: rotate(100deg);
-              transform: rotate(100deg);
-    }
-  }
-  @keyframes flutter2 {
-    0% {
-      -webkit-transform: rotate(80deg);
-              transform: rotate(80deg);
-    }
-    50% {
-      -webkit-transform: rotate(100deg);
-              transform: rotate(100deg);
-    }
-  }
-  
-  @-webkit-keyframes flutter1 {
-    0% {
-      -webkit-transform: rotate(20deg);
-              transform: rotate(20deg);
-    }
-    50% {
-      -webkit-transform: rotate(40deg);
-              transform: rotate(40deg);
-    }
-  }
-  
-  @keyframes flutter1 {
-    0% {
-      -webkit-transform: rotate(20deg);
-              transform: rotate(20deg);
-    }
-    50% {
-      -webkit-transform: rotate(40deg);
-              transform: rotate(40deg);
-    }
-  }
-  
-  .wing1 {
-    position: absolute;
-    height: 55%;
-    width: 35%;
-    margin-top: -20%;
-    left: 10%;
-    -webkit-transform: rotate(20deg);
-            transform: rotate(20deg);
-    -webkit-transform-origin: bottom right;
-            transform-origin: bottom right;
-    border-top-right-radius: 100%;
-    border-bottom-left-radius: 100%;
-    border-top-left-radius: 10%;
-    background-color: #fff; 
-    -webkit-filter: blur(1%);
-            filter: blur(1%);
-    -webkit-animation: flutter1 0.3s linear reverse infinite;
-            animation: flutter1 0.3s linear reverse infinite;
-  }
-  
-  .wing2 {
-    position: absolute;
-    height: 55%;
-    width: 35%;
-    margin-top: -20%;
-    left: 10%;
-    -webkit-transform: rotate(80deg);
-            transform: rotate(80deg);
-    -webkit-transform-origin: bottom right;
-            transform-origin: bottom right;
-    border-top-right-radius: 100%;
-    border-bottom-left-radius: 100%;
-    border-top-left-radius: 10%;
-    background-color: #ddd;
-    z-index: 1;
-    -webkit-filter: blur(1%);
-            filter: blur(1%);
-    -webkit-animation: flutter2 0.3s linear infinite;
-            animation: flutter2 0.3s linear infinite;
-  }
-  /* WINGS WINGS WINGS WINGS */
-  
-  /* STINGER STINGER STINGER STINGER  */
-
-  .stinger {
-    position: absolute;
+  60% {
     top: 50%;
-    right: 0;
-    width: 0;
-    height: 0;
-    padding-top: 10%;
-    padding-bottom: 10%;
-    padding-left: 10%;
-    padding-right: 2%;
-    overflow: hidden;
-    transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
+    left: 50%;
   }
-  .stinger:after {
-    content: "";
-    display: block;
-    width: 0;
-    height: 0;
-    margin-top:-500px;
-    margin-left: -500px;
-    
-    border-top: 500px solid transparent;
-    border-bottom: 500px solid transparent;
-    border-left: 500px solid #FFF;
+  80% {
+    top: 55%;
+    left: 55%;
   }
+  100% {
+    top: 50%;
+    left: 50%;
+  }
+}
 
-  /* .stinger {
+@keyframes dodging {
+  0% {
+    top: 50%;
+    left: 50%;
+  }
+  25% {
+    top: 40%;
+    left: 40%;
+  }
+  60% {
+    top: 50%;
+    left: 50%;
+  }
+  75% {
+    top: 55%;
+    left: 55%;
+  }
+  100% {
+    top: 50%;
+    left: 50%;
+  }
+}
+
+@-webkit-keyframes leaving {
+  0% {
+    left: 50%;
+  }
+  100% {
+    left: -50%;
+  }
+}
+
+@keyframes leaving {
+  0% {
+    left: 50%;
+  }
+  100% {
+    left: -50%;
+  }
+}
+
+@-webkit-keyframes rightIn {
+  0% {
+    left: 70%;
+  }
+  100% {
+    left: -30%;
+  }
+}
+
+@keyframes rightIn {
+  0% {
+    left: 70%;
+  }
+  100% {
+    left: -30%;
+  }
+}
+
+.leaving {
+  -webkit-animation: leaving 2s ease-in-out forwards !important;
+  animation: leaving 2s ease-in-out forwards !important;
+}
+
+.dodging {
+  -webkit-animation: dodging 5s ease-in-out infinite;
+  animation: dodging 5s ease-in-out infinite;
+}
+
+.rightIn {
+  -webkit-animation: rightIn 2s ease-out forwards;
+  animation: rightIn 2s ease-out forwards;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.beeContainer {
+  z-index: 1;
+  position: relative;
+  display: block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  width: 20%;
+  min-width: 20px;
+  max-width: 500px;
+}
+
+.bee {
+  /* ratio: 100:65 */
+  width: 100%;
+  padding-bottom: 65%;
+}
+
+/* BEE BEE BEE BEE BEE BEE BEE BEE */
+
+.body {
+  position: absolute;
+  height: 100%;
+  width: 85%;
+  border-radius: 46%;
+  background: linear-gradient(to right, #FFB733 60%, #000 40%);
+  background-size: 40% 100%;
+}
+
+/* WINGS WINGS WINGS WINGS */
+
+@-webkit-keyframes flutter2 {
+  0% {
+    -webkit-transform: rotate(80deg);
+    transform: rotate(80deg);
+  }
+  50% {
+    -webkit-transform: rotate(100deg);
+    transform: rotate(100deg);
+  }
+}
+
+@keyframes flutter2 {
+  0% {
+    -webkit-transform: rotate(80deg);
+    transform: rotate(80deg);
+  }
+  50% {
+    -webkit-transform: rotate(100deg);
+    transform: rotate(100deg);
+  }
+}
+
+@-webkit-keyframes flutter1 {
+  0% {
+    -webkit-transform: rotate(20deg);
+    transform: rotate(20deg);
+  }
+  50% {
+    -webkit-transform: rotate(40deg);
+    transform: rotate(40deg);
+  }
+}
+
+@keyframes flutter1 {
+  0% {
+    -webkit-transform: rotate(20deg);
+    transform: rotate(20deg);
+  }
+  50% {
+    -webkit-transform: rotate(40deg);
+    transform: rotate(40deg);
+  }
+}
+
+.wing1 {
+  position: absolute;
+  height: 55%;
+  width: 35%;
+  margin-top: -20%;
+  left: 10%;
+  -webkit-transform: rotate(20deg);
+  transform: rotate(20deg);
+  -webkit-transform-origin: bottom right;
+  transform-origin: bottom right;
+  border-top-right-radius: 100%;
+  border-bottom-left-radius: 100%;
+  border-top-left-radius: 10%;
+  background-color: #fff;
+  -webkit-filter: blur(1%);
+  filter: blur(1%);
+  -webkit-animation: flutter1 0.3s linear reverse infinite;
+  animation: flutter1 0.3s linear reverse infinite;
+}
+
+.wing2 {
+  position: absolute;
+  height: 55%;
+  width: 35%;
+  margin-top: -20%;
+  left: 10%;
+  -webkit-transform: rotate(80deg);
+  transform: rotate(80deg);
+  -webkit-transform-origin: bottom right;
+  transform-origin: bottom right;
+  border-top-right-radius: 100%;
+  border-bottom-left-radius: 100%;
+  border-top-left-radius: 10%;
+  background-color: #ddd;
+  z-index: 1;
+  -webkit-filter: blur(1%);
+  filter: blur(1%);
+  -webkit-animation: flutter2 0.3s linear infinite;
+  animation: flutter2 0.3s linear infinite;
+}
+
+/* WINGS WINGS WINGS WINGS */
+
+/* STINGER STINGER STINGER STINGER  */
+
+.stinger {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 0;
+  height: 0;
+  padding-top: 10%;
+  padding-bottom: 10%;
+  padding-left: 10%;
+  padding-right: 2%;
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+
+.stinger:after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  margin-top: -500px;
+  margin-left: -500px;
+  border-top: 500px solid transparent;
+  border-bottom: 500px solid transparent;
+  border-left: 500px solid #FFF;
+}
+
+/* .stinger {
     position: absolute;
     top: 50%;
     right: 0;
@@ -234,29 +262,31 @@
     transform: translate(0%, -50%);
     -webkit-transform: translate(0%, -50%);
   } */
-  /* STINGER STINGER STINGER STINGER  */
-  
-  /* EYES EYES EYES EYES  */
-  .eyes {
-    position: absolute;
-    height: 8%;
-    width: 5%;
-    background-color: #000;
-    top: 30%;
-    left: 10%;
-    border-radius: 100%;
-  }
-  
-  .eyes .pupil {
-    position: absolute;
-    height: 4px;
-    width: 4px;
-    top: 13px;
-    left: 2px;
-    background-color: #000;
-    border-radius: 100%;
-    -webkit-box-shadow: 20px 0 0 #000;
-            box-shadow: 20px 0 0 #000;
-  }
-  /* EYES EYES EYES EYES  */
-  
+
+/* STINGER STINGER STINGER STINGER  */
+
+/* EYES EYES EYES EYES  */
+
+.eyes {
+  position: absolute;
+  height: 8%;
+  width: 5%;
+  background-color: #000;
+  top: 30%;
+  left: 10%;
+  border-radius: 100%;
+}
+
+.eyes .pupil {
+  position: absolute;
+  height: 4px;
+  width: 4px;
+  top: 13px;
+  left: 2px;
+  background-color: #000;
+  border-radius: 100%;
+  -webkit-box-shadow: 20px 0 0 #000;
+  box-shadow: 20px 0 0 #000;
+}
+
+/* EYES EYES EYES EYES  */

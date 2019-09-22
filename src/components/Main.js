@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 
-import Bee from "./Bee/Bee"
+import { Home, AboutMe } from './Pages/Pages'
 
 import './Main.css'
 
@@ -10,18 +10,20 @@ export default class Main extends Component {
         super(props)
 
         this.state = {
-            overflowYHidden: true
+            renderPage: 0
         }
     }
 
     componentDidMount = () => {
         // Waiting for bee leaving animation
-        setTimeout(() => this.setState({ overflowYHidden: false }), 2500)
+        setTimeout(() => { }, 2500)
 
+        window.addEventListener('scroll', this.onWindowScrolled, true);
         window.addEventListener('resize', this.onWindowResized);
     }
 
     componentWillUnmount = () => {
+        window.removeEventListener('scroll', this.onWindowScrolled);
         window.removeEventListener('resize', this.onWindowResized);
     };
 
@@ -29,43 +31,37 @@ export default class Main extends Component {
         this.forceUpdate();
     };
 
+    isBottom(window) {
+        return window.target.scrollHeight - window.target.scrollTop === window.target.clientHeight;
+    }
+
+    onWindowScrolled = (window, element) => {
+        console.log("scrolling")
+        if (this.isBottom(window)) {
+            console.log("reach bottom")
+            this.setState((prevState) => ({ renderPage: prevState.renderPage + 1 }))
+        }
+    };
+
     render() {
 
-        const { overflowYHidden } = this.state
+        const { renderPage } = this.state
 
         return (
-            <div className="mainContainer" style={{ overflowY: overflowYHidden ? "hidden" : "scroll" }}>
+            <div className="mainContainer" >
                 <div className="zoomOutAnimation" />
                 <div className="background">
-                    <Bee
-                        leaving
-                        style={{
-                            position: "absolute",
-                            width: "2%"
-                        }}
-                    >
-                        <div
-                            style={{
-                                position: "absolute",
-                                top: "50%",
-                                left: "50%",
-                                transform: "translate(0%, -50%)",
-                                height: "20%",
-                                width: "50vw",
-                                backgroundColor: "black"
-                            }}
-                        />
-                    </Bee>
+                    <Home />
+                    <AboutMe />
+                    {
+                        renderPage >= 1 && <Home />
+                    }
+                    {
 
-                    <div className={"rightInAnimation"} style={{ position: "relative", display: "block", height: "100%", width: "100%", backgroundColor: "pink" }}>
-
-                    </div>
-
-                    <div style={{ position: "relative", display: "block", height: "100%", width: "100%", backgroundColor: "green" }}>
-
-                    </div>
+                        renderPage >= 2 && <Home />
+                    }
                 </div>
-            </div>
+            </div >
         )
     }
 }

@@ -28,65 +28,43 @@
     }
 } */
 
-@-webkit-keyframes in {
+@-webkit-keyframes zoomOut {
     0% {
         opacity: 1;
-        z-index: 100;
+        display: block;
     }
     100% {
         opacity: 0;
-        z-index: -1;
-    }
-}
-  
-@keyframes in {
-    0% {
-        opacity: 1;
-        z-index: 100;
-    }
-    100% {
-        opacity: 0;
-        z-index: -1;
+        display: none;
     }
 }
 
-@-webkit-keyframes rightIn {
+@keyframes zoomOut {
     0% {
-      left: 100%;
+        opacity: 1;
+        display: block;
     }
     100% {
-      left: 0%;
-    }
-}
-@keyframes rightIn {
-    0% {
-      left: 100%;
-    }
-    100% {
-      left: 0%;
+        opacity: 0;
+        display: none;
     }
 }
 
 .mainContainer {
     position: relative;
     height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .zoomOutAnimation {
     position: absolute;
     height: 100%;
     width: 100%;
+    z-index: 2;
     background-color: black;
-
-    -webkit-animation: in 1s ease-in-out;
-            animation: in 1s ease-in-out;
-
-    /* animation-fill-mode: forwards; */
-}
-
-.rightInAnimation {
-    -webkit-animation: rightIn 2s ease-in-out forwards; 
-            animation: rightIn 2s ease-in-out forwards;
+    -webkit-animation: zoomOut 1.5s ease-in-out forwards;
+    animation: zoomOut 1.5s ease-in-out forwards;
 }
 
 .background {

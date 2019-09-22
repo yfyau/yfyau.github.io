@@ -4,8 +4,8 @@ import "./Pages.css"
 
 
 const AboutMe = props => (
-    <div className="page-flex horizontal-center aboutme-background">
-        <p className="title">About me 🙆‍♂️</p>
+    <div style={{ position: "relative", height: "100%", width: "100%" }}>
+        {/* <p className="title">About me 🙆‍♂️</p>
 
         <div className="contentBlock">
             <ul className="aboutMeList">
@@ -16,7 +16,7 @@ const AboutMe = props => (
                 <li>😍 🎮 🐕 🍵</li>
                 <li>🤮 🍄</li>
             </ul>
-        </div>
+        </div> */}
     </div>
 )
 
