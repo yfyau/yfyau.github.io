@@ -58,10 +58,15 @@ export default class Main extends Component {
                     </div>
                     <div className="background" style={{ backgroundPositionY: HomeImgPositionY }}>
                         <Home />
-                        {animationEnd && <AboutMe />}
-                        {animationEnd && <AboutMe />}
-                        {animationEnd && <AboutMe />}
-                        {animationEnd && <AboutMe />}
+                        {
+                            animationEnd &&
+                            [
+                                <AboutMe />,
+                                <AboutMe />,
+                                <AboutMe />,
+                                <AboutMe />,
+                            ]
+                        }
                     </div>
                 </div>
 
