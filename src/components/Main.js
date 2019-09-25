@@ -1,5 +1,6 @@
-import React, { Component, Suspense } from 'react';
+import React, { Component } from 'react';
 
+import Bee from "./Bee/Bee"
 import { Home, AboutMe } from './Pages/Pages'
 
 import './Main.css'
@@ -10,58 +11,62 @@ export default class Main extends Component {
         super(props)
 
         this.state = {
-            renderPage: 0
+            animationEnd: false,
+            renderPage: 0,
+            HomeImgPositionY: 0
         }
     }
 
     componentDidMount = () => {
-        // Waiting for bee leaving animation
-        setTimeout(() => { }, 2500)
-
         window.addEventListener('scroll', this.onWindowScrolled, true);
-        window.addEventListener('resize', this.onWindowResized);
+        // window.addEventListener('resize', this.onWindowResized);
+
+        setTimeout(() => { this.setState({ animationEnd: true }) }, 2500);
     }
 
     componentWillUnmount = () => {
         window.removeEventListener('scroll', this.onWindowScrolled);
-        window.removeEventListener('resize', this.onWindowResized);
+        // window.removeEventListener('resize', this.onWindowResized);
     };
 
-    onWindowResized = () => {
-        this.forceUpdate();
-    };
+    // onWindowResized = () => {
+    //     this.forceUpdate();
+    // };
 
     isBottom(window) {
         return window.target.scrollHeight - window.target.scrollTop === window.target.clientHeight;
     }
 
     onWindowScrolled = (window, element) => {
-        console.log("scrolling")
+        // console.log(window.target.scrollHeight, window.target.scrollTop)
         if (this.isBottom(window)) {
-            console.log("reach bottom")
             this.setState((prevState) => ({ renderPage: prevState.renderPage + 1 }))
         }
     };
 
     render() {
 
-        const { renderPage } = this.state
+        const { animationEnd, renderPage, HomeImgPositionY } = this.state
 
         return (
-            <div className="mainContainer" >
+            <div className="mainContainer">
                 <div className="zoomOutAnimation" />
-                <div className="background">
-                    <Home />
-                    <AboutMe />
-                    {
-                        renderPage >= 1 && <Home />
-                    }
-                    {
-
-                        renderPage >= 2 && <Home />
-                    }
+                <div className="mainRightInAnimation" style={{ position: "relative", height: "100%", width: "100%" }}>
+                    <div>
+                        <Bee style={{ position: "absolute", width: "2%", left: "-30%" }} />
+                        <div className="rope" />
+                    </div>
+                    <div className="background" style={{ backgroundPositionY: HomeImgPositionY }}>
+                        <Home />
+                        {animationEnd && <AboutMe />}
+                        {animationEnd && <AboutMe />}
+                        {animationEnd && <AboutMe />}
+                        {animationEnd && <AboutMe />}
+                    </div>
                 </div>
-            </div >
+
+            </div>
+
         )
     }
 }

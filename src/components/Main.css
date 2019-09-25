@@ -1,39 +1,11 @@
-/* @-webkit-keyframes zoomIn {
-    0% {
-        -webkit-transform: rotate3d(1, 0, 0, -90deg) scale(0);
-        transform: rotate3d(1, 0, 0, -90deg) scale(0);
-    }
-    50% {
-        -webkit-transform: rotate3d(1, 0, 0, -20deg) scale(0.8);
-        transform: rotate3d(1, 0, 0, -20deg) scale(0.8);
-    }
-    100% {
-        -webkit-transform: rotate3d(1, 0, 0, 0deg) scale(1);
-        transform: rotate3d(1, 0, 0, 0deg) scale(1);
-    }
-}
-  
-@keyframes zoomIn {
-    0% {
-        -webkit-transform: rotate3d(1, 0, 0, -90deg) scale(0);
-        transform: rotate3d(1, 0, 0, -90deg) scale(0);
-    }
-    50% {
-        -webkit-transform: rotate3d(1, 0, 0, -20deg) scale(0.8);
-        transform: rotate3d(1, 0, 0, -20deg) scale(0.8);
-    }
-    100% {
-        -webkit-transform: rotate3d(1, 0, 0, 0deg) scale(1);
-        transform: rotate3d(1, 0, 0, 0deg) scale(1);
-    }
-} */
-
 @-webkit-keyframes zoomOut {
     0% {
+        z-index: 99;
         opacity: 1;
         display: block;
     }
     100% {
+        z-index: -1;
         opacity: 0;
         display: none;
     }
@@ -41,12 +13,32 @@
 
 @keyframes zoomOut {
     0% {
+        z-index: 99;
         opacity: 1;
         display: block;
     }
     100% {
+        z-index: -1;
         opacity: 0;
         display: none;
+    }
+}
+
+@-webkit-keyframes mainRightIn {
+    0% {
+        left: 100%;
+    }
+    100% {
+        left: 0%;
+    }
+}
+
+@keyframes mainRightIn {
+    0% {
+        left: 100%;
+    }
+    100% {
+        left: 0%;
     }
 }
 
@@ -54,17 +46,31 @@
     position: relative;
     height: 100%;
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: scroll;
 }
 
 .zoomOutAnimation {
     position: absolute;
     height: 100%;
     width: 100%;
-    z-index: 2;
     background-color: black;
     -webkit-animation: zoomOut 1.5s ease-in-out forwards;
     animation: zoomOut 1.5s ease-in-out forwards;
+}
+
+.mainRightInAnimation {
+    -webkit-animation: mainRightIn 2s ease-out forwards;
+    animation: mainRightIn 2s ease-out forwards;
+}
+
+.rope {
+    position: absolute;
+    top: 50%;
+    left: -30%;
+    transform: translateY(-50%);
+    height: 0.5%;
+    width: 30%;
+    background-color: #875638;
 }
 
 .background {
