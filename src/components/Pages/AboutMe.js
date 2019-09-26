@@ -1,11 +1,14 @@
 import React from "react"
+import { ReactComponent as GradHatLogo } from '../../images/GradHat.svg'
 
 import "./Pages.css"
 
 
 const AboutMe = props => (
-    <div style={{ position: "relative", height: "100%", width: "100%" }}>
-        {/* <p className="title">About me 🙆‍♂️</p>
+    <div className="aboutMeBackground">
+        <p style={{ margin: 0 }}>About me</p>
+
+        <GradHatLogo />
 
         <div className="contentBlock">
             <ul className="aboutMeList">
@@ -16,7 +19,7 @@ const AboutMe = props => (
                 <li>😍 🎮 🐕 🍵</li>
                 <li>🤮 🍄</li>
             </ul>
-        </div> */}
+        </div>
     </div>
 )
 

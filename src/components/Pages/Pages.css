@@ -19,4 +19,10 @@
     height: 100%;
     width: 100%;
     background-color: pink;
+    text-align: center;
+}
+
+.aboutMeList {
+    list-style-type: none;
+    padding: 0;
 }
