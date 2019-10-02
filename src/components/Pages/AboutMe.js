@@ -8,7 +8,9 @@ const AboutMe = props => (
     <div className="aboutMeBackground">
         <p style={{ margin: 0 }}>About me</p>
 
-        <GradHatLogo />
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "30%" }}>
+            <GradHatLogo className="gradHatSVG"/>
+        </div>
 
         <div className="contentBlock">
             <ul className="aboutMeList">

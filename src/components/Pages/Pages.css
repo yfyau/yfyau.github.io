@@ -26,3 +26,9 @@
     list-style-type: none;
     padding: 0;
 }
+
+.gradHatSVG {
+    display: block;
+    margin: 0 auto;
+    height: 100%;
+}
