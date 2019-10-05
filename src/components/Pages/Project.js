@@ -7,38 +7,59 @@ import "./Pages.css"
 
 
 const Project = props => (
-    <div className="page-flex horizontal-center project-background">
+    <div className="pageContainer pagePadding projectBackground">
         <p className="title">Projects</p>
 
-        <div className="contentBlock">
+        <div className="content">
 
-            <div className="projectContainer">
-                <img src={OrderEatIcon} className="projectImg" />
-                <div class="overlay">
-                    <div class="projectText">
-                        OrderEat<br /><br />
-                        A food ordering system contains Client App, Business App and Admin Website that built with React, React Native and MongoDB
+            <div className="projectCard">
+                <div className="projectDummy"></div>
+                <div className="projectContent">
+                    <div className="front">
+                        <img src={OrderEatIcon} className="projectImg" />
+                    </div>
+                    <div className="back">
+                        <p>OrderEat</p>
+                        <span>A food ordering system contains Client App, Business App and Admin Website that built with React, React Native and MongoDB</span>
                     </div>
                 </div>
             </div>
 
-            <div className="projectContainer">
-                <img src={ITinHKIcon} className="projectImg" />
-                <div class="overlay">
-                    <div class="projectText">
-                        ITinHK<br /><br />
-                        A job website monitor Jobsdb's IT jobs and giving some statistics built with jQuery
+            <div className="projectCard">
+                <div className="projectDummy"></div>
+                <div className="projectContent">
+                    <div className="front">
+                        <img src={ITinHKIcon} className="projectImg" />
+                    </div>
+                    <div className="back">
+                        <p>ITinHK</p>
+                        <span>A job website monitor Jobsdb's IT jobs and giving some statistics built with jQuery</span>
                     </div>
                 </div>
             </div>
 
-            <div className="projectContainer">
-                <img src={MoneyDrive} className="projectImg" />
-                <div class="overlay">
-                    <div class="projectText">
-                        MoneyDrive<br /><br />
-                        A mobile app built with Java and Firebase<br /><br />
-                        https://github.com/yfyau/MoneyDrive
+            <div className="projectCard">
+                <div className="projectDummy"></div>
+                <div className="projectContent">
+                    <div className="front">
+                        <img src={MoneyDrive} className="projectImg" />
+                    </div>
+                    <div className="back">
+                        <p>MoneyDrive</p>
+                        <span>
+                            A mobile app built with Java and Firebase <br /> <br />
+                            https://github.com/ yfyau/MoneyDrive
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="projectCard">
+
+                <div className="overlay">
+                    <div className="projectText">
+                        <br />
+
                     </div>
                 </div>
             </div>

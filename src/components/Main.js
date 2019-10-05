@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Bee from "./Bee/Bee"
-import { Home, AboutMe } from './Pages/Pages'
+import { Home, AboutMe, Project } from './Pages/Pages'
 
 import './Main.css'
 
@@ -56,15 +56,13 @@ export default class Main extends Component {
                         <Bee style={{ position: "absolute", width: "2%", left: "-30%" }} />
                         <div className="rope" />
                     </div>
-                    <div className="background" style={{ backgroundPositionY: HomeImgPositionY }}>
+                    <div className="mainBackground" style={{ backgroundPositionY: HomeImgPositionY }}>
                         <Home />
                         {
                             animationEnd &&
                             [
                                 <AboutMe />,
-                                <AboutMe />,
-                                <AboutMe />,
-                                <AboutMe />,
+                                <Project />
                             ]
                         }
                     </div>

@@ -5,12 +5,9 @@ import "./Pages.css"
 import HomeImg from '../../images/HomeImg.jpg'
 
 const Home = props => (
-    <div style={{ position: "relative", height: "100%", width: "100%" }}>
-        <div className={"homeBackground"}
-            style={{ backgroundImage: `url(${HomeImg})` }}>
+    <div className="pageContainer homeBackground" style={{ backgroundImage: `url(${HomeImg})` }}>
 
-        </div>
-    </div>
+    </div >
 )
 
 export default Home;
