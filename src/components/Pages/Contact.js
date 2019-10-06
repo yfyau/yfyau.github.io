@@ -7,10 +7,10 @@ import "./Pages.css"
 
 
 const Contact = props => (
-    <div className="page-flex horizontal-center contact-background">
+    <div className="pageContainer pagePadding contactBackground">
         <p className="title">Contact Me</p>
 
-        <div className="contentBlock">
+        <div className="content">
             <div className="contactWay">
                 <a href="" target="_blank" rel="noopener noreferrer">
                     <img src={EmailIcon} className="contactImg" height={120} width={120} />

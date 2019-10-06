@@ -35,7 +35,7 @@
         padding-right: 10%;
     }
     .title {
-        font-size: 45px;
+        font-size: 40px;
     }
     .content {
         font-size: 30px;
@@ -48,7 +48,7 @@
         padding-right: 10px;
     }
     .title {
-        font-size: 30px;
+        font-size: 20px;
     }
     .content {
         font-size: 15px;
@@ -217,7 +217,7 @@
 /* ---------------- Project Page Start ---------------- */
 
 .projectBackground {
-    background-color: #899eff;
+    background-color: #ffffff;
     text-align: center;
 }
 
@@ -225,7 +225,8 @@
     position: relative;
     width: 80%;
     max-width: 500px;
-    margin: 10px auto;
+    margin: 30px auto;
+    perspective: 1000px;
 }
 
 .projectDummy {
@@ -238,13 +239,13 @@
     position: absolute;
     left: 0;
     top: 0;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
     transition: transform 1s;
     transform-style: preserve-3d;
 }
 
 .projectCard:hover .projectContent {
-    transform: rotateY( 180deg);
+    transform: rotateY(180deg);
     transition: transform 0.5s;
 }
 
@@ -264,9 +265,18 @@
     left: 0;
     background: #03446A;
     color: white;
-    transform: rotateY( 180deg);
+    transform: rotateY(180deg);
 }
 
 .projectImg {
     width: 100%;
+}
+
+/* ---------------- Project Page End ---------------- */
+
+/* ---------------- Contact Page Start ---------------- */
+
+.contactBackground {
+    background-color: #f0f0f0;
+    text-align: center;
 }

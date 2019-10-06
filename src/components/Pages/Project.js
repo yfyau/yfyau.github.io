@@ -19,8 +19,10 @@ const Project = props => (
                         <img src={OrderEatIcon} className="projectImg" />
                     </div>
                     <div className="back">
-                        <p>OrderEat</p>
-                        <span>A food ordering system contains Client App, Business App and Admin Website that built with React, React Native and MongoDB</span>
+                        <div style={{ padding: 20 }}>
+                            <p>OrderEat</p>
+                            <span>A food ordering system contains Client App, Business App and Admin Website that built with React, React Native and MongoDB</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -32,8 +34,10 @@ const Project = props => (
                         <img src={ITinHKIcon} className="projectImg" />
                     </div>
                     <div className="back">
-                        <p>ITinHK</p>
-                        <span>A job website monitor Jobsdb's IT jobs and giving some statistics built with jQuery</span>
+                        <div style={{ padding: 20 }}>
+                            <p>ITinHK</p>
+                            <span>A job website monitor Jobsdb's IT jobs and giving some statistics built with jQuery</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -45,28 +49,25 @@ const Project = props => (
                         <img src={MoneyDrive} className="projectImg" />
                     </div>
                     <div className="back">
-                        <p>MoneyDrive</p>
-                        <span>
-                            A mobile app built with Java and Firebase <br /> <br />
-                            https://github.com/ yfyau/MoneyDrive
-                        </span>
+                        <div style={{ padding: 20 }}>
+                            <p>MoneyDrive</p>
+                            <span>
+                                A mobile app built with Java and Firebase <br /> <br />
+                                https://github.com/
+                                yfyau/MoneyDrive
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div className="projectCard">
-
-                <div className="overlay">
-                    <div className="projectText">
-                        <br />
-
-                    </div>
-                </div>
-            </div>
             <div style={{ paddingTop: "10px" }}>
-                <p style={{ fontSize: "2vw" }}>Others: </p>
-                <ul>
-                    <li style={{ fontSize: "2vw" }}>Common Course Review System 2.0 - A HKUST system built with AngularJS </li>
+                <p>Others: </p>
+                <ul style={{ listStyleType: "none", padding: 0 }}>
+                    <li>
+                        Common Course Review System 2.0 - <br />
+                        A HKUST system built with AngularJS
+                    </li>
                 </ul>
             </div>
         </div>

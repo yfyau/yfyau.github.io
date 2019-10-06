@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Bee from "./Bee/Bee"
-import { Home, AboutMe, Project } from './Pages/Pages'
+import { Home, AboutMe, Project, Contact } from './Pages/Pages'
 
 import './Main.css'
 
@@ -62,7 +62,8 @@ export default class Main extends Component {
                             animationEnd &&
                             [
                                 <AboutMe />,
-                                <Project />
+                                <Project />,
+                                <Contact />
                             ]
                         }
                     </div>
