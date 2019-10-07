@@ -29,7 +29,7 @@
     font-weight: bold;
 }
 
-@media screen and (min-width: 601px) {
+@media screen and (min-width: 751px) {
     .pagePadding {
         padding-left: 10%;
         padding-right: 10%;
@@ -42,7 +42,7 @@
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 750px) {
     .pagePadding {
         padding-left: 10px;
         padding-right: 10px;
@@ -222,6 +222,7 @@
 }
 
 .projectCard {
+    display: inline-block;
     position: relative;
     width: 80%;
     max-width: 500px;
@@ -241,6 +242,7 @@
     top: 0;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
     transition: transform 1s;
+    -webkit-transition: transform 1s;
     transform-style: preserve-3d;
 }
 
@@ -255,6 +257,7 @@
     text-align: center;
     border-radius: 5px;
     backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 .back {
@@ -268,6 +271,31 @@
     transform: rotateY(180deg);
 }
 
+.back a {
+    position: relative;
+    display: block;
+    color: #60ffff;
+    text-decoration: none;
+}
+
+.back a:before, .back a:after {
+    content: " ";
+    display: inline-block;
+    background-color: #60ffff;
+    height: 2px;
+    width: 10%;
+    position: absolute;
+    top: 50%;
+}
+
+.back a:before {
+    transform: translate(-120%, -50%)
+}
+
+.back a:after {
+    transform: translate(20%, -50%)
+}
+
 .projectImg {
     width: 100%;
 }
@@ -279,4 +307,23 @@
 .contactBackground {
     background-color: #f0f0f0;
     text-align: center;
+}
+
+.contactWay {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+    width: 25%;
+    max-width: 120px;
+}
+
+.contactWay a {
+    display: block;
+    height: 100%;
+    cursor: pointer;
+}
+
+.contactSVG {
+    pointer-events: none;
+    width: 100%;
 }

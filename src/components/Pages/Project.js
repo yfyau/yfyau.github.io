@@ -22,6 +22,7 @@ const Project = props => (
                         <div style={{ padding: 20 }}>
                             <p>OrderEat</p>
                             <span>A food ordering system contains Client App, Business App and Admin Website that built with React, React Native and MongoDB</span>
+                            <p><a href="https://youtu.be/cNaXw3qrxBE" target="_blank" rel="noopener noreferrer">Link</a></p>
                         </div>
                     </div>
                 </div>
@@ -37,6 +38,7 @@ const Project = props => (
                         <div style={{ padding: 20 }}>
                             <p>ITinHK</p>
                             <span>A job website monitor Jobsdb's IT jobs and giving some statistics built with jQuery</span>
+                            <p><a href="https://itinhk.com" target="_blank" rel="noopener noreferrer">Link</a></p>
                         </div>
                     </div>
                 </div>
@@ -51,11 +53,8 @@ const Project = props => (
                     <div className="back">
                         <div style={{ padding: 20 }}>
                             <p>MoneyDrive</p>
-                            <span>
-                                A mobile app built with Java and Firebase <br /> <br />
-                                https://github.com/
-                                yfyau/MoneyDrive
-                            </span>
+                            <span>A simple money management native mobile app built with Android Studio and Firebase</span>
+                            <p><a href="https://youtu.be/cNaXw3qrxBE" target="_blank" rel="noopener noreferrer">Link</a></p>
                         </div>
                     </div>
                 </div>

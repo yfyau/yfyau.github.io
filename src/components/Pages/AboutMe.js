@@ -26,12 +26,13 @@ const AboutMe = props => (
 
         <div className="content">
             <ul className="aboutMeList">
-                <li key="1"><Emoji symbol="🌐" /> Hong Kong</li>
+                <li key="1"><Emoji symbol="📌" /> Hong Kong</li>
                 <li key="2"><Emoji symbol="🏫" /> Hong Kong University of Science and Technology</li>
                 <li key="3"><Emoji symbol="📖" /> Computer Engineering</li>
-                <li key="4"><Emoji symbol="☕" /> <span style={{ fontWeight: "bold" }}>+</span> <Emoji symbol="🍬" /> <span style={{ fontWeight: "bold" }}>=</span> <Emoji symbol="👨‍💻" /></li>
-                <li key="5"><Emoji symbol="😍" /> <Emoji symbol="🎮" /> <Emoji symbol="🐕" /> <Emoji symbol="🍵" /></li>
-                <li key="6"><Emoji symbol="🤮" /> <Emoji symbol="🍄" /></li>
+                <li key="4"><Emoji symbol="👨🏻‍🎓" /> 2019 Graduation</li>
+                <li key="5"><Emoji symbol="☕" /> <span style={{ fontWeight: "bold" }}>+</span> <Emoji symbol="🍬" /> <span style={{ fontWeight: "bold" }}>=</span> <Emoji symbol="👨‍💻" /></li>
+                <li key="6"><Emoji symbol="😍" /> <Emoji symbol="🎮" /> <Emoji symbol="🐕" /> <Emoji symbol="🍵" /></li>
+                <li key="7"><Emoji symbol="🤮" /> <Emoji symbol="🍄" /></li>
             </ul>
         </div>
     </div>
