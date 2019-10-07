@@ -31,13 +31,11 @@ const Contact = props => {
                     <a href="https://github.com/yfyau" target="_blank" rel="noopener noreferrer">
                         <GitHubLogo className="contactSVG" />
                     </a>
-                    {/* <p style={{ fontSize: "2vw" }}>https://github.com/yfyau</p> */}
                 </div>
                 <div className="contactWay">
                     <a href="https://gitlab.com/yfyau" target="_blank" rel="noopener noreferrer">
                         <GitLabLogo className="contactSVG" />
                     </a>
-                    {/* <p style={{ fontSize: "2vw" }}>https://gitlab.com/yfyau</p> */}
                 </div>
             </div>
         </div >
