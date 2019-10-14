@@ -6,7 +6,10 @@ import HomeImg from '../../images/HomeImg.jpg'
 
 const Home = props => (
     <div className="pageContainer homeBackground" style={{ backgroundImage: `url(${HomeImg})` }}>
-
+        <div className="homeTitleContainer">
+            <h2 className="homeTitleH2">Hi. I am</h2>
+            <h1 className="homeTitleH1">Jason Yau</h1>
+        </div>
     </div >
 )
 

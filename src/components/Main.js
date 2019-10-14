@@ -18,31 +18,8 @@ export default class Main extends Component {
     }
 
     componentDidMount = () => {
-        window.addEventListener('scroll', this.onWindowScrolled, true);
-        // window.addEventListener('resize', this.onWindowResized);
-
-        setTimeout(() => { this.setState({ animationEnd: true }) }, 2500);
+        setTimeout(() => { this.setState({ animationEnd: true }) }, 2000);
     }
-
-    componentWillUnmount = () => {
-        window.removeEventListener('scroll', this.onWindowScrolled);
-        // window.removeEventListener('resize', this.onWindowResized);
-    };
-
-    // onWindowResized = () => {
-    //     this.forceUpdate();
-    // };
-
-    isBottom(window) {
-        return window.target.scrollHeight - window.target.scrollTop === window.target.clientHeight;
-    }
-
-    onWindowScrolled = (window, element) => {
-        // console.log(window.target.scrollHeight, window.target.scrollTop)
-        if (this.isBottom(window)) {
-            this.setState((prevState) => ({ renderPage: prevState.renderPage + 1 }))
-        }
-    };
 
     render() {
 
@@ -68,9 +45,7 @@ export default class Main extends Component {
                         }
                     </div>
                 </div>
-
             </div>
-
         )
     }
 }
