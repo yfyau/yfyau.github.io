@@ -37,6 +37,10 @@ const Contact = props => {
                         <GitLabLogo className="contactSVG" />
                     </a>
                 </div>
+
+                <div className="copyright">
+                    Copyright &copy; {new Date().getFullYear()} Yau Yat Fung. All Rights Reserved.
+                </div>
             </div>
         </div >
     )
