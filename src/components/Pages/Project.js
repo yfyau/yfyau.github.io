@@ -65,7 +65,7 @@ const Project = props => (
                 <ul style={{ listStyleType: "none", padding: 0 }}>
                     <li>
                         Common Course Review System 2.0 - <br />
-                        A HKUST system built with AngularJS
+                        A HKUST internal system built with AngularJS
                     </li>
                 </ul>
             </div>

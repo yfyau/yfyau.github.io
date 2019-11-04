@@ -9,6 +9,10 @@ const Home = props => (
         <div className="homeTitleContainer">
             <h2 className="homeTitleH2">Hi. I am</h2>
             <h1 className="homeTitleH1">Jason Yau</h1>
+            <div>
+                <span className="spacer"></span>
+                <h3 className="homeTitleH3">A Freelance Developer</h3>
+            </div>
         </div>
     </div >
 )

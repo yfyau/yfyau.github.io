@@ -26,7 +26,8 @@
     display: block;
     background-color: #333;
     height: 2px;
-    width: 30%;
+    width: 20%;
+    min-width: 150px;
     margin: 10px auto;
 }
 
@@ -43,7 +44,7 @@
         font-size: 40px;
     }
     .content {
-        font-size: 30px;
+        font-size: 20px;
     }
 }
 
@@ -84,16 +85,32 @@
 
 .homeTitleH1 {
     color: #fff;
-    margin: 0;
+    margin-top: 30px;
+    margin-bottom: 30px;
     font-style: italic;
-    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    /* -webkit-text-stroke: 1px black; */
 }
 
 .homeTitleH2 {
     color: #fff;
-    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    /* -webkit-text-stroke: 1px black; */
+    margin: 0;
+}
+
+.homeTitleH3 {
+    display: grid;
+    width: 100%;
+    grid-gap: 20px;
+    grid-template-columns: minmax(20px, 1fr) auto;
+    align-items: center;
+    color: #fff;
+    margin: 0;
+}
+
+.homeTitleH3::before {
+    content: " ";
+    background-color: #fff;
+    height: 2px;
+    flex: 1 0 20px;
+    box-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 @media screen and (min-width: 751px) {
@@ -101,10 +118,17 @@
         margin-top: 25vh;
     }
     .homeTitleH1 {
-        font-size: 100px;
+        font-size: 120px;
+        text-shadow: 6px 6px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+        /* -webkit-text-stroke: 1px black; */
     }
     .homeTitleH2 {
-        font-size: 50px;
+        font-size: 60px;
+        text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+    .homeTitleH3 {
+        font-size: 40px;
+        text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }
 }
 
@@ -113,10 +137,16 @@
         margin-top: 30vh;
     }
     .homeTitleH1 {
-        font-size: 50px;
+        font-size: 60px;
+        text-shadow: 4.5px 4.5px 0 #000, -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000;
     }
     .homeTitleH2 {
         font-size: 25px;
+        text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+    .homeTitleH3 {
+        font-size: 20px;
+        text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }
 }
 
@@ -141,7 +171,7 @@
     align-items: center;
     height: 25vw;
     min-height: 200px;
-    max-height: 600px;
+    max-height: 400px;
 }
 
 .gradHatSVG {
@@ -278,7 +308,7 @@
     display: inline-block;
     position: relative;
     width: 80%;
-    max-width: 500px;
+    max-width: 400px;
     margin: 30px auto;
     perspective: 1000px;
 }
@@ -366,7 +396,7 @@
     position: relative;
     display: inline-block;
     margin: 10px;
-    width: 25%;
+    width: 18%;
     max-width: 120px;
 }
 

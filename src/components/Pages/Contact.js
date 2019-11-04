@@ -1,5 +1,6 @@
 import React from "react"
 
+import { ReactComponent as WhatsappLogo } from '../../images/Whatsapp.svg'
 import { ReactComponent as EmailLogo } from '../../images/Email.svg'
 import { ReactComponent as GitHubLogo } from '../../images/GitHub.svg'
 import { ReactComponent as GitLabLogo } from '../../images/GitLab.svg'
@@ -22,6 +23,11 @@ const Contact = props => {
             <p className="title">Contact Me</p>
 
             <div className="content">
+                <div className="contactWay">
+                    <a href="https://wa.me/85297922429" target="_blank" rel="noopener noreferrer">
+                        <WhatsappLogo className="contactSVG" />
+                    </a>
+                </div>
                 <div className="contactWay">
                     <a onClick={CopyEmailToClipboard}>
                         <EmailLogo className="contactSVG" />
