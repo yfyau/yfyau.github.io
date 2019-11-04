@@ -1,24 +1,25 @@
 {
   "files": {
-    "main.css": "/static/css/main.0d5993ea.chunk.css",
-    "main.js": "/static/js/main.b51eaf34.chunk.js",
-    "main.js.map": "/static/js/main.b51eaf34.chunk.js.map",
+    "main.css": "/static/css/main.1e3b2ced.chunk.css",
+    "main.js": "/static/js/main.042a8622.chunk.js",
+    "main.js.map": "/static/js/main.042a8622.chunk.js.map",
     "runtime~main.js": "/static/js/runtime~main.91a6b169.js",
     "runtime~main.js.map": "/static/js/runtime~main.91a6b169.js.map",
     "static/js/2.42873509.chunk.js": "/static/js/2.42873509.chunk.js",
     "static/js/2.42873509.chunk.js.map": "/static/js/2.42873509.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.54fa620ba5f5d4715c95d7307b8989bb.js": "/precache-manifest.54fa620ba5f5d4715c95d7307b8989bb.js",
+    "precache-manifest.a95483f00362057df87e6cfe70c7e7e4.js": "/precache-manifest.a95483f00362057df87e6cfe70c7e7e4.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/main.0d5993ea.chunk.css.map": "/static/css/main.0d5993ea.chunk.css.map",
+    "static/css/main.1e3b2ced.chunk.css.map": "/static/css/main.1e3b2ced.chunk.css.map",
     "static/media/Email.fa1158ab.svg": "/static/media/Email.fa1158ab.svg",
     "static/media/GitHub.617870e4.svg": "/static/media/GitHub.617870e4.svg",
     "static/media/GitLab.e0270e95.svg": "/static/media/GitLab.e0270e95.svg",
     "static/media/GradHat.004ef7ba.svg": "/static/media/GradHat.004ef7ba.svg",
     "static/media/HKUST.01b35682.svg": "/static/media/HKUST.01b35682.svg",
-    "static/media/HomeImg.jpg": "/static/media/HomeImg.ec739446.jpg",
+    "static/media/HomeImg.jpg": "/static/media/HomeImg.ccdbe25f.jpg",
     "static/media/ITinHK.png": "/static/media/ITinHK.3f602456.png",
     "static/media/MoneyDrive.png": "/static/media/MoneyDrive.28a80b3a.png",
-    "static/media/OrderEat.png": "/static/media/OrderEat.fe1b48fe.png"
+    "static/media/OrderEat.png": "/static/media/OrderEat.fe1b48fe.png",
+    "static/media/Whatsapp.4edd464b.svg": "/static/media/Whatsapp.4edd464b.svg"
   }
 }

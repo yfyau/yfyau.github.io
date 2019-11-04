@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0d89659e3ce478247874634de3ffc5f0",
+    "revision": "577128d1ae0d0dbbabe05dccbe4b4545",
     "url": "/index.html"
   },
   {
-    "revision": "d3f91414b70d2fdab48a",
-    "url": "/static/css/main.0d5993ea.chunk.css"
+    "revision": "727cd6c6704d0033c736",
+    "url": "/static/css/main.1e3b2ced.chunk.css"
   },
   {
     "revision": "4c777d9be2615acac0cf",
     "url": "/static/js/2.42873509.chunk.js"
   },
   {
-    "revision": "d3f91414b70d2fdab48a",
-    "url": "/static/js/main.b51eaf34.chunk.js"
+    "revision": "727cd6c6704d0033c736",
+    "url": "/static/js/main.042a8622.chunk.js"
   },
   {
     "revision": "bd3fe30ed337c4613f68",
@@ -40,8 +40,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/HKUST.01b35682.svg"
   },
   {
-    "revision": "ec739446a98e97d6c1d6c8c956ff75bd",
-    "url": "/static/media/HomeImg.ec739446.jpg"
+    "revision": "ccdbe25f8c307f35d07f1ce85f73f1b1",
+    "url": "/static/media/HomeImg.ccdbe25f.jpg"
   },
   {
     "revision": "3f60245657cb7fdbb51146f995743a51",
@@ -54,5 +54,9 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "fe1b48fe5b1d1ac83fc873a39862aa97",
     "url": "/static/media/OrderEat.fe1b48fe.png"
+  },
+  {
+    "revision": "4edd464b498ccb6f0ada00821f12d5f9",
+    "url": "/static/media/Whatsapp.4edd464b.svg"
   }
 ]);
