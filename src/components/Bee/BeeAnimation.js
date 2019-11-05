@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import Bee from './Bee'
+import { withRouter } from "react-router-dom";
 
+import Bee from './Bee'
 import './BeeAnimation.css';
 
-export default class BeeAnimation extends Component {
+class BeeAnimation extends Component {
 
     constructor(props) {
         super(props)
@@ -15,16 +16,16 @@ export default class BeeAnimation extends Component {
     }
 
     render() {
-        const { onSkip } = this.props
 
         const onClick = () => {
+
             this.setState({
                 beeDodging: false,
                 beeLeaving: true
             })
 
             setTimeout(() => {
-                onSkip()
+                this.props.history.push("/about")
             }, 2000)
         }
 
@@ -51,3 +52,5 @@ export default class BeeAnimation extends Component {
         )
     }
 }
+
+export default withRouter(BeeAnimation);

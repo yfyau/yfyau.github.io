@@ -45,7 +45,7 @@ const Contact = props => {
                 </div>
 
                 <div className="copyright">
-                    Copyright &copy; {new Date().getFullYear()} Yau Yat Fung. All Rights Reserved.
+                    Copyright &copy; {new Date().getFullYear()} Jason Yau. All Rights Reserved.
                 </div>
             </div>
         </div >

@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import {
+  BrowserRouter,
+  Redirect,
+  Switch,
+  Route
+} from "react-router-dom";
 
 import Main from './components/Main'
 import BeeAnimation from './components/Bee/BeeAnimation'
@@ -7,29 +13,16 @@ import './App.css';
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isSkip: false
-    }
-  }
-
-  onSkip = () => {
-    this.setState({ isSkip: true })
-  }
-
-
   render() {
     return (
       <div className="App">
-        {
-          this.state.isSkip
-            ?
-            <Main />
-            :
-            <BeeAnimation onSkip={this.onSkip} />
-        }
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/" component={BeeAnimation} />
+            <Route path="/about" component={Main} />
+            <Redirect to="/" />
+          </Switch>
+        </BrowserRouter>
       </div>
     );
   }
