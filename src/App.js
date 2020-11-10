@@ -10,8 +10,14 @@ import Main from './components/Main'
 import BeeAnimation from './components/Bee/BeeAnimation'
 
 import './App.css';
+import HomeImg from './images/HomeImg.jpg'
 
 class App extends Component {
+
+  componentDidMount() {
+    const img = new Image();
+    img.src = HomeImg;
+  }
 
   render() {
     return (

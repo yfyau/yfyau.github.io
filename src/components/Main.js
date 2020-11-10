@@ -26,7 +26,7 @@ export default class Main extends Component {
         const { animationEnd, renderPage, HomeImgPositionY } = this.state
 
         return (
-            <div className="mainContainer">
+            <div className="mainContainer" style={{ overflowY: animationEnd ? 'scroll' : 'hidden' }}>
                 <div className="zoomOutAnimation" />
                 <div className="mainRightInAnimation" style={{ position: "relative", height: "100%", width: "100%" }}>
                     <div>
@@ -35,14 +35,9 @@ export default class Main extends Component {
                     </div>
                     <div className="mainBackground" style={{ backgroundPositionY: HomeImgPositionY }}>
                         <Home />
-                        {
-                            animationEnd &&
-                            [
-                                <AboutMe />,
-                                <Project />,
-                                <Contact />
-                            ]
-                        }
+                        <AboutMe />
+                        <Project />
+                        <Contact />
                     </div>
                 </div>
             </div>

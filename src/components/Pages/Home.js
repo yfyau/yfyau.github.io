@@ -11,7 +11,7 @@ const Home = props => (
             <h1 className="homeTitleH1">Jason Yau</h1>
             <div>
                 <span className="spacer"></span>
-                <h3 className="homeTitleH3">A Freelance Developer</h3>
+                <h3 className="homeTitleH3">A Small Potato Programmer</h3>
             </div>
         </div>
     </div >

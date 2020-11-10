@@ -4,13 +4,14 @@
   "private": true,
   "homepage": "https://yfyau.github.io/",
   "dependencies": {
+    "body-scroll-lock": "^2.6.4",
     "gh-pages": "^2.1.1",
     "lodash": "^4.17.15",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.1.1"
+    "react-scripts": "^3.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
