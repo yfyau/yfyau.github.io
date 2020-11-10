@@ -1,16 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.1e3b2ced.chunk.css",
-    "main.js": "/static/js/main.ddfe5a03.chunk.js",
-    "main.js.map": "/static/js/main.ddfe5a03.chunk.js.map",
-    "runtime~main.js": "/static/js/runtime~main.91a6b169.js",
-    "runtime~main.js.map": "/static/js/runtime~main.91a6b169.js.map",
-    "static/js/2.5dbcecb1.chunk.js": "/static/js/2.5dbcecb1.chunk.js",
-    "static/js/2.5dbcecb1.chunk.js.map": "/static/js/2.5dbcecb1.chunk.js.map",
+    "main.css": "/static/css/main.0937e703.chunk.css",
+    "main.js": "/static/js/main.41645d2c.chunk.js",
+    "main.js.map": "/static/js/main.41645d2c.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.db47d54b.js",
+    "runtime-main.js.map": "/static/js/runtime-main.db47d54b.js.map",
+    "static/js/2.b9fa5b18.chunk.js": "/static/js/2.b9fa5b18.chunk.js",
+    "static/js/2.b9fa5b18.chunk.js.map": "/static/js/2.b9fa5b18.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.b3ea92997883c576e15c21e6993006f0.js": "/precache-manifest.b3ea92997883c576e15c21e6993006f0.js",
+    "precache-manifest.d5ab6c8546512ea8815aa076e9c5eda7.js": "/precache-manifest.d5ab6c8546512ea8815aa076e9c5eda7.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/main.1e3b2ced.chunk.css.map": "/static/css/main.1e3b2ced.chunk.css.map",
+    "static/css/main.0937e703.chunk.css.map": "/static/css/main.0937e703.chunk.css.map",
+    "static/js/2.b9fa5b18.chunk.js.LICENSE.txt": "/static/js/2.b9fa5b18.chunk.js.LICENSE.txt",
     "static/media/Email.fa1158ab.svg": "/static/media/Email.fa1158ab.svg",
     "static/media/GitHub.617870e4.svg": "/static/media/GitHub.617870e4.svg",
     "static/media/GitLab.e0270e95.svg": "/static/media/GitLab.e0270e95.svg",
@@ -21,5 +22,11 @@
     "static/media/MoneyDrive.png": "/static/media/MoneyDrive.28a80b3a.png",
     "static/media/OrderEat.png": "/static/media/OrderEat.fe1b48fe.png",
     "static/media/Whatsapp.4edd464b.svg": "/static/media/Whatsapp.4edd464b.svg"
-  }
+  },
+  "entrypoints": [
+    "static/js/runtime-main.db47d54b.js",
+    "static/js/2.b9fa5b18.chunk.js",
+    "static/css/main.0937e703.chunk.css",
+    "static/js/main.41645d2c.chunk.js"
+  ]
 }
