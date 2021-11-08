@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "31d2803e81d9f280ddd75b9479033629",
+    "revision": "284f9adbeceb28c4faa0899a0a86f0c3",
     "url": "/index.html"
   },
   {
-    "revision": "130c30109f5d40cdd76c",
-    "url": "/static/css/main.0937e703.chunk.css"
+    "revision": "d97c0c4d1a3d22417aeb",
+    "url": "/static/css/main.e970fd9b.chunk.css"
   },
   {
-    "revision": "774f1c94077d633f4087",
-    "url": "/static/js/2.b9fa5b18.chunk.js"
+    "revision": "842538db77a3fa0bb2b7",
+    "url": "/static/js/2.7845ce87.chunk.js"
   },
   {
-    "revision": "507c4436aa55e48136618e82a79cbf78",
-    "url": "/static/js/2.b9fa5b18.chunk.js.LICENSE.txt"
+    "revision": "9b318b6fb13190fe82c0677e9264b3c7",
+    "url": "/static/js/2.7845ce87.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "130c30109f5d40cdd76c",
-    "url": "/static/js/main.41645d2c.chunk.js"
+    "revision": "d97c0c4d1a3d22417aeb",
+    "url": "/static/js/main.25546a16.chunk.js"
   },
   {
-    "revision": "ca86b32ec09a4ecac524",
-    "url": "/static/js/runtime-main.db47d54b.js"
+    "revision": "e223ffae04891790e349",
+    "url": "/static/js/runtime-main.cbe2050d.js"
   },
   {
     "revision": "fa1158ab4417652802501a201d74c6aa",
@@ -52,12 +52,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/ITinHK.3f602456.png"
   },
   {
-    "revision": "28a80b3a2b93a9fe5798ee2233a877c0",
-    "url": "/static/media/MoneyDrive.28a80b3a.png"
+    "revision": "d0d2c23c615a0698108cad4992b182fc",
+    "url": "/static/media/KMB.d0d2c23c.jpg"
   },
   {
     "revision": "fe1b48fe5b1d1ac83fc873a39862aa97",
     "url": "/static/media/OrderEat.fe1b48fe.png"
+  },
+  {
+    "revision": "57a20ad29e3e341a418f38aafaec0e53",
+    "url": "/static/media/SapNin.57a20ad2.jpg"
   },
   {
     "revision": "4edd464b498ccb6f0ada00821f12d5f9",
