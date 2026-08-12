@@ -1,0 +1,16 @@
+{
+  "short_name": "Jason Yau",
+  "name": "Jason Yau | Senior Software Engineer",
+  "icons": [
+    {
+      "src": "jason-bee-icon.png",
+      "sizes": "460x460",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#dcebf1",
+  "background_color": "#dcebf1"
+}
