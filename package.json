@@ -2,7 +2,7 @@
   "name": "yfyau.github.io",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://yfyau.github.io/",
+  "homepage": "https://yfyau.com/",
   "dependencies": {
     "body-scroll-lock": "^2.6.4",
     "gh-pages": "^2.1.1",
@@ -14,11 +14,11 @@
     "react-scripts": "^3.3.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "node --openssl-legacy-provider ./node_modules/react-scripts/scripts/start.js",
+    "build": "node --openssl-legacy-provider ./node_modules/react-scripts/scripts/build.js",
     "test": "react-scripts test",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d build -b master",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
