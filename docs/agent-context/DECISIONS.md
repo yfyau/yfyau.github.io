@@ -2148,3 +2148,26 @@ Do not add decorative filler, imagery, motion, copy, or a new layout. Preserve m
 - Variant A produced a 704 px Hero and exposed Experience but read as compressed. Variant B produced a balanced 1187 px Hero but moved all capability evidence below the fold. Variant C produces a 1120.8 px Hero plus 66.2 px rail at 1328 x 1187, and a 653.6 px Hero plus 66.2 px rail at 1280 x 720. Both sums land at the viewport baseline.
 - At 1024 x 480 content safely expands beyond the calculated minimum to 446.9 px; the Email action remains inside the Hero. At 768 x 1024 and 390 x 844 the unchanged breakpoint rules retain their prior geometry. All audited sizes have zero horizontal overflow and browser warning/error logs are empty.
 - Tests pass 2 suites / 29 tests. The production build passes at 38.69 KB vendor JS, 4.06 KB CSS, 3.51 KB main JS, and 784 B runtime JS gzip. Only the pre-existing Browserslist freshness notice remains. Nothing was published, deployed, committed, pushed, merged, or applied to DNS or `master`.
+
+## DEC-068: Keep source on code and publish a build-only master branch
+
+- **Date:** 2026-08-12
+- **Status:** Accepted and deployed
+- **Owner:** Root agent under Revision 68
+
+### Context
+
+Jason explicitly requested commit and push before deployment. The repository historically separates editable React source on `code` from compiled GitHub Pages artifacts on `master`. Today's verified Pages state still sourced production from `master`, while the old package script sent `gh-pages -d build` to an unused `gh-pages` branch. The historical production CNAME also pointed to expired `yfyau.me`; public `yfyau.com` DNS currently has Cloudflare authority but no apex A answer or `www` CNAME.
+
+### Decision
+
+Commit the complete accepted redesign on `code`, push and verify that remote SHA, then deploy the optimized build to `master` with `gh-pages -d build -b master`. Keep the emitted build free of a CNAME so the obsolete `yfyau.me` binding is not republished. Treat `https://yfyau.github.io/` as the immediate verified production URL.
+
+Do not merge source into `master`, deploy to the unused `gh-pages` branch, create a Cloudflare Pages project, or change DNS inside this release. Binding `yfyau.com` is a separate externally visible cutover that must configure hosting and DNS together and then verify HTTPS and canonical redirects.
+
+### Evidence
+
+- Source commit `046a5d8 Redesign personal website` was pushed to `origin/code` and confirmed by `git ls-remote` before deployment. The release gate was clean and passed 2 suites / 30 tests plus the optimized production build.
+- `npm.cmd run deploy` rebuilt and returned `Published`. Remote `master` advanced from `7d52af1` to build-only commit `a937256`; remote `code` remained at `046a5d8` through the deployment action. Raw `master/index.html` contains the new hashed assets and raw `master/CNAME` returns 404.
+- The production home, CSS, JS, bee icon, three interest WebPs, OG image, robots file, and sitemap all return HTTP 200 with expected content types. Browser checks confirm the current visible copy and layout at mobile and desktop sizes, all lazy interest images decode after navigation, horizontal overflow is zero, and warning/error logs are empty.
+- No DNS, Cloudflare project, pull request, dependency, or unrelated external state changed. The production domain verified in this release is `https://yfyau.github.io/`, not `yfyau.com`.
