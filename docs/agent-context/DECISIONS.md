@@ -2171,3 +2171,29 @@ Do not merge source into `master`, deploy to the unused `gh-pages` branch, creat
 - `npm.cmd run deploy` rebuilt and returned `Published`. Remote `master` advanced from `7d52af1` to build-only commit `a937256`; remote `code` remained at `046a5d8` through the deployment action. Raw `master/index.html` contains the new hashed assets and raw `master/CNAME` returns 404.
 - The production home, CSS, JS, bee icon, three interest WebPs, OG image, robots file, and sitemap all return HTTP 200 with expected content types. Browser checks confirm the current visible copy and layout at mobile and desktop sizes, all lazy interest images decode after navigation, horizontal overflow is zero, and warning/error logs are empty.
 - No DNS, Cloudflare project, pull request, dependency, or unrelated external state changed. The production domain verified in this release is `https://yfyau.github.io/`, not `yfyau.com`.
+
+## DEC-069: Use master for source and build for GitHub Pages artifacts
+
+- **Date:** 2026-08-12
+- **Status:** Accepted and deployed
+- **Owner:** Root agent under Revision 69
+
+### Context
+
+Jason explicitly replaced the historical branch convention: editable code should live on `master`, while optimized production output should live on `build`. At the decision boundary, GitHub's default branch was already `master`, but it contained only compiled artifacts at `a937256`; editable source was on `code` at `33bd725`; Pages published `master:/`; and `build` did not exist.
+
+Repointing the default branch before establishing a new Pages source could interrupt production. Rewriting `master` without preserving the verified artifact commit would also remove the simplest rollback path.
+
+### Decision
+
+Change the deploy command to `gh-pages -d build -b build` and lock it with a focused regression assertion. Test and build the exact source, commit it on `code`, preserve build-only `master` as `archive/production-master-a937256`, and publish the compiled output to `build`. Switch GitHub Pages to `build:/` and verify the current hashed production assets before repointing `master`.
+
+Move `master` to the exact source commit with `--force-with-lease=refs/heads/master:a937256...`, then make local `master` track `origin/master`. Retain `code` and legacy `gh-pages` as transitional refs because Jason did not request branch deletion. Do not create a pull request or change DNS/custom-domain state as part of the migration.
+
+### Evidence
+
+- Migration commit `f3d3483 Move production artifacts to build branch` passed 2 suites / 30 tests and an optimized production build, then pushed successfully to `code`.
+- Archive branch `archive/production-master-a937256` resolves to the exact old production SHA. Initial artifact publication created `build` commit `953aa2b`; the Pages API update returned 204 and reported source `build:/`.
+- Immediate production smoke returned HTTP 200 with `main.b7c8cfeb` CSS and `main.47de3fd1` JS. Raw `master/package.json` and `master/src/App.js` return source; raw `build/index.html` returns the optimized shell and `build/package.json` returns 404.
+- The leased `master` rewrite succeeded from exact expected old tip `a937256` to source baseline `f3d3483`. GitHub continues to report `master` as the default branch.
+- After completion, GitHub created separate commit `5ac5eb6 Create CNAME` on `build`, adding only `CNAME: yfyau.com`. The migration observed and preserved that concurrent external state; it did not create, revert, or claim verification of the associated DNS/custom-domain cutover.
