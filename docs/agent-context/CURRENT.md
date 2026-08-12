@@ -2,40 +2,41 @@
 
 ## Outcome
 
-Commit and push the accepted redesign source on `code`, then deploy the verified static build through the repository's existing GitHub Pages production path.
+Make `master` the canonical editable source branch and move compiled GitHub Pages production artifacts to a dedicated `build` branch.
 
 ## Scope
 
-- Confirm the complete dirty worktree belongs to the accepted personal-site redesign, run the final source checks, stage it intentionally, and commit on `code`.
-- Push `code` to `origin/code` before any production publishing action.
-- Correct the stale deploy script so `build/` publishes to the verified Pages source branch `master`, not the unused `gh-pages` branch.
-- Deploy only the clean verified build, keep DNS unchanged, and smoke-test the GitHub Pages production URL and critical assets.
+- Change the deploy target from build-only `master` to dedicated `build` and protect the branch choice with a focused regression assertion.
+- Commit and push the migration configuration from the current source `code` branch, then publish a verified production artifact branch named `build`.
+- Switch GitHub Pages source from `master:/` to `build:/` and verify the live site before rewriting `master`.
+- Preserve the current production `master` commit under a remote archive branch, then repoint `master` to the exact source commit using an explicit force-with-lease.
+- Switch the local checkout to source `master`, verify the branch/API/live state, and record final receipts.
 
 ## Non-goals
 
 - New content, imagery, typography, palette, navigation, career claims, dependencies, DNS mutation, Cloudflare project creation, or unrelated repository cleanup.
-- Pull request creation, merging `code` into a source branch, or treating the compiled `master` branch as editable source.
+- Pull request creation, deleting the transitional `code` or legacy `gh-pages` branches, or changing the verified production content.
 
 ## Acceptance
 
-- One source commit contains the accepted redesign and continuity records, with no uncommitted residue afterward.
-- `origin/code` resolves to that exact commit before deployment begins.
-- GitHub Pages `master` contains the new optimized build and no stale `yfyau.me` CNAME.
-- The public GitHub Pages URL returns the new Playful site, critical assets load, and the browser reports no production error.
+- `master` contains the editable React repository at the exact migrated source commit and remains GitHub's default branch.
+- `build` contains only the optimized static artifact and GitHub Pages reports `build:/` as its source.
+- The pre-migration build-only `master` commit remains reachable under a named archive branch for rollback.
+- The live GitHub Pages URL continues serving the current Playful site throughout and after the branch migration, with no console or asset failure.
 
 ## Constraints and authority
 
-- Work remains local on the dirty `code` branch; do not publish, merge, push, or rewrite `master`.
+- Jason explicitly authorizes rewriting build-only `master` into the canonical source branch and creating/publishing the dedicated `build` branch.
 - Preserve static-host compatibility and all facts supported by the repository or Jason's messages.
-- Historical Concept Lab rationale remains in decisions/worklog; retiring executable study code does not authorize external changes. Deployment research remains separate and grants no external authority.
+- Use an exact `--force-with-lease` against the verified `a937256` production master, not an unconstrained force push. Keep DNS and custom-domain state unchanged.
 
 ## Change budget
 
-One deploy-script correction plus its regression assertion, one source commit/push, one build-only `master` deployment, production smoke verification, and continuity updates.
+One deploy-target correction and regression assertion, one source commit/push, one archived rollback ref, one `build` publication, one Pages API source switch, one leased `master` repoint, live verification, and continuity updates.
 
 ## Phase and status
 
-Revision 68 release is complete. The accepted redesign source was committed as `046a5d8` and pushed to `origin/code` before deployment. The verified build was then published as build-only `master` commit `a937256`; `https://yfyau.github.io/` serves the new Playful site and its intended assets. DNS remains unchanged because `yfyau.com` currently has no A/CNAME target and Cloudflare configuration was not requested. A documentation-only receipt commit follows on `code`; no PR, dependency change, or unrelated external action occurred.
+Revision 69 branch-role migration is in progress under Jason's explicit instruction. GitHub currently reports default branch `master`, Pages source `master:/`, HTTPS enforced, and no CNAME. Source is at `code` commit `33bd725`; production artifacts are at `master` commit `a937256`; `build` does not exist. The migration will establish source `master` plus production `build` without changing site content or DNS.
 
 Deployment research DR-001 is complete and recommendation-ready. Cloudflare Pages Free is the recommended host because `yfyau.com` already uses Cloudflare nameservers, the site is a 2.45 MB / 26-file static build, static asset requests are documented as free and unlimited, and Git integration supplies production plus preview deployments. GitHub Pages remains the zero-cost, fewest-new-platform fallback, but its live configuration currently publishes the historical `master` branch and is still bound to the now-non-resolving `yfyau.me`. DEC-056 and `docs/deployment-hosting-research.md` contain the evidence and non-executed cutover path.
 

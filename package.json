@@ -18,7 +18,7 @@
     "build": "node --openssl-legacy-provider ./node_modules/react-scripts/scripts/build.js",
     "test": "react-scripts test",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build -b master",
+    "deploy": "gh-pages -d build -b build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

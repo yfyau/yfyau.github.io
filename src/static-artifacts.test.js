@@ -542,6 +542,6 @@ it("tracks reading location without a per-scroll React update", () => {
 it("publishes the static build to the configured GitHub Pages source branch", () => {
   const packageJson = JSON.parse(readProjectFile("package.json"));
 
-  expect(packageJson.scripts.deploy).toBe("gh-pages -d build -b master");
+  expect(packageJson.scripts.deploy).toBe("gh-pages -d build -b build");
   expect(fs.existsSync(path.join(process.cwd(), "public", "CNAME"))).toBe(false);
 });
