@@ -2,7 +2,7 @@
   "name": "yfyau.github.io",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://yfyau.com/",
+  "homepage": "https://jason.yfyau.com/",
   "dependencies": {
     "body-scroll-lock": "^2.6.4",
     "gh-pages": "^2.1.1",

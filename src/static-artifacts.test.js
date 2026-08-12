@@ -222,10 +222,10 @@ it("publishes a lightweight Playful social card at the declared dimensions", () 
   );
   const dimensions = readPngDetails(socialCard);
 
-  expect(html.match(/https:\/\/yfyau\.com\/og-card-v3\.png/g)).toHaveLength(2);
+  expect(html.match(/https:\/\/jason\.yfyau\.com\/og-card-v3\.png/g)).toHaveLength(2);
   expect(html).toContain('<meta property="og:image:type" content="image/png" />');
-  expect(html).not.toContain('content="https://yfyau.com/og-card.png"');
-  expect(html).not.toContain('content="https://yfyau.com/og-card-v2.png"');
+  expect(html).not.toContain('content="https://jason.yfyau.com/og-card.png"');
+  expect(html).not.toContain('content="https://jason.yfyau.com/og-card-v2.png"');
   expect(html).not.toContain("og-card-v2.jpg");
   expect(fs.existsSync(path.join(process.cwd(), "public", "og-card.png"))).toBe(false);
   expect(fs.existsSync(path.join(process.cwd(), "public", "og-card-v2.jpg"))).toBe(false);
@@ -541,7 +541,31 @@ it("tracks reading location without a per-scroll React update", () => {
 
 it("publishes the static build to the configured GitHub Pages source branch", () => {
   const packageJson = JSON.parse(readProjectFile("package.json"));
+  const cname = readProjectFile("public", "CNAME");
 
   expect(packageJson.scripts.deploy).toBe("gh-pages -d build -b build");
-  expect(fs.existsSync(path.join(process.cwd(), "public", "CNAME"))).toBe(false);
+  expect(cname.trim()).toBe("jason.yfyau.com");
+});
+
+it("keeps every canonical discovery URL on jason.yfyau.com", () => {
+  const packageJson = JSON.parse(readProjectFile("package.json"));
+  const html = readProjectFile("public", "index.html");
+  const robots = readProjectFile("public", "robots.txt");
+  const sitemap = readProjectFile("public", "sitemap.xml");
+
+  expect(packageJson.homepage).toBe("https://jason.yfyau.com/");
+  expect(html).toContain('<link rel="canonical" href="https://jason.yfyau.com/" />');
+  expect(html).toContain('<meta property="og:url" content="https://jason.yfyau.com/" />');
+  expect(html).toContain(
+    '<meta property="og:image" content="https://jason.yfyau.com/og-card-v3.png" />'
+  );
+  expect(html).toContain(
+    '<meta name="twitter:image" content="https://jason.yfyau.com/og-card-v3.png" />'
+  );
+  expect(html).toContain('"url": "https://jason.yfyau.com/"');
+  expect(robots).toContain("Sitemap: https://jason.yfyau.com/sitemap.xml");
+  expect(sitemap).toContain("<loc>https://jason.yfyau.com/</loc>");
+  expect(html).not.toContain('https://yfyau.com/');
+  expect(robots).not.toContain('https://yfyau.com/');
+  expect(sitemap).not.toContain('https://yfyau.com/');
 });

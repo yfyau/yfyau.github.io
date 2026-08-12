@@ -2,43 +2,41 @@
 
 ## Outcome
 
-Make `master` the canonical editable source branch and move compiled GitHub Pages production artifacts to a dedicated `build` branch.
+Keep exactly two repository branches, `master` for editable source and `build` for GitHub Pages artifacts, and make `jason.yfyau.com` the source-controlled canonical hostname for the next deployment.
 
 ## Scope
 
-- Change the deploy target from build-only `master` to dedicated `build` and protect the branch choice with a focused regression assertion.
-- Commit and push the migration configuration from the current source `code` branch, then publish a verified production artifact branch named `build`.
-- Switch GitHub Pages source from `master:/` to `build:/` and verify the live site before rewriting `master`.
-- Preserve the current production `master` commit under a remote archive branch, then repoint `master` to the exact source commit using an explicit force-with-lease.
-- Switch the local checkout to source `master`, verify the branch/API/live state, and record final receipts.
+- Delete every local and remote branch except `master` and `build`, including the obsolete archive, `code`, `gh-pages`, and Dependabot heads.
+- Add `public/CNAME` with exactly `jason.yfyau.com` so future production builds preserve the chosen Pages custom domain.
+- Atomically change package homepage, canonical, Open Graph, Twitter image, JSON-LD, robots, and sitemap URLs to `https://jason.yfyau.com/`.
+- Add focused regression coverage, build the exact candidate, commit and push source `master`, and verify remote branch receipts.
 
 ## Non-goals
 
-- New content, imagery, typography, palette, navigation, career claims, dependencies, DNS mutation, Cloudflare project creation, or unrelated repository cleanup.
-- Pull request creation, deleting the transitional `code` or legacy `gh-pages` branches, or changing the verified production content.
+- New content, imagery, typography, palette, navigation, career claims, dependencies, DNS or Cloudflare mutation, or unrelated cleanup.
+- Deploying the new source candidate to `build`, opening a pull request, or changing live redirect/TLS behavior.
 
 ## Acceptance
 
-- `master` contains the editable React repository at the exact migrated source commit and remains GitHub's default branch.
-- `build` contains only the optimized static artifact and GitHub Pages reports `build:/` as its source.
-- The pre-migration build-only `master` commit remains reachable under a named archive branch for rollback.
-- The live GitHub Pages URL continues serving the current Playful site throughout and after the branch migration, with no console or asset failure.
+- GitHub and local branch lists contain no named branch except `master` and `build` (local need not materialize artifact `build`).
+- A clean production build contains `CNAME: jason.yfyau.com` and every requested discovery URL uses the `https://jason.yfyau.com/` origin with no old canonical-origin occurrence.
+- Focused tests and build pass, source changes are pushed to default `master`, and `build` remains untouched by this source-only preparation.
 
 ## Constraints and authority
 
-- Jason explicitly authorizes rewriting build-only `master` into the canonical source branch and creating/publishing the dedicated `build` branch.
+- Jason explicitly authorizes permanent deletion of every branch except `master` and `build`, including Dependabot PR heads, despite the prior production-domain stability blocker.
 - Preserve static-host compatibility and all facts supported by the repository or Jason's messages.
-- Use an exact `--force-with-lease` against the verified `a937256` production master, not an unconstrained force push. Keep DNS and custom-domain state unchanged.
+- Do not run `npm run deploy`; prepare source so the next explicit deployment cannot remove the chosen CNAME. Preserve unrelated concurrent workspace edits while staging intentionally.
 
 ## Change budget
 
-One deploy-target correction and regression assertion, one source commit/push, one archived rollback ref, one `build` publication, one Pages API source switch, one leased `master` repoint, live verification, and continuity updates.
+Seven exact remote deletions, one local deletion, five metadata files plus one CNAME and focused tests, one build, one source commit/push, and final GitHub/API receipts.
 
 ## Phase and status
 
-Revision 70 branch cleanup is paused at its explicit stability gate. Jason requested deletion of every branch except `master` and `build` only after confirming the complete state is stable. The repository role checks pass: GitHub default/HEAD is `master` at `ac7f715`, Pages is `built` from `build:/` at `5ac5eb6`, `master` contains editable source, and `build` contains only compiled artifacts plus `CNAME`. However, the visible production tab now resolves from `yfyau.github.io` to `http://yfyau.com/#top` and displays `This site can't be reached`; Pages reports `https_enforced: false`. No branch was deleted.
+Revision 70 branch cleanup and canonical-host source preparation are verification-complete and awaiting one source commit/push. Jason explicitly overrode the earlier live-domain blocker and instructed deletion first. Remote branches now contain exactly `master` and `build`; local `code` is deleted; Dependabot PRs #1-#4 closed when their head branches were removed. `origin/build` independently advanced to `d6c8c5d Update CNAME` with `jason.yfyau.com` and was not rewritten by this task.
 
-The exact pending deletion set is `archive/production-master-a937256`, `code`, `gh-pages`, and four Dependabot branches (`brace-expansion-1.1.18`, `js-yaml-3.15.1`, `multi-6a60512908`, and `multi-be700a2db9`). The Dependabot branches back open PRs #1-#4. Continue only after the production-domain gate passes, or after Jason explicitly directs branch deletion despite the unreachable custom domain. Preserve the separate uncommitted DNS-cutover worklog entry already present in the workspace.
+Source now contains `public/CNAME: jason.yfyau.com` plus aligned package, canonical, Open Graph, Twitter image, JSON-LD, robots, and sitemap URLs. Tests pass 2 suites / 31 tests. The optimized build succeeds and emits the exact CNAME, seven requested discovery values on `https://jason.yfyau.com/`, and zero old-origin occurrences. No deployment occurred. Preserve the separate concurrent DEC-070/worklog edits while staging only the agreed implementation and current receipt unless their owner commits them first.
 
 Revision 69 branch-role migration is complete under Jason's explicit instruction. Editable source is now on GitHub's default `master` branch, with migration baseline `f3d3483`; `code` remains at the same baseline as a transitional branch. Production artifacts were published to `build` as `953aa2b`, GitHub Pages was switched to `build:/`, and the previous build-only `master` is preserved at `archive/production-master-a937256`. The exact leased rewrite and all branch publications succeeded.
 
@@ -50,7 +48,7 @@ Deployment clarification DR-002 is complete and recommendation-ready. Jason iden
 
 The portfolio can remain at $0 while projects are static or fit Workers Free, move to roughly a $5 Workers Paid or Railway entry point for the first justified backend, and consider a $12-$24 shared VPS only after measured demand earns its patching, backup, monitoring, capacity, and shared-failure burden. The ten projects still need a runtime/state/traffic/uptime inventory; one representative backend pilot must pass before any homogeneous fan-out.
 
-The exact canonical hostname remains a user-facing choice. `www.yfyau.com` satisfies the requested subdomain form; `yfyau.com` is the cleaner personal-site address; `jason.yfyau.com` is useful only if the apex is deliberately reserved as a multi-site hub. The current metadata assumes `https://yfyau.com/` and must be updated atomically if another hostname is selected. No deployment, DNS, remote branch, product source, or build output changed during DR-001.
+Jason has selected `jason.yfyau.com` as the canonical personal-site hostname, with the apex reserved for redirect/portfolio routing. Revision 70 source-controls that choice for the next explicit artifact deployment; live DNS, redirect, and TLS completion remain separate external checks.
 
 Reference study RS-001 is complete. Its career-dossier and single-emblem recommendation informed Revision 54 and the later Revision 55 subtraction; the full matrix and rejected patterns remain in `docs/research/personal-site-reference-study.md`.
 
@@ -61,6 +59,10 @@ Revision 53 complete-strengths scan is review-ready. All eight strengths are now
 Revision 38 personal-copy precision is review-ready. The identity panel now explains the factual `風 (Fung)` / `蜂` Cantonese pronunciation link and why the bee became Jason's mark, without assigning generic engineering traits to the animal. Contact gives direct email and public-GitHub guidance instead of `route / trail` metaphors. The repeated `Wind in the name. Bee in the frame.` footer motto is removed, leaving a balanced two-end copyright/back-to-top close. At 390 px the identity paragraph falls from seven to six lines and the footer from 114.8 to 87.8 px; at 768 px the identity paragraph falls from nine to eight lines; at 1440 px Contact falls from four to three lines and its section is 25.8 px shorter. Focused tests/build, eight-size traversal, settled identity/Contact review, visible-copy pre-flight, and the real footer return pass. DEC-039 records the decision. The work remains local and uncommitted on `code`; nothing has been published, merged, or applied to `master`.
 
 ## Verified result
+
+- Revision 70 permanently removes the archive, `code`, `gh-pages`, and four Dependabot branches. GitHub's branch API and `git ls-remote --heads` report only `master` and `build`; the removed Dependabot head branches close PRs #1-#4. Local branches contain only `master`.
+- The next-deploy candidate persists `public/CNAME` as exactly `jason.yfyau.com`. Package homepage, canonical, Open Graph URL/image, Twitter image, Person JSON-LD URL, robots sitemap, and sitemap location all use `https://jason.yfyau.com/`; focused regression assertions reject the old canonical origin.
+- Verification passes 2 suites / 31 tests. The optimized build succeeds at the existing asset sizes, reports the `jason.yfyau.com` homepage, preserves the exact CNAME, and contains zero `https://yfyau.com/` occurrences across emitted HTML/robots/sitemap. No deploy was run and `build` was not replaced by this source preparation.
 
 - Revision 69 makes `master` the canonical editable React source branch and `build` the GitHub Pages artifact branch. `package.json` now publishes with `gh-pages -d build -b build`, and the focused static-artifact test locks that branch contract.
 - The migration configuration passed 2 suites / 30 tests and two production builds. Commit `f3d3483 Move production artifacts to build branch` was pushed to both `code` and `master`; the latter used an exact `--force-with-lease` against verified build-only tip `a937256`, which remains recoverable at `archive/production-master-a937256`.

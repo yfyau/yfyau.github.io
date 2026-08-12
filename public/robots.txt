@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yfyau.com/sitemap.xml
+Sitemap: https://jason.yfyau.com/sitemap.xml
