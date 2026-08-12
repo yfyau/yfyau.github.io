@@ -2,41 +2,41 @@
 
 ## Outcome
 
-Keep exactly two repository branches, `master` for editable source and `build` for GitHub Pages artifacts, and make `jason.yfyau.com` the source-controlled canonical hostname for the next deployment.
+Stabilize the mobile Hero against browser chrome expansion/collapse and recompose the sparse desktop Okta Experience poster without changing content or the accepted Playful system.
 
 ## Scope
 
-- Delete every local and remote branch except `master` and `build`, including the obsolete archive, `code`, `gh-pages`, and Dependabot heads.
-- Add `public/CNAME` with exactly `jason.yfyau.com` so future production builds preserve the chosen Pages custom domain.
-- Atomically change package homepage, canonical, Open Graph, Twitter image, JSON-LD, robots, and sitemap URLs to `https://jason.yfyau.com/`.
-- Add focused regression coverage, build the exact candidate, commit and push source `master`, and verify remote branch receipts.
+- Replace the Hero's browser-chrome-sensitive dynamic viewport sizing with a stable small-viewport unit while retaining the legacy fallback and all mobile content/order.
+- Recompose only the current Okta poster at tablet/desktop widths so company and title anchor opposite edges, reduce the oversized wide-screen minimum, and retain the exact role/date facts.
+- Update focused static contracts, run tests/build, and review representative mobile and large-desktop renders.
 
 ## Non-goals
 
-- New content, imagery, typography, palette, navigation, career claims, dependencies, DNS or Cloudflare mutation, or unrelated cleanup.
-- Deploying the new source candidate to `build`, opening a pull request, or changing live redirect/TLS behavior.
+- Copy, imagery, typography, palette, navigation, career claims, prior-role rows, dependencies, metadata, DNS, branches, or hosting changes.
+- Pull request creation, branch creation, dependency work, or touching the concurrent DEC-070/DNS worklog edits.
 
 ## Acceptance
 
-- GitHub and local branch lists contain no named branch except `master` and `build` (local need not materialize artifact `build`).
-- A clean production build contains `CNAME: jason.yfyau.com` and every requested discovery URL uses the `https://jason.yfyau.com/` origin with no old canonical-origin occurrence.
-- Focused tests and build pass, source changes are pushed to default `master`, and `build` remains untouched by this source-only preparation.
+- Mobile Hero source uses `svh`, not `dvh`, for its height and responsive padding so browser toolbar transitions do not continuously resize the composition.
+- At desktop width the current-role poster no longer leaves the title stranded in the middle of an oversized yellow field; its facts remain legible and balanced with no overflow.
+- Focused tests/build pass, representative responsive renders have no horizontal overflow or console error, source is pushed to `master`, and the exact candidate is deployed to Pages `build`.
 
 ## Constraints and authority
 
-- Jason explicitly authorizes permanent deletion of every branch except `master` and `build`, including Dependabot PR heads, despite the prior production-domain stability blocker.
+- Jason explicitly authorizes these two targeted visual/viewport fixes.
+- Jason explicitly authorizes direct commit/push to `master` followed by production deployment to `build`.
 - Preserve static-host compatibility and all facts supported by the repository or Jason's messages.
-- Do not run `npm run deploy`; prepare source so the next explicit deployment cannot remove the chosen CNAME. Preserve unrelated concurrent workspace edits while staging intentionally.
+- Preserve unrelated concurrent DEC-070/worklog edits and do not mutate external state.
 
 ## Change budget
 
-Seven exact remote deletions, one local deletion, five metadata files plus one CNAME and focused tests, one build, one source commit/push, and final GitHub/API receipts.
+One CSS-only implementation, focused regression updates, one production build, responsive browser review, one intentional source commit/push, one Pages deployment, live verification, and continuity receipt.
 
 ## Phase and status
 
-Revision 70 branch cleanup and canonical-host source preparation are complete. Jason explicitly overrode the earlier live-domain blocker and instructed deletion first. GitHub's final API and remote receipts contain exactly `master` at source commit `ae34309` and `build` at artifact commit `d6c8c5d`; local `code` is deleted; Dependabot PRs #1-#4 closed when their head branches were removed. GitHub remains defaulted to `master`, Pages remains `built` from `build:/`, and the independent `build` CNAME commit was not rewritten by this source-only task.
+Revision 71 viewport/Experience refinement is release-authorized and at the commit gate. The Hero retains the base `vh` fallback but replaces its `80dvh` and desktop vertical `8dvh` padding overrides with stable `svh`. At 48 rem and above, the Okta title block is a full-width two-column grid: `Okta` anchors bottom-left and `Senior Software Engineer` bottom-right below the unchanged NOW/date rail. The 64 rem poster minimum drops from 25 rem to the already-proven 22 rem tablet height.
 
-Source commit `ae34309 Set jason.yfyau.com as canonical host` contains `public/CNAME: jason.yfyau.com` plus aligned package, canonical, Open Graph, Twitter image, JSON-LD, robots, and sitemap URLs. Tests pass 2 suites / 31 tests. The optimized build succeeds and emits the exact CNAME, seven requested discovery values on `https://jason.yfyau.com/`, and zero old-origin occurrences. No deployment occurred. The separate concurrent DEC-070/worklog edits remain preserved and uncommitted.
+At 390 x 844 the Hero is a stable 675.2 px (`80svh`), its CTA ends at 489 px, the complete strengths rail ends at 818 px, and horizontal overflow is zero. At 2048 x 742 the poster is 1392.8 x 352 px; company and role share the same bottom baseline at 493.6 px, while the prior-role panel begins 40 px later. Browser warning/error logs are empty. Tests pass 2 suites / 31 tests and the build succeeds at 38.69 KB vendor JS, 4.12 KB CSS, 3.51 KB main JS, and 784 B runtime JS gzip. The exact next step is to stage only `src/App.css`, `src/static-artifacts.test.js`, and this current receipt, push `master`, deploy the rebuilt artifact to `build`, and verify live output. The existing concurrent DEC-070 and DNS worklog changes remain outside this task and unstaged.
 
 Revision 69 branch-role migration is complete under Jason's explicit instruction. Editable source is now on GitHub's default `master` branch, with migration baseline `f3d3483`; `code` remains at the same baseline as a transitional branch. Production artifacts were published to `build` as `953aa2b`, GitHub Pages was switched to `build:/`, and the previous build-only `master` is preserved at `archive/production-master-a937256`. The exact leased rewrite and all branch publications succeeded.
 
@@ -59,6 +59,10 @@ Revision 53 complete-strengths scan is review-ready. All eight strengths are now
 Revision 38 personal-copy precision is review-ready. The identity panel now explains the factual `風 (Fung)` / `蜂` Cantonese pronunciation link and why the bee became Jason's mark, without assigning generic engineering traits to the animal. Contact gives direct email and public-GitHub guidance instead of `route / trail` metaphors. The repeated `Wind in the name. Bee in the frame.` footer motto is removed, leaving a balanced two-end copyright/back-to-top close. At 390 px the identity paragraph falls from seven to six lines and the footer from 114.8 to 87.8 px; at 768 px the identity paragraph falls from nine to eight lines; at 1440 px Contact falls from four to three lines and its section is 25.8 px shorter. Focused tests/build, eight-size traversal, settled identity/Contact review, visible-copy pre-flight, and the real footer return pass. DEC-039 records the decision. The work remains local and uncommitted on `code`; nothing has been published, merged, or applied to `master`.
 
 ## Verified result
+
+- Revision 71 replaces the mobile Hero's dynamic `80dvh` sizing with stable `80svh` while retaining its `80vh` fallback; desktop vertical Hero padding follows the same stable small-viewport basis. Mobile browser toolbar expansion/collapse can no longer continuously recompute those Hero dimensions.
+- The desktop Okta poster keeps the exact four facts but uses a full-width bottom title grid. Company anchors left, role anchors right, both align to one baseline, and the oversized 25 rem wide-screen minimum is gone. The current panel now leads directly into the indented prior-role chronology instead of leaving its identity stranded in the middle.
+- Focused verification passes 2 suites / 31 tests and the optimized build. Browser review at 390 x 844 and 2048 x 742 reports zero horizontal overflow, fully visible intended content, and zero warning/error logs. The local deliverable remains available at `http://127.0.0.1:43819/?rev=71-stable-vh#experience`; nothing was committed, pushed, or deployed.
 
 - Revision 70 permanently removes the archive, `code`, `gh-pages`, and four Dependabot branches. GitHub's branch API and `git ls-remote --heads` report only `master` and `build`; the removed Dependabot head branches close PRs #1-#4. Local branches contain only `master`.
 - The next-deploy candidate persists `public/CNAME` as exactly `jason.yfyau.com`. Package homepage, canonical, Open Graph URL/image, Twitter image, Person JSON-LD URL, robots sitemap, and sitemap location all use `https://jason.yfyau.com/`; focused regression assertions reject the old canonical origin.

@@ -205,14 +205,21 @@ it("keeps the current-role poster factual and prominent", () => {
     /\.current-job\s*\{[^}]*min-height:\s*19rem;[^}]*border:\s*2px solid var\(--ink\);[^}]*border-radius:\s*var\(--radius\);[^}]*background:\s*var\(--honey\);[^}]*box-shadow:\s*0\.45rem 0\.45rem 0 var\(--ink\);/s
   );
   expect(css).toMatch(
-    /@media \(min-width: 48rem\)[\s\S]*?\.current-job\s*\{[^}]*grid-template-columns:\s*minmax\(8rem, 0\.35fr\) minmax\(0, 1fr\);[^}]*align-items:\s*end;[^}]*min-height:\s*22rem;/
+    /@media \(min-width: 48rem\)[\s\S]*?\.current-job\s*\{[^}]*grid-template-rows:\s*auto minmax\(0, 1fr\);[^}]*align-items:\s*stretch;[^}]*min-height:\s*22rem;/
   );
   expect(css).toMatch(
     /@media \(min-width: 48rem\)[\s\S]*?\.current-job-label\s*\{[^}]*grid-column:\s*1 \/ -1;[^}]*align-self:\s*start;/
   );
   expect(css).toMatch(
-    /@media \(min-width: 48rem\)[\s\S]*?\.current-job-title\s*\{[^}]*grid-column:\s*2;/
+    /@media \(min-width: 48rem\)[\s\S]*?\.current-job-title\s*\{[^}]*grid-column:\s*1 \/ -1;[^}]*display:\s*grid;[^}]*grid-template-columns:\s*minmax\(0, 1fr\) minmax\(11rem, 0\.28fr\);[^}]*align-items:\s*end;/
   );
+  expect(css).toMatch(
+    /@media \(min-width: 48rem\)[\s\S]*?\.current-job h3\s*\{[^}]*justify-self:\s*end;[^}]*text-align:\s*right;/
+  );
+  expect(css).toMatch(
+    /@media \(min-width: 64rem\)[\s\S]*?\.current-job\s*\{[^}]*min-height:\s*22rem;/
+  );
+  expect(css).not.toContain("min-height: 25rem;");
 });
 
 it("publishes a lightweight Playful social card at the declared dimensions", () => {
@@ -436,8 +443,9 @@ it("keeps the mobile Playful hero concise while revealing the next chapter", () 
   const css = readProjectFile("src", "App.css");
 
   expect(css).toMatch(
-    /\.hero\s*\{[^}]*align-content:\s*start;[^}]*min-height:\s*min\(44rem, 80vh\);[^}]*min-height:\s*min\(44rem, 80dvh\);/s
+    /\.hero\s*\{[^}]*align-content:\s*start;[^}]*min-height:\s*min\(44rem, 80vh\);[^}]*min-height:\s*min\(44rem, 80svh\);/s
   );
+  expect(css).not.toContain("min-height: min(44rem, 80dvh);");
   expect(css).toMatch(
     /\.hero h1\s*\{[^}]*max-width:\s*10ch;[^}]*font-size:\s*clamp\(3\.35rem, 15vw, 4\.75rem\);/s
   );
@@ -476,7 +484,7 @@ it("uses the desktop hero and strengths rail as one centered viewport compositio
   const css = readProjectFile("src", "App.css");
 
   expect(css).toMatch(
-    /@media \(min-width: 64rem\)[\s\S]*?\.hero\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1\.42fr\) minmax\(20rem, 0\.58fr\);[^}]*align-content:\s*center;[^}]*min-height:\s*calc\(100vh - 4\.15rem\);[^}]*padding-top:\s*6rem;[^}]*padding-bottom:\s*clamp\(4\.5rem, 8vh, 6rem\);[^}]*padding-bottom:\s*clamp\(4\.5rem, 8dvh, 6rem\);[\s\S]*?\.hero h1\s*\{[^}]*max-width:\s*none;[^}]*font-size:\s*clamp\(5\.2rem, 7\.4vw, 7\.15rem\);/
+    /@media \(min-width: 64rem\)[\s\S]*?\.hero\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1\.42fr\) minmax\(20rem, 0\.58fr\);[^}]*align-content:\s*center;[^}]*min-height:\s*calc\(100vh - 4\.15rem\);[^}]*padding-top:\s*6rem;[^}]*padding-bottom:\s*clamp\(4\.5rem, 8vh, 6rem\);[^}]*padding-bottom:\s*clamp\(4\.5rem, 8svh, 6rem\);[\s\S]*?\.hero h1\s*\{[^}]*max-width:\s*none;[^}]*font-size:\s*clamp\(5\.2rem, 7\.4vw, 7\.15rem\);/
   );
   expect(css).not.toMatch(
     /@media \(min-width: 64rem\)[\s\S]*?\.hero\s*\{[^}]*min-height:\s*clamp\(36rem, 62(?:d)?vh, 44rem\);/

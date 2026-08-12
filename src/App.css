@@ -137,7 +137,7 @@
   align-content: start;
   gap: 2.5rem;
   min-height: min(44rem, 80vh);
-  min-height: min(44rem, 80dvh);
+  min-height: min(44rem, 80svh);
   padding: 6.25rem clamp(1rem, 5vw, 4.5rem) clamp(2.5rem, 7vw, 4rem);
   background: var(--sky);
 }
@@ -697,9 +697,10 @@
   }
 
   .current-job {
-    grid-template-columns: minmax(8rem, 0.35fr) minmax(0, 1fr);
-    align-items: end;
+    grid-template-rows: auto minmax(0, 1fr);
+    align-items: stretch;
     min-height: 22rem;
+    padding: clamp(1.75rem, 4vw, 3rem);
   }
 
   .current-job-label {
@@ -708,7 +709,21 @@
   }
 
   .current-job-title {
-    grid-column: 2;
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(11rem, 0.28fr);
+    gap: clamp(2rem, 7vw, 7rem);
+    align-items: end;
+  }
+
+  .current-job-company {
+    margin-bottom: 0;
+  }
+
+  .current-job h3 {
+    justify-self: end;
+    padding-bottom: 0.35rem;
+    text-align: right;
   }
 
   .experience-item {
@@ -757,7 +772,7 @@
     min-height: calc(100vh - 4.15rem);
     padding-top: 6rem;
     padding-bottom: clamp(4.5rem, 8vh, 6rem);
-    padding-bottom: clamp(4.5rem, 8dvh, 6rem);
+    padding-bottom: clamp(4.5rem, 8svh, 6rem);
   }
 
   .hero-title-block {
@@ -778,7 +793,7 @@
   }
 
   .current-job {
-    min-height: 25rem;
+    min-height: 22rem;
   }
 
   .experience-list {
