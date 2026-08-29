@@ -1,5 +1,32 @@
 # Current task
 
+## CR-004: Expand the primary header navigation
+
+### Outcome and boundary
+
+Add `Home`, `Experience`, `About`, `Service`, and `Contact` to the persistent header in that exact order. `Home` targets the Hero and `Service` targets the existing Consulting section. Preserve the Playful Engineer header, bee wordmark, 44 px targets, active-location feedback, anchor clearance, and mobile-first single-row navigation.
+
+In scope: navigation markup, observed section order, narrow responsive spacing, focused DOM/source tests, production build, and responsive local browser verification. Non-goals: no section copy or layout changes, new route, metadata change, dependency work, commit, push, deployment, DNS, or hosting change without separate release authorization.
+
+### Status
+
+Implemented and verified locally. Jason explicitly authorized commit, push, and production deployment on 2026-08-29. The header now exposes all five destinations in the requested order, and the reading-location observer covers the Hero, Experience, Off duty, Consulting, and Contact sections. A four-pixel observer band immediately above the reading line fixes the real-browser boundary case where an anchored Service visit could remain highlighted as About, without adding a per-scroll React update.
+
+The narrow header retunes only navigation spacing and type. Browser checks at 280, 320, 390, and 1440 px keep all five labels on one row with 44 px targets, positive link spacing and right clearance, and zero horizontal overflow. All five anchor journeys land below the fixed header and expose exactly one matching active location. Images load and the warning/error console is empty.
+
+### Acceptance
+
+- The header exposes exactly `Home / Experience / About / Service / Contact` with `#top / #experience / #off-duty / #consulting / #contact` targets.
+- Home, Experience, About, Service, and Contact each receive `aria-current="location"` when their section crosses the existing reading line.
+- All five labels remain on one row with 44 px targets and no header or page overflow at 280, 320, 390, and desktop widths.
+- Focused tests, production build, copy/tell pre-flight, and local browser checks pass while the unrelated dirty DEC-070 and 2026-08-12 worklog edits remain untouched.
+
+### Next commitment point
+
+Revalidate the exact candidate and remote tips, stage only the six owned source/test/continuity files, preserve the unrelated dirty DEC-070 and 2026-08-12 worklog edits, commit and push `master`, deploy the exact build to `build`, and live-verify the canonical host.
+
+## Prior completed task: CR-003
+
 ## CR-003: Publish the accepted Consulting section
 
 ### Outcome and boundary

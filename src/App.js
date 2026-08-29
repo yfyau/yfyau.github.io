@@ -90,7 +90,7 @@ function PortfolioSite() {
   useLayoutEffect(() => {
     const header = document.querySelector(".site-header");
     const root = document.documentElement;
-    const sections = ["experience", "off-duty", "contact"]
+    const sections = ["top", "experience", "off-duty", "consulting", "contact"]
       .map((id) => document.getElementById(id))
       .filter(Boolean);
     if (!header || sections.length === 0) return undefined;
@@ -125,10 +125,11 @@ function PortfolioSite() {
       if (!window.IntersectionObserver) return;
 
       const readingLine = getReadingLine();
-      const bottomInset = Math.max(0, window.innerHeight - readingLine - 1);
+      const observerTop = Math.max(0, readingLine - 4);
+      const bottomInset = Math.max(0, window.innerHeight - readingLine);
       sectionObserver = new window.IntersectionObserver(updateActiveSection, {
         root: null,
-        rootMargin: `-${readingLine}px 0px -${bottomInset}px 0px`,
+        rootMargin: `-${observerTop}px 0px -${bottomInset}px 0px`,
         threshold: 0,
       });
       sections.forEach((section) => sectionObserver.observe(section));
@@ -217,6 +218,12 @@ function PortfolioSite() {
 
         <nav className="site-nav" aria-label="Primary navigation">
           <a
+            href="#top"
+            aria-current={activeSection === "top" ? "location" : undefined}
+          >
+            Home
+          </a>
+          <a
             href="#experience"
             aria-current={activeSection === "experience" ? "location" : undefined}
           >
@@ -227,6 +234,12 @@ function PortfolioSite() {
             aria-current={activeSection === "off-duty" ? "location" : undefined}
           >
             About
+          </a>
+          <a
+            href="#consulting"
+            aria-current={activeSection === "consulting" ? "location" : undefined}
+          >
+            Service
           </a>
           <a
             href="#contact"

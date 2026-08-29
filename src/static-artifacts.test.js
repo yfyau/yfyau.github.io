@@ -206,7 +206,8 @@ it("ships the accepted consulting composition and discovery copy", () => {
   expect(app).toContain('id="consulting"');
   expect(app).toContain('aria-live="polite"');
   expect(app).toContain("setConsultingProblem(problem)");
-  expect(app).not.toContain('href="#consulting"');
+  expect(app).toContain('href="#consulting"');
+  expect(app).toContain("Service");
   expect(css).toMatch(
     /\.service-grid\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1\.25fr\) minmax\(16rem, 0\.75fr\);/s
   );
@@ -446,12 +447,16 @@ it("keeps the full primary navigation on one row at the narrow mobile boundary",
   const css = readProjectFile("src", "App.css");
 
   expect(css).toMatch(
-    /@media \(max-width: 18\.75rem\)[\s\S]*?\.site-header\s*\{[^}]*gap:\s*0\.25rem;[^}]*padding-right:\s*0\.7rem;[^}]*padding-left:\s*0\.7rem;[\s\S]*?\.site-nav\s*\{[^}]*gap:\s*0;[\s\S]*?\.site-nav a\s*\{[^}]*font-size:\s*0\.625rem;/
+    /@media \(max-width: 21\.875rem\)[\s\S]*?\.site-header\s*\{[^}]*gap:\s*0\.25rem;[^}]*padding-right:\s*0\.5rem;[^}]*padding-left:\s*0\.5rem;[\s\S]*?\.site-nav\s*\{[^}]*flex:\s*1 1 auto;[^}]*justify-content:\s*space-between;[^}]*gap:\s*0;[\s\S]*?\.site-nav a\s*\{[^}]*padding-right:\s*0\.16rem;[^}]*padding-left:\s*0\.16rem;[^}]*font-size:\s*0\.58rem;/
   );
   expect(css).toMatch(
-    /@media \(max-width: 15rem\)[\s\S]*?\.site-header\s*\{[^}]*padding-right:\s*0\.45rem;[^}]*padding-left:\s*0\.45rem;[\s\S]*?\.site-nav a\s*\{[^}]*font-size:\s*0\.575rem;/
+    /@media \(max-width: 18\.75rem\)[\s\S]*?\.site-header\s*\{[^}]*padding-right:\s*0\.7rem;[^}]*padding-left:\s*0\.7rem;[\s\S]*?\.site-nav a\s*\{[^}]*padding-right:\s*0\.08rem;[^}]*padding-left:\s*0\.08rem;[^}]*font-size:\s*0\.54rem;/
+  );
+  expect(css).toMatch(
+    /@media \(max-width: 15rem\)[\s\S]*?\.site-header\s*\{[^}]*padding-right:\s*0\.35rem;[^}]*padding-left:\s*0\.35rem;[\s\S]*?\.site-nav a\s*\{[^}]*padding-right:\s*0\.04rem;[^}]*padding-left:\s*0\.04rem;[^}]*font-size:\s*0\.48rem;/
   );
   expect(css).toMatch(/\.site-nav a,[\s\S]*?min-height:\s*2\.75rem;/);
+  expect(css).toMatch(/\.site-nav a\s*\{[^}]*white-space:\s*nowrap;/s);
 });
 
 it("keeps the text-led hero compact across medium landscape viewports", () => {
@@ -571,7 +576,8 @@ it("tracks reading location without a per-scroll React update", () => {
   const app = readProjectFile("src", "App.js");
 
   expect(app).toContain("new window.IntersectionObserver(updateActiveSection");
-  expect(app).toContain("rootMargin: `-${readingLine}px 0px -${bottomInset}px 0px`");
+  expect(app).toContain("const observerTop = Math.max(0, readingLine - 4)");
+  expect(app).toContain("rootMargin: `-${observerTop}px 0px -${bottomInset}px 0px`");
   expect(app).toContain("sections.forEach((section) => sectionObserver.observe(section))");
   expect(app).not.toContain('window.addEventListener("scroll"');
   expect(app).not.toContain('window.removeEventListener("scroll"');

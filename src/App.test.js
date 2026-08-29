@@ -215,7 +215,8 @@ it("renders the accepted consulting offer and switches the problem ticket", () =
   const action = consulting.querySelector(".primary-action");
   expect(action.getAttribute("href")).toBe("mailto:jason.yfyau@gmail.com");
   expect(action.textContent).toBe("Describe the problem↗");
-  expect(container.querySelectorAll('.site-nav a[href="#consulting"]')).toHaveLength(0);
+  const serviceLink = container.querySelector('.site-nav a[href="#consulting"]');
+  expect(serviceLink.textContent).toBe("Service");
 
   ReactDOM.unmountComponentAtNode(container);
   document.body.removeChild(container);
@@ -280,13 +281,17 @@ it("keeps the one-page navigation and personal mark semantic", () => {
 
   const navigationLinks = Array.from(container.querySelectorAll(".site-nav a"));
   expect(navigationLinks.map((link) => link.getAttribute("href"))).toEqual([
+    "#top",
     "#experience",
     "#off-duty",
+    "#consulting",
     "#contact",
   ]);
   expect(navigationLinks.map((link) => link.textContent)).toEqual([
+    "Home",
     "Experience",
     "About",
+    "Service",
     "Contact",
   ]);
 
@@ -406,20 +411,24 @@ it("marks the current reading location in the persistent navigation", () => {
     width: 320,
   });
   const header = container.querySelector(".site-header");
+  const heroSection = container.querySelector("#top");
   const experienceSection = container.querySelector("#experience");
   const aboutSection = container.querySelector("#off-duty");
+  const consultingSection = container.querySelector("#consulting");
   const contactSection = container.querySelector("#contact");
 
   header.getBoundingClientRect = jest.fn(() => createBounds(0, 77));
-  experienceSection.getBoundingClientRect = jest.fn(() => createBounds(-500, 120));
-  aboutSection.getBoundingClientRect = jest.fn(() => createBounds(120, 1200));
-  contactSection.getBoundingClientRect = jest.fn(() => createBounds(1200, 2100));
+  heroSection.getBoundingClientRect = jest.fn(() => createBounds(0, 500));
+  experienceSection.getBoundingClientRect = jest.fn(() => createBounds(500, 1000));
+  aboutSection.getBoundingClientRect = jest.fn(() => createBounds(1000, 2000));
+  consultingSection.getBoundingClientRect = jest.fn(() => createBounds(2000, 3000));
+  contactSection.getBoundingClientRect = jest.fn(() => createBounds(3000, 4000));
 
   act(() => {
     window.dispatchEvent(new Event("resize"));
   });
   const readingObserver = intersectionMock.instances[intersectionMock.instances.length - 1];
-  expect(readingObserver.observe).toHaveBeenCalledTimes(3);
+  expect(readingObserver.observe).toHaveBeenCalledTimes(5);
   expect(readingObserver.options.root).toBeNull();
   expect(readingObserver.options.threshold).toBe(0);
   expect(readingObserver.options.rootMargin).toMatch(/^-\d+(?:\.\d+)?px 0px -\d+(?:\.\d+)?px 0px$/);
@@ -427,16 +436,48 @@ it("marks the current reading location in the persistent navigation", () => {
 
   const navigationLinks = Array.from(container.querySelectorAll(".site-nav a"));
   expect(navigationLinks.map((link) => link.getAttribute("aria-current"))).toEqual([
+    "location",
+    null,
+    null,
+    null,
+    null,
+  ]);
+
+  heroSection.getBoundingClientRect.mockReturnValue(createBounds(-1000, -500));
+  experienceSection.getBoundingClientRect.mockReturnValue(createBounds(-500, 120));
+  aboutSection.getBoundingClientRect.mockReturnValue(createBounds(120, 1200));
+  consultingSection.getBoundingClientRect.mockReturnValue(createBounds(1200, 2100));
+  contactSection.getBoundingClientRect.mockReturnValue(createBounds(2100, 3000));
+  act(() => readingObserver.callback([]));
+
+  expect(navigationLinks.map((link) => link.getAttribute("aria-current"))).toEqual([
+    null,
+    null,
+    "location",
+    null,
+    null,
+  ]);
+
+  aboutSection.getBoundingClientRect.mockReturnValue(createBounds(-900, 90));
+  consultingSection.getBoundingClientRect.mockReturnValue(createBounds(90, 1000));
+  contactSection.getBoundingClientRect.mockReturnValue(createBounds(1000, 1900));
+  act(() => readingObserver.callback([]));
+
+  expect(navigationLinks.map((link) => link.getAttribute("aria-current"))).toEqual([
+    null,
+    null,
     null,
     "location",
     null,
   ]);
 
-  aboutSection.getBoundingClientRect.mockReturnValue(createBounds(-900, 90));
+  consultingSection.getBoundingClientRect.mockReturnValue(createBounds(-900, 90));
   contactSection.getBoundingClientRect.mockReturnValue(createBounds(90, 1000));
   act(() => readingObserver.callback([]));
 
   expect(navigationLinks.map((link) => link.getAttribute("aria-current"))).toEqual([
+    null,
+    null,
     null,
     null,
     "location",
@@ -471,25 +512,31 @@ it("marks an anchored section below the header in short landscape viewports", ()
     width: 568,
   });
   const header = container.querySelector(".site-header");
+  const heroSection = container.querySelector("#top");
   const experienceSection = container.querySelector("#experience");
   const aboutSection = container.querySelector("#off-duty");
+  const consultingSection = container.querySelector("#consulting");
   const contactSection = container.querySelector("#contact");
 
   header.getBoundingClientRect = jest.fn(() => createBounds(0, 75));
+  heroSection.getBoundingClientRect = jest.fn(() => createBounds(-500, 93));
   experienceSection.getBoundingClientRect = jest.fn(() => createBounds(93, 700));
   aboutSection.getBoundingClientRect = jest.fn(() => createBounds(700, 1200));
-  contactSection.getBoundingClientRect = jest.fn(() => createBounds(1200, 1700));
+  consultingSection.getBoundingClientRect = jest.fn(() => createBounds(1200, 1700));
+  contactSection.getBoundingClientRect = jest.fn(() => createBounds(1700, 2200));
 
   act(() => {
     window.dispatchEvent(new Event("resize"));
   });
   const readingObserver = intersectionMock.instances[intersectionMock.instances.length - 1];
-  expect(readingObserver.options.rootMargin).toBe("-99px 0px -220px 0px");
+  expect(readingObserver.options.rootMargin).toBe("-95px 0px -221px 0px");
   act(() => readingObserver.callback([]));
 
   const navigationLinks = Array.from(container.querySelectorAll(".site-nav a"));
   expect(navigationLinks.map((link) => link.getAttribute("aria-current"))).toEqual([
+    null,
     "location",
+    null,
     null,
     null,
   ]);

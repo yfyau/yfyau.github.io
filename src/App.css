@@ -102,6 +102,7 @@
   display: flex;
   align-items: center;
   gap: 0.2rem;
+  min-width: 0;
 }
 
 .site-nav a {
@@ -117,6 +118,7 @@
   font-weight: 700;
   letter-spacing: -0.015em;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .site-nav a[aria-current="location"] {
@@ -846,9 +848,29 @@
   }
 }
 
-@media (max-width: 18.75rem) {
+@media (max-width: 21.875rem) {
   .site-header {
     gap: 0.25rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .site-nav {
+    flex: 1 1 auto;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .site-nav a {
+    padding-right: 0.16rem;
+    padding-left: 0.16rem;
+    font-size: 0.58rem;
+    letter-spacing: -0.025em;
+  }
+}
+
+@media (max-width: 18.75rem) {
+  .site-header {
     padding-right: 0.7rem;
     padding-left: 0.7rem;
   }
@@ -858,9 +880,9 @@
   }
 
   .site-nav a {
-    padding-right: 0.32rem;
-    padding-left: 0.32rem;
-    font-size: 0.625rem;
+    padding-right: 0.08rem;
+    padding-left: 0.08rem;
+    font-size: 0.54rem;
   }
 
   .skill-rail li:not(:last-child)::after {
@@ -870,14 +892,14 @@
 
 @media (max-width: 15rem) {
   .site-header {
-    padding-right: 0.45rem;
-    padding-left: 0.45rem;
+    padding-right: 0.35rem;
+    padding-left: 0.35rem;
   }
 
   .site-nav a {
-    padding-right: 0.22rem;
-    padding-left: 0.22rem;
-    font-size: 0.575rem;
+    padding-right: 0.04rem;
+    padding-left: 0.04rem;
+    font-size: 0.48rem;
   }
 }
 
