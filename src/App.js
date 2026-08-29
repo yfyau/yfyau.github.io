@@ -68,9 +68,24 @@ const skills = [
   "Observability",
 ];
 
+const consultingProblems = {
+  systems: {
+    heading: "Hard to trust in production.",
+    copy:
+      "Recurring failures, slow diagnosis, fragile delivery, or a bottleneck nobody owns.",
+  },
+  workflow: {
+    heading: "Too much work repeats by hand.",
+    copy:
+      "Copying data, chasing handoffs, reconciling tools, or rebuilding the same report.",
+  },
+};
+
 function PortfolioSite() {
   const [activeSection, setActiveSection] = useState("");
+  const [consultingProblem, setConsultingProblem] = useState("systems");
   const wordmarkRef = useRef(null);
+  const selectedConsultingProblem = consultingProblems[consultingProblem];
 
   useLayoutEffect(() => {
     const header = document.querySelector(".site-header");
@@ -361,6 +376,90 @@ function PortfolioSite() {
                 <p>Coffee is one of my favourite small rituals.</p>
               </div>
             </article>
+          </div>
+        </section>
+
+        <section className="consulting section-pad" id="consulting" aria-labelledby="consulting-title">
+          <div className="consulting-frame">
+            <div className="consulting-lead">
+              <div className="consulting-copy">
+                <h2 id="consulting-title">
+                  Bring me the <span>difficult part.</span>
+                </h2>
+                <p>
+                  I take selected consulting engagements for software that needs
+                  to hold up and workflows that need to stop wasting time.
+                </p>
+              </div>
+
+              <aside className="problem-ticket" aria-labelledby="problem-ticket-title">
+                <span className="ticket-label" id="problem-ticket-title">
+                  WHAT IS GETTING IN THE WAY?
+                </span>
+                <div className="problem-controls" role="group" aria-label="Choose a problem type">
+                  {Object.keys(consultingProblems).map((problem) => (
+                    <button
+                      className="problem-control"
+                      type="button"
+                      aria-pressed={consultingProblem === problem}
+                      key={problem}
+                      onClick={() => setConsultingProblem(problem)}
+                    >
+                      {problem.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
+                <div className="ticket-answer" aria-live="polite">
+                  <div className="ticket-answer-content" key={consultingProblem}>
+                    <strong>{selectedConsultingProblem.heading}</strong>
+                    <p>{selectedConsultingProblem.copy}</p>
+                  </div>
+                </div>
+              </aside>
+            </div>
+
+            <div className="service-grid">
+              <article className="service service-systems">
+                <div>
+                  <span className="service-label">PRODUCT AND SAAS TEAMS</span>
+                  <h3>Systems Reliability Review</h3>
+                  <p>
+                    A bounded diagnosis of one production, observability,
+                    performance, or delivery problem.
+                  </p>
+                </div>
+                <div className="service-keywords" role="list" aria-label="Systems review areas">
+                  <span role="listitem">RELIABILITY</span>
+                  <span role="listitem">OBSERVABILITY</span>
+                  <span role="listitem">DISTRIBUTED JOBS</span>
+                  <span role="listitem">DELIVERY</span>
+                </div>
+              </article>
+
+              <article className="service service-workflow">
+                <div>
+                  <span className="service-label">OPERATIONS-HEAVY BUSINESSES</span>
+                  <h3>Workflow Automation Sprint</h3>
+                  <p>
+                    One repeated process simplified, connected, built, and handed
+                    over with failure paths considered.
+                  </p>
+                </div>
+                <div className="service-keywords" role="list" aria-label="Workflow sprint areas">
+                  <span role="listitem">INTEGRATIONS</span>
+                  <span role="listitem">HANDOFFS</span>
+                  <span role="listitem">AUTOMATION</span>
+                </div>
+              </article>
+            </div>
+
+            <div className="consulting-close">
+              <p>Tell me what is breaking, repeating, or blocking delivery.</p>
+              <a className="primary-action" href="mailto:jason.yfyau@gmail.com">
+                <span>Describe the problem</span>
+                <span aria-hidden="true">{"\u2197"}</span>
+              </a>
+            </div>
           </div>
         </section>
 

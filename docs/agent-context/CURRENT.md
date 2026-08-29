@@ -1,5 +1,51 @@
 # Current task
 
+## CR-003: Publish the accepted Consulting section
+
+### Outcome and boundary
+
+Apply the accepted `Useful tension` specimen to the production home page and release it. Preserve the Playful Engineer brand, career-first hierarchy, bee wordmark, palette, primary navigation, Contact close, accessibility behavior, and `master` source plus `build` artifact architecture.
+
+In scope: one Consulting section between Off duty and Contact, its two-state problem ticket, the two accepted service offers, one contextual email action, directly affected discovery copy, focused tests, responsive verification, and release. Non-goals: no new route, navigation item, form, analytics, dependency, pricing, booking flow, DNS change, or redesign beyond the accepted specimen.
+
+### Status
+
+Verification passed after Jason accepted the style board without revisions on 2026-08-29. The design remains a targeted evolution using the existing native-CSS poster system, with `DESIGN_VARIANCE 7 / MOTION_INTENSITY 4 / VISUAL_DENSITY 5`.
+
+The production section retains the existing ink, paper, sky, and honey token jobs; uses one asymmetrical statement plus one honey problem ticket; presents Systems Reliability and Workflow Automation as unequal service surfaces; and ends with one direct action. The ticket exposes pressed state, a polite live region, 44 px controls, keyboard focus, and reduced-motion-safe feedback.
+
+The rationale and accepted state are recorded in `docs/design/consulting-ui-elements.md`. The isolated source specimen remains at `docs/design/consulting-style-board.html` for comparison and creates no production route.
+
+### Next commitment point
+
+Commit only CR-001 through CR-003-owned files, push `master`, deploy the generated artifact to `build`, and live-verify `jason.yfyau.com`. Preserve the unrelated unstaged DEC-070 and 2026-08-12 worklog edits.
+
+## Prior design task: CR-002
+
+Jason accepted the `Useful tension` direction without revisions on 2026-08-29. The accepted design read, tokens, geometry, interaction language, exclusions, and review artifact are in `docs/design/consulting-ui-elements.md` and `docs/design/consulting-style-board.html`.
+
+## Prior research task: CR-001
+
+## CR-001: Consulting market and search-positioning research
+
+### Outcome and boundary
+
+Research which buyers are most likely to hire Jason for selective software/systems consulting, which services match his public evidence, and how the site should support conventional and AI-assisted discovery before any UI or copy implementation.
+
+This phase is research-only. It does not add a consulting section, change metadata, create external profiles or analytics accounts, or deploy anything. The initial Canada/Ontario/Toronto market assumption must be confirmed before it appears in public copy.
+
+### Status
+
+Recommendation-ready. The study recommends keeping the home page career-first, adding a compact Consulting section before Contact, and linking it to a substantive `/consulting/` page. The positioning should lead with two outcomes: stabilizing live software products and replacing repeated manual work with reliable integrations/automation. Generic IT support, generic AI transformation, cybersecurity/identity work, 24/7 support, and fractional-CTO positioning are excluded from the initial offer.
+
+Evidence, target-segment ranking, proposed offers, search hypotheses, AI-discovery guidance, launch automation, limits, and the validation plan are recorded in `docs/research/consulting-market-positioning-study.md`. No production source or deployment state changed.
+
+### Next commitment point
+
+Jason confirms or changes the target geography and chooses whether the initial public offer should lead with Systems Reliability Review or Workflow Automation Sprint. Before implementation, he should also confirm the outside-work/conflict boundary that applies to his Okta employment.
+
+## Prior completed release record: Revision 71
+
 ## Outcome
 
 Stabilize the mobile Hero against browser chrome expansion/collapse and recompose the sparse desktop Okta Experience poster without changing content or the accepted Playful system.

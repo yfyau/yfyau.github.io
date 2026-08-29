@@ -191,6 +191,36 @@ it("keeps the Playful portfolio factual instead of performative", () => {
   expect(css).toContain("--radius: 1.15rem;");
 });
 
+it("ships the accepted consulting composition and discovery copy", () => {
+  const app = readProjectFile("src", "App.js");
+  const css = readProjectFile("src", "App.css");
+  const html = readProjectFile("public", "index.html");
+
+  [
+    "Bring me the",
+    "difficult part.",
+    "Systems Reliability Review",
+    "Workflow Automation Sprint",
+    "Describe the problem",
+  ].forEach((copy) => expect(app).toContain(copy));
+  expect(app).toContain('id="consulting"');
+  expect(app).toContain('aria-live="polite"');
+  expect(app).toContain("setConsultingProblem(problem)");
+  expect(app).not.toContain('href="#consulting"');
+  expect(css).toMatch(
+    /\.service-grid\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1\.25fr\) minmax\(16rem, 0\.75fr\);/s
+  );
+  expect(css).toMatch(
+    /@media \(max-width: 47\.99rem\)[\s\S]*?\.service-grid,[\s\S]*?\.consulting-close\s*\{[^}]*grid-template-columns:\s*1fr;/
+  );
+  expect(css).toMatch(
+    /\.problem-control\[aria-pressed="true"\]\s*\{[^}]*background:\s*var\(--sky-deep\);/s
+  );
+  expect(html).toContain("takes selected consulting engagements");
+  expect(html).toContain('"Software reliability"');
+  expect(html).toContain('"Workflow automation"');
+});
+
 it("keeps the current-role poster factual and prominent", () => {
   const app = readProjectFile("src", "App.js");
   const css = readProjectFile("src", "App.css");

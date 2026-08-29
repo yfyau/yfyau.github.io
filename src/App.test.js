@@ -150,6 +150,77 @@ it("renders the selected Playful hero and keeps career detail in Experience", ()
   ReactDOM.unmountComponentAtNode(container);
 });
 
+it("renders the accepted consulting offer and switches the problem ticket", () => {
+  const container = document.createElement("div");
+  document.body.appendChild(container);
+
+  act(() => {
+    ReactDOM.render(<App />, container);
+  });
+
+  const sectionOrder = Array.from(container.querySelector("main").children)
+    .filter((element) => element.tagName === "SECTION")
+    .map((element) => element.id);
+  expect(sectionOrder).toEqual([
+    "top",
+    "experience",
+    "off-duty",
+    "consulting",
+    "contact",
+  ]);
+
+  const consulting = container.querySelector("#consulting");
+  expect(consulting.querySelector("#consulting-title").textContent).toBe(
+    "Bring me the difficult part."
+  );
+  expect(consulting.textContent).toContain(
+    "I take selected consulting engagements for software that needs to hold up and workflows that need to stop wasting time."
+  );
+  expect(
+    Array.from(consulting.querySelectorAll(".service h3"), (heading) => heading.textContent)
+  ).toEqual(["Systems Reliability Review", "Workflow Automation Sprint"]);
+
+  const controls = Array.from(consulting.querySelectorAll(".problem-control"));
+  expect(controls.map((control) => control.textContent)).toEqual([
+    "SYSTEMS",
+    "WORKFLOW",
+  ]);
+  expect(controls.map((control) => control.getAttribute("aria-pressed"))).toEqual([
+    "true",
+    "false",
+  ]);
+  expect(consulting.querySelector(".ticket-answer").getAttribute("aria-live")).toBe(
+    "polite"
+  );
+  expect(consulting.querySelector(".ticket-answer strong").textContent).toBe(
+    "Hard to trust in production."
+  );
+
+  act(() => {
+    controls[1].dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  });
+
+  expect(
+    Array.from(consulting.querySelectorAll(".problem-control"), (control) =>
+      control.getAttribute("aria-pressed")
+    )
+  ).toEqual(["false", "true"]);
+  expect(consulting.querySelector(".ticket-answer strong").textContent).toBe(
+    "Too much work repeats by hand."
+  );
+  expect(consulting.querySelector(".ticket-answer p").textContent).toBe(
+    "Copying data, chasing handoffs, reconciling tools, or rebuilding the same report."
+  );
+
+  const action = consulting.querySelector(".primary-action");
+  expect(action.getAttribute("href")).toBe("mailto:jason.yfyau@gmail.com");
+  expect(action.textContent).toBe("Describe the problem↗");
+  expect(container.querySelectorAll('.site-nav a[href="#consulting"]')).toHaveLength(0);
+
+  ReactDOM.unmountComponentAtNode(container);
+  document.body.removeChild(container);
+});
+
 it("keeps the verified prior-role chronology explicit", () => {
   const container = document.createElement("div");
   ReactDOM.render(<App />, container);
