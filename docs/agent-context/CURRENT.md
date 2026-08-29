@@ -10,9 +10,9 @@ In scope: navigation markup, observed section order, narrow responsive spacing, 
 
 ### Status
 
-Implemented and verified locally. Jason explicitly authorized commit, push, and production deployment on 2026-08-29. The header now exposes all five destinations in the requested order, and the reading-location observer covers the Hero, Experience, Off duty, Consulting, and Contact sections. A four-pixel observer band immediately above the reading line fixes the real-browser boundary case where an anchored Service visit could remain highlighted as About, without adding a per-scroll React update.
+Released and live-verified. Jason explicitly authorized commit, push, and production deployment on 2026-08-29. Source implementation commit `4e62871` is on `master`; production artifact commit `6a72daf` is on `build`. GitHub Pages reports `built` from `build:/`, CNAME `jason.yfyau.com`, and HTTPS enforcement. The header exposes all five destinations in the requested order, and the reading-location observer covers the Hero, Experience, Off duty, Consulting, and Contact sections. A four-pixel observer band immediately above the reading line fixes the real-browser boundary case where an anchored Service visit could remain highlighted as About, without adding a per-scroll React update.
 
-The narrow header retunes only navigation spacing and type. Browser checks at 280, 320, 390, and 1440 px keep all five labels on one row with 44 px targets, positive link spacing and right clearance, and zero horizontal overflow. All five anchor journeys land below the fixed header and expose exactly one matching active location. Images load and the warning/error console is empty.
+The narrow header retunes only navigation spacing and type. Candidate browser checks at 280, 320, 390, and 1440 px keep all five labels on one row with 44 px targets, positive link spacing and right clearance, and zero horizontal overflow. All five anchor journeys land below the fixed header and expose exactly one matching active location. Live checks at 320 and 1440 px confirm the released layout, Service and Contact active states, four loaded images, zero overflow, and an empty warning/error console. Production serves `main.f99236cb.chunk.css` and `main.075e2457.chunk.js`.
 
 ### Acceptance
 
@@ -23,7 +23,7 @@ The narrow header retunes only navigation spacing and type. Browser checks at 28
 
 ### Next commitment point
 
-Revalidate the exact candidate and remote tips, stage only the six owned source/test/continuity files, preserve the unrelated dirty DEC-070 and 2026-08-12 worklog edits, commit and push `master`, deploy the exact build to `build`, and live-verify the canonical host.
+CR-004 is complete. Preserve the unrelated dirty DEC-070 and 2026-08-12 worklog edits. The repository's existing dependency alerts and stale `caniuse-lite` advisory were not expanded into this release and remain separate follow-up work.
 
 ## Prior completed task: CR-003
 
