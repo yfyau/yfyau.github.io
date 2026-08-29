@@ -10,7 +10,7 @@ In scope: one Consulting section between Off duty and Contact, its two-state pro
 
 ### Status
 
-Verification passed after Jason accepted the style board without revisions on 2026-08-29. The design remains a targeted evolution using the existing native-CSS poster system, with `DESIGN_VARIANCE 7 / MOTION_INTENSITY 4 / VISUAL_DENSITY 5`.
+Released and live-verified after Jason accepted the style board without revisions on 2026-08-29. Source implementation commit `0197407` is on `master`; production artifact commit `69702e2` is on `build`. The design remains a targeted evolution using the existing native-CSS poster system, with `DESIGN_VARIANCE 7 / MOTION_INTENSITY 4 / VISUAL_DENSITY 5`.
 
 The production section retains the existing ink, paper, sky, and honey token jobs; uses one asymmetrical statement plus one honey problem ticket; presents Systems Reliability and Workflow Automation as unequal service surfaces; and ends with one direct action. The ticket exposes pressed state, a polite live region, 44 px controls, keyboard focus, and reduced-motion-safe feedback.
 
@@ -18,7 +18,7 @@ The rationale and accepted state are recorded in `docs/design/consulting-ui-elem
 
 ### Next commitment point
 
-Commit only CR-001 through CR-003-owned files, push `master`, deploy the generated artifact to `build`, and live-verify `jason.yfyau.com`. Preserve the unrelated unstaged DEC-070 and 2026-08-12 worklog edits.
+CR-003 is complete. GitHub Pages reports `built` from `build:/`, CNAME `jason.yfyau.com`, and HTTPS enforcement. Live assets are `main.48f41a9a.chunk.css` and `main.27a9bf27.chunk.js`; the Consulting copy, Workflow state change, mail action, zero overflow, zero broken images, and empty warning/error console were verified at the canonical host. Preserve the unrelated unstaged DEC-070 and 2026-08-12 worklog edits. Before accepting an engagement, Jason should confirm the outside-work, intellectual-property, and conflict boundary that applies to his Okta employment.
 
 ## Prior design task: CR-002
 
