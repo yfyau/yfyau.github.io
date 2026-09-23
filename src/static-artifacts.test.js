@@ -229,8 +229,8 @@ it("ships the accepted consulting composition and discovery copy", () => {
   expect(css).toMatch(
     /\.problem-control\[aria-pressed="true"\]\s*\{[^}]*background:\s*var\(--sky-deep\);/s
   );
-  expect(html).toContain("takes selected consulting engagements");
-  expect(html).toContain('"Software reliability"');
+  expect(html).toContain("consulting engagements in systems and data reliability");
+  expect(html).toContain('"Systems and data reliability"');
   expect(html).toContain('"Workflow automation"');
 });
 

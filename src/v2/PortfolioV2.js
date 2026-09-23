@@ -466,20 +466,25 @@ function PortfolioV2() {
             <p className="v2-eyebrow">CONSULTING</p>
             <h2 id="v2-service-title">Bring me the difficult part.</h2>
             <p>
-              I take selected consulting engagements for teams that need a clearer system, a calmer incident, or one less process to do by hand.
+              I help teams strengthen production systems and data flows, automate repetitive work, and build dependable mobile applications. Each engagement is scoped around a defined problem and a practical outcome.
             </p>
           </div>
 
           <div className="v2-service-grid">
-            <article className="v2-service-offer v2-service-offer--reliability">
-              <h3>Systems Reliability Review</h3>
-              <p>A bounded diagnosis of one production, observability, performance, or delivery problem.</p>
-              <ul><li>Reliability</li><li>Observability</li><li>Distributed jobs</li></ul>
+            <article className="v2-service-offer v2-service-offer--reliability" id="systems-data-reliability">
+              <h3>Systems &amp; Data Reliability Review</h3>
+              <p>A focused assessment of production systems and data flows, identifying failure points, observability gaps, and delivery risks with a prioritized plan for reliability and recovery.</p>
+              <ul><li>DevOps</li><li>Observability</li><li>Data pipelines</li></ul>
             </article>
-            <article className="v2-service-offer v2-service-offer--workflow">
-              <h3>Workflow Automation Sprint</h3>
-              <p>One repeated process simplified, connected, built, and handed over with failure paths considered.</p>
-              <ul><li>Integrations</li><li>Handoffs</li><li>Automation</li></ul>
+            <article className="v2-service-offer v2-service-offer--workflow" id="workflow-automation">
+              <h3>Workflow Automation</h3>
+              <p>Design and implement dependable automations for recurring operations, system integrations, and team handoffs, with monitoring and failure handling built in.</p>
+              <ul><li>Integrations</li><li>Operations</li><li>Automation</li></ul>
+            </article>
+            <article className="v2-service-offer v2-service-offer--mobile" id="mobile-app-development">
+              <h3>Mobile Application Development</h3>
+              <p>Build or improve mobile applications with sound architecture, responsive performance, and reliable backend integrations, drawing on Flutter and Android product experience.</p>
+              <ul><li>Flutter</li><li>Android</li><li>Backend integration</li></ul>
             </article>
           </div>
 

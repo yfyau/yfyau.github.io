@@ -799,13 +799,14 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.4rem;
   margin-top: 4rem;
 }
 
 .v2-service-offer {
   min-height: 19rem;
+  scroll-margin-top: var(--v2-header-offset, 8rem);
   padding: clamp(1.4rem, 3vw, 2.5rem);
   border: 2px solid var(--v2-ink);
   border-radius: 1rem;
@@ -821,6 +822,12 @@
 
 .v2-service-offer--reliability {
   transform: rotate(-1.3deg);
+}
+
+.v2-service-offer--mobile {
+  margin-top: 1.5rem;
+  background: var(--v2-sky);
+  transform: rotate(-0.5deg);
 }
 
 .v2-service-number {
@@ -982,6 +989,17 @@
 }
 
 @media (max-width: 60rem) {
+  .v2-service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .v2-service-offer--mobile {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(100%, 30rem);
+    margin-top: 0;
+  }
+
   .v2-interest-layout {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -1209,6 +1227,18 @@
 
   .v2-service-offer--workflow {
     margin-top: 0;
+  }
+
+  .v2-service-offer--mobile {
+    grid-column: auto;
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  .v2-service-offer--reliability,
+  .v2-service-offer--workflow,
+  .v2-service-offer--mobile {
+    transform: none;
   }
 
   .v2-debug-note {

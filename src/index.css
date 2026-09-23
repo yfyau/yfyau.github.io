@@ -143,6 +143,36 @@ button:focus-visible {
   line-height: 1.6;
 }
 
+.no-script-services {
+  margin-top: 2.5rem;
+}
+
+.no-script-services h2 {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+}
+
+.no-script-services ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.no-script-services li {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem;
+  border: 1px solid #172437;
+  border-radius: 0.85rem;
+  line-height: 1.45;
+}
+
+.no-script-services li span {
+  font-size: 0.88rem;
+}
 .no-script-links {
   display: flex;
   flex-wrap: wrap;
