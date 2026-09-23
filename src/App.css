@@ -597,6 +597,98 @@
   line-height: 1.5;
 }
 
+.debug-instinct {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(15rem, 0.6fr);
+  margin-top: clamp(3rem, 7vw, 5rem);
+  overflow: hidden;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--sky);
+  box-shadow: 0.45rem 0.45rem 0 var(--ink);
+}
+
+.debug-instinct-copy {
+  align-self: center;
+  padding: clamp(1.6rem, 4vw, 3rem);
+}
+
+.debug-instinct-copy h3 {
+  max-width: 16ch;
+  margin: 0;
+  font-size: clamp(2.7rem, 5.7vw, 5.3rem);
+  font-weight: 850;
+  letter-spacing: -0.065em;
+  line-height: 0.93;
+}
+
+.debug-instinct-copy h3 span {
+  display: block;
+}
+
+.debug-instinct-copy h3 span:last-child {
+  max-width: 18ch;
+  margin-top: 0.55rem;
+  font-size: 0.56em;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+}
+
+.debug-instinct-copy > p {
+  max-width: 42rem;
+  margin: 1.5rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  font-weight: 650;
+  line-height: 1.65;
+}
+
+.debug-instinct-visual {
+  position: relative;
+  display: grid;
+  min-height: 19rem;
+  place-items: center;
+  padding: 2rem;
+  overflow: hidden;
+  border-left: 2px solid var(--ink);
+  background: var(--honey);
+}
+
+.debug-instinct-bee {
+  width: clamp(9.5rem, 18vw, 14rem);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: #fdfcff;
+  transform: rotate(3deg);
+}
+
+.debug-instinct-bee img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.debug-instinct-punchline {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  max-width: 12rem;
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  border: 2px solid var(--ink);
+  border-radius: 0.75rem;
+  background: var(--paper-raised);
+  box-shadow: 0.25rem 0.25rem 0 var(--ink);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 750;
+  line-height: 1.4;
+  transform: rotate(-3deg);
+}
+
 .service-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(16rem, 0.75fr);
@@ -802,6 +894,7 @@
   .interest-card:hover,
   .current-job:hover,
   .problem-ticket:hover,
+  .debug-instinct:hover,
   .primary-action:hover {
     transform: translate(-2px, -2px);
     box-shadow: 0.55rem 0.55rem 0 var(--ink);
@@ -825,6 +918,7 @@
   .interest-card,
   .current-job,
   .problem-ticket,
+  .debug-instinct,
   .problem-control,
   .primary-action {
     transition: transform 180ms ease, box-shadow 180ms ease,
@@ -887,6 +981,16 @@
 
   .skill-rail li:not(:last-child)::after {
     margin-left: 0.55rem;
+  }
+
+  .debug-instinct-punchline {
+    right: 0.8rem;
+    left: 0.8rem;
+    max-width: none;
+    padding-right: 0.7rem;
+    padding-left: 0.7rem;
+    font-size: 0.62rem;
+    transform: rotate(-2deg);
   }
 }
 
@@ -955,9 +1059,16 @@
 }
 
 @media (max-width: 47.99rem) {
+  .debug-instinct,
   .service-grid,
   .consulting-close {
     grid-template-columns: 1fr;
+  }
+
+  .debug-instinct-visual {
+    min-height: 15rem;
+    border-top: 2px solid var(--ink);
+    border-left: 0;
   }
 
   .service {
@@ -976,6 +1087,18 @@
 
   .consulting-copy h2 {
     font-size: clamp(3rem, 15vw, 4.2rem);
+  }
+
+  .debug-instinct-copy {
+    padding: 1.35rem;
+  }
+
+  .debug-instinct-copy h3 {
+    font-size: clamp(2.45rem, 12.5vw, 3.65rem);
+  }
+
+  .debug-instinct-visual {
+    min-height: 13rem;
   }
 
   .problem-controls {

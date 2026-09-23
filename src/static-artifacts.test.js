@@ -199,6 +199,9 @@ it("ships the accepted consulting composition and discovery copy", () => {
   [
     "Bring me the",
     "difficult part.",
+    "Bugs keep finding me.",
+    "I’ve learned to return the favour.",
+    "Bad luck. Good debugging instincts.",
     "Systems Reliability Review",
     "Workflow Automation Sprint",
     "Describe the problem",
@@ -212,7 +215,16 @@ it("ships the accepted consulting composition and discovery copy", () => {
     /\.service-grid\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1\.25fr\) minmax\(16rem, 0\.75fr\);/s
   );
   expect(css).toMatch(
-    /@media \(max-width: 47\.99rem\)[\s\S]*?\.service-grid,[\s\S]*?\.consulting-close\s*\{[^}]*grid-template-columns:\s*1fr;/
+    /\.debug-instinct\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1\.4fr\) minmax\(15rem, 0\.6fr\);[^}]*background:\s*var\(--sky\);/s
+  );
+  expect(css).toMatch(
+    /@media \(max-width: 47\.99rem\)[\s\S]*?\.debug-instinct,[\s\S]*?\.service-grid,[\s\S]*?\.consulting-close\s*\{[^}]*grid-template-columns:\s*1fr;/
+  );
+  expect(css).toMatch(
+    /@media \(max-width: 18\.75rem\)[\s\S]*?\.debug-instinct-punchline\s*\{[^}]*right:\s*0\.8rem;[^}]*left:\s*0\.8rem;[^}]*max-width:\s*none;/
+  );
+  expect(app.indexOf('className="debug-instinct"')).toBeLessThan(
+    app.indexOf('className="service-grid"')
   );
   expect(css).toMatch(
     /\.problem-control\[aria-pressed="true"\]\s*\{[^}]*background:\s*var\(--sky-deep\);/s

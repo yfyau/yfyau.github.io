@@ -431,6 +431,40 @@ function PortfolioSite() {
               </aside>
             </div>
 
+            <article
+              className="debug-instinct"
+              aria-labelledby="debug-instinct-title"
+            >
+              <div className="debug-instinct-copy">
+                <h3 id="debug-instinct-title">
+                  <span>Bugs keep finding me.</span>{" "}
+                  <span>I’ve learned to return the favour.</span>
+                </h3>
+                <p>
+                  Years of odd failures, edge cases, and production surprises have
+                  trained me to look past the obvious symptom, uncover hidden risks,
+                  and leave the whole system more reliable, consistent, and
+                  easier to trust.
+                </p>
+              </div>
+
+              <div className="debug-instinct-visual">
+                <div className="debug-instinct-bee" aria-hidden="true">
+                  <img
+                    src={PersonalBeeIcon}
+                    alt=""
+                    width="460"
+                    height="460"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <p className="debug-instinct-punchline">
+                  Bad luck. Good debugging instincts.
+                </p>
+              </div>
+            </article>
+
             <div className="service-grid">
               <article className="service service-systems">
                 <div>

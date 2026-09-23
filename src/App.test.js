@@ -196,6 +196,22 @@ it("renders the accepted consulting offer and switches the problem ticket", () =
     "Hard to trust in production."
   );
 
+  const debugInstinct = consulting.querySelector(".debug-instinct");
+  expect(debugInstinct.getAttribute("aria-labelledby")).toBe("debug-instinct-title");
+  expect(debugInstinct.querySelector("h3").textContent).toBe(
+    "Bugs keep finding me. I’ve learned to return the favour."
+  );
+  expect(debugInstinct.querySelector(".debug-instinct-copy > p").textContent).toBe(
+    "Years of odd failures, edge cases, and production surprises have trained me to look past the obvious symptom, uncover hidden risks, and leave the whole system more reliable, consistent, and easier to trust."
+  );
+  expect(debugInstinct.querySelector(".debug-instinct-punchline").textContent).toBe(
+    "Bad luck. Good debugging instincts."
+  );
+  expect(debugInstinct.querySelector("img").getAttribute("src")).toBe(
+    "/jason-bee-icon.png"
+  );
+  expect(debugInstinct.querySelector("img").getAttribute("alt")).toBe("");
+
   act(() => {
     controls[1].dispatchEvent(new MouseEvent("click", { bubbles: true }));
   });
