@@ -805,6 +805,7 @@
 }
 
 .v2-service-offer {
+  position: relative;
   min-height: 19rem;
   scroll-margin-top: var(--v2-header-offset, 8rem);
   padding: clamp(1.4rem, 3vw, 2.5rem);
@@ -814,17 +815,26 @@
   box-shadow: 0.38rem 0.42rem 0 var(--v2-ink);
 }
 
-.v2-service-offer--workflow {
+.v2-service-anchor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  scroll-margin-top: var(--v2-header-offset, 8rem);
+}
+
+.v2-service-offer--prototype {
   margin-top: 3.2rem;
   background: var(--v2-yellow);
   transform: rotate(1.3deg);
 }
 
-.v2-service-offer--reliability {
+.v2-service-offer--ai {
   transform: rotate(-1.3deg);
 }
 
-.v2-service-offer--mobile {
+.v2-service-offer--product {
   margin-top: 1.5rem;
   background: var(--v2-sky);
   transform: rotate(-0.5deg);
@@ -837,7 +847,7 @@
   letter-spacing: 0.1em;
 }
 
-.v2-service-offer--workflow .v2-service-number {
+.v2-service-offer--prototype .v2-service-number {
   color: var(--v2-ink-soft);
 }
 
@@ -993,7 +1003,7 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .v2-service-offer--mobile {
+  .v2-service-offer--product {
     grid-column: 1 / -1;
     justify-self: center;
     width: min(100%, 30rem);
@@ -1225,19 +1235,19 @@
     margin-top: 2.7rem;
   }
 
-  .v2-service-offer--workflow {
+  .v2-service-offer--prototype {
     margin-top: 0;
   }
 
-  .v2-service-offer--mobile {
+  .v2-service-offer--product {
     grid-column: auto;
     justify-self: stretch;
     width: 100%;
   }
 
-  .v2-service-offer--reliability,
-  .v2-service-offer--workflow,
-  .v2-service-offer--mobile {
+  .v2-service-offer--ai,
+  .v2-service-offer--prototype,
+  .v2-service-offer--product {
     transform: none;
   }
 

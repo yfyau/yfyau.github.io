@@ -229,7 +229,8 @@ it("ships the accepted consulting composition and discovery copy", () => {
   expect(css).toMatch(
     /\.problem-control\[aria-pressed="true"\]\s*\{[^}]*background:\s*var\(--sky-deep\);/s
   );
-  expect(html).toContain("take mobile app ideas from user needs through design to launch");
+  expect(html).toContain("make prototypes and systems dependable");
+  expect(html).toContain('"AI transformation"');
   expect(html).toContain('"Systems and data reliability"');
   expect(html).toContain('"Workflow automation"');
 });

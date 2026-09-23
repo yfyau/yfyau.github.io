@@ -466,25 +466,28 @@ function PortfolioV2() {
             <p className="v2-eyebrow">CONSULTING</p>
             <h2 id="v2-service-title">Bring me the difficult part.</h2>
             <p>
-              I help teams make their software and data more dependable, simplify repetitive work, and turn mobile ideas into useful products. We start by understanding the problem and work toward a result people can use.
+              I help you put AI to work, turn promising prototypes into dependable products, and build custom software around real needs.
             </p>
           </div>
 
           <div className="v2-service-grid">
-            <article className="v2-service-offer v2-service-offer--reliability" id="systems-data-reliability">
-              <h3>Systems &amp; Data Reliability Review</h3>
-              <p>If your systems or data keep causing disruption, I review where things go wrong and give you a clear, prioritized plan to make them more dependable.</p>
-              <ul><li>Find weak points</li><li>Reduce disruption</li><li>Clear action plan</li></ul>
+            <article className="v2-service-offer v2-service-offer--ai" id="workflow-automation">
+              <span className="v2-service-anchor" id="ai-transformation" aria-hidden="true" />
+              <h3>Practical AI Transformation</h3>
+              <p>I find where AI can save time or improve your service, redesign the process, and build practical tools and automations you can use day to day.</p>
+              <ul><li>Find opportunities</li><li>Improve workflows</li><li>Put AI to work</li></ul>
             </article>
-            <article className="v2-service-offer v2-service-offer--workflow" id="workflow-automation">
-              <h3>Workflow Automation</h3>
-              <p>I map and automate repetitive, error-prone tasks so your team spends less time on manual steps and has a smoother way to work.</p>
-              <ul><li>Save time</li><li>Reduce manual errors</li><li>Smoother handoffs</li></ul>
+            <article className="v2-service-offer v2-service-offer--prototype" id="systems-data-reliability">
+              <span className="v2-service-anchor" id="prototype-to-product" aria-hidden="true" />
+              <h3>From Prototype to Product</h3>
+              <p>I review a fast-built prototype or an existing system, fix fragile parts, and make it more dependable and easier to maintain as it grows.</p>
+              <ul><li>Review what matters</li><li>Fix weak points</li><li>Easier to maintain</li></ul>
             </article>
-            <article className="v2-service-offer v2-service-offer--mobile" id="mobile-app-development">
-              <h3>Mobile Application Development</h3>
-              <p>I take mobile app ideas from discovery to launch by understanding users and their pain points, shaping an intuitive experience, and building a product that fits their needs.</p>
-              <ul><li>Understand users</li><li>Design the experience</li><li>Build &amp; launch</li></ul>
+            <article className="v2-service-offer v2-service-offer--product" id="mobile-app-development">
+              <span className="v2-service-anchor" id="custom-digital-products" aria-hidden="true" />
+              <h3>Custom Digital Products</h3>
+              <p>I turn a specific need into a tailored web or mobile product, from understanding users and designing the experience to building and launching it.</p>
+              <ul><li>Understand users</li><li>Tailored design</li><li>Web &amp; mobile</li></ul>
             </article>
           </div>
 
