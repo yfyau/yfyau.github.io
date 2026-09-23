@@ -78,7 +78,7 @@
   z-index: 10;
   top: 0;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: 1rem;
   min-height: 4.75rem;
@@ -122,8 +122,7 @@
   gap: clamp(0.7rem, 2.4vw, 2rem);
 }
 
-.v2-nav a,
-.v2-compare-link {
+.v2-nav a {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
@@ -154,10 +153,6 @@
   transform: scaleX(1);
 }
 
-.v2-compare-link {
-  justify-self: end;
-  color: var(--v2-ink-soft);
-}
 
 .v2-hero {
   position: relative;
@@ -1008,10 +1003,6 @@
     padding-bottom: 0.2rem;
   }
 
-  .v2-compare-link {
-    grid-column: 2;
-    grid-row: 1;
-  }
 
   .v2-hero {
     grid-template-columns: minmax(0, 0.9fr) minmax(17rem, 1.1fr);
@@ -1042,8 +1033,7 @@
     gap: 1.1rem;
   }
 
-  .v2-nav a,
-  .v2-compare-link {
+  .v2-nav a {
     font-size: 0.63rem;
   }
 

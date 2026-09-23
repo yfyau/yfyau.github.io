@@ -38,7 +38,7 @@ it("renders the v2 playful structure and all five destinations", () => {
     "consulting",
     "contact",
   ]);
-  expect(container.querySelector(".v2-compare-link").getAttribute("href")).toBe("/?version=1");
+  expect(container.querySelector('a[href*="version=1"]')).toBeNull();
   expect(container.querySelector(".v2-wordmark-mark img").getAttribute("src")).toBe("/v2/mascot/bee-avatar.webp");
   expect(container.querySelector(".v2-hero-art img").getAttribute("src")).toBe("/v2/mascot/bee-coding.webp");
   expect(container.querySelector(".v2-hero-art img").getAttribute("loading")).toBe("eager");

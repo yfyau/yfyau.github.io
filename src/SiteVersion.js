@@ -1,13 +1,7 @@
-import React, { Suspense, lazy } from "react";
-import App from "./App";
+import React from "react";
+import PortfolioV2 from "./v2/PortfolioV2";
 
-const PortfolioV2 = lazy(() => import("./v2/PortfolioV2"));
-
-export function getSiteVersion(search) {
-  return new URLSearchParams(search).get("version") === "1" ? 1 : 2;
-}
-
-class PreviewBoundary extends React.Component {
+class SiteBoundary extends React.Component {
   state = { failed: false };
 
   static getDerivedStateFromError() {
@@ -18,20 +12,16 @@ class PreviewBoundary extends React.Component {
     return this.state.failed ? (
       <main style={{ padding: "2rem" }}>
         <h1>The site could not load.</h1>
-        <p><a href="/">Retry</a> or <a href="/?version=1">view the previous version</a>.</p>
+        <p><a href="/">Retry</a>.</p>
       </main>
     ) : this.props.children;
   }
 }
 
 export default function SiteVersion() {
-  if (getSiteVersion(window.location.search) !== 2) return <App />;
-
   return (
-    <PreviewBoundary>
-      <Suspense fallback={<p role="status" style={{ padding: "2rem" }}>Loading site…</p>}>
-        <PortfolioV2 />
-      </Suspense>
-    </PreviewBoundary>
+    <SiteBoundary>
+      <PortfolioV2 />
+    </SiteBoundary>
   );
 }

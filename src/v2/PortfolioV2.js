@@ -321,9 +321,6 @@ function PortfolioV2() {
           ))}
         </nav>
 
-        <a className="v2-compare-link" href="/?version=1">
-          v1 ↗
-        </a>
       </header>
 
       <main id="v2-main-content" ref={mainRef} tabIndex="-1">
