@@ -466,25 +466,25 @@ function PortfolioV2() {
             <p className="v2-eyebrow">CONSULTING</p>
             <h2 id="v2-service-title">Bring me the difficult part.</h2>
             <p>
-              I help teams strengthen production systems and data flows, automate repetitive work, and build dependable mobile applications. Each engagement is scoped around a defined problem and a practical outcome.
+              I help teams make their software and data more dependable, simplify repetitive work, and turn mobile ideas into useful products. We start by understanding the problem and work toward a result people can use.
             </p>
           </div>
 
           <div className="v2-service-grid">
             <article className="v2-service-offer v2-service-offer--reliability" id="systems-data-reliability">
               <h3>Systems &amp; Data Reliability Review</h3>
-              <p>A focused assessment of production systems and data flows, identifying failure points, observability gaps, and delivery risks with a prioritized plan for reliability and recovery.</p>
-              <ul><li>DevOps</li><li>Observability</li><li>Data pipelines</li></ul>
+              <p>If your systems or data keep causing disruption, I review where things go wrong and give you a clear, prioritized plan to make them more dependable.</p>
+              <ul><li>Find weak points</li><li>Reduce disruption</li><li>Clear action plan</li></ul>
             </article>
             <article className="v2-service-offer v2-service-offer--workflow" id="workflow-automation">
               <h3>Workflow Automation</h3>
-              <p>Design and implement dependable automations for recurring operations, system integrations, and team handoffs, with monitoring and failure handling built in.</p>
-              <ul><li>Integrations</li><li>Operations</li><li>Automation</li></ul>
+              <p>I map and automate repetitive, error-prone tasks so your team spends less time on manual steps and has a smoother way to work.</p>
+              <ul><li>Save time</li><li>Reduce manual errors</li><li>Smoother handoffs</li></ul>
             </article>
             <article className="v2-service-offer v2-service-offer--mobile" id="mobile-app-development">
               <h3>Mobile Application Development</h3>
-              <p>Build or improve mobile applications with sound architecture, responsive performance, and reliable backend integrations, drawing on Flutter and Android product experience.</p>
-              <ul><li>Flutter</li><li>Android</li><li>Backend integration</li></ul>
+              <p>I take mobile app ideas from discovery to launch by understanding users and their pain points, shaping an intuitive experience, and building a product that fits their needs.</p>
+              <ul><li>Understand users</li><li>Design the experience</li><li>Build &amp; launch</li></ul>
             </article>
           </div>
 

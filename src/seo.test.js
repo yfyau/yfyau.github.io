@@ -35,6 +35,12 @@ it("keeps all three visible consulting services consistent with crawlable metada
     expect(html).toContain(service.name.replace("&", "&amp;"));
   });
 
+  const consultingCopy = container.querySelector("#consulting").textContent;
+  const mobileCopy = cards[2].textContent;
+  expect(consultingCopy).not.toMatch(/\b(Flutter|Android|Swift|Kotlin|React Native)\b/i);
+  expect(mobileCopy).toMatch(/discovery to launch/i);
+  expect(mobileCopy).toMatch(/users and their pain points/i);
+  expect(mobileCopy).toMatch(/intuitive experience/i);
   const description = shell.querySelector('meta[name="description"]').getAttribute("content");
   expect(description).toContain("systems and data reliability");
   expect(description).toContain("workflow automation");
