@@ -1,0 +1,13 @@
+# Jason Yau
+
+> Jason Yau is a senior software engineer and consultant. This index points to public pages about his work and consulting services.
+
+## Main site
+
+- [Jason Yau — portfolio and contact](https://jason.yfyau.com/): Career background, interests, consulting overview, and contact links.
+
+## Consulting services
+
+- [Practical AI Transformation](https://jason.yfyau.com/services/ai-transformation/): Find useful AI and workflow automation opportunities, improve the process, and build practical tools.
+- [From Prototype to Product](https://jason.yfyau.com/services/prototype-to-product/): Review and improve prototypes or existing systems for reliability and maintainability.
+- [Custom Digital Products](https://jason.yfyau.com/services/custom-digital-products/): Define, design, build, and launch tailored web or mobile products around user needs.

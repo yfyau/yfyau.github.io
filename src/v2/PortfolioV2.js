@@ -476,18 +476,21 @@ function PortfolioV2() {
               <h3>Practical AI Transformation</h3>
               <p>I find where AI can save time or improve your service, redesign the process, and build practical tools and automations you can use day to day.</p>
               <ul><li>Find opportunities</li><li>Improve workflows</li><li>Put AI to work</li></ul>
+              <a className="v2-service-detail-link" href="/services/ai-transformation/">Explore this service <span aria-hidden="true">↗</span></a>
             </article>
             <article className="v2-service-offer v2-service-offer--prototype" id="systems-data-reliability">
               <span className="v2-service-anchor" id="prototype-to-product" aria-hidden="true" />
               <h3>From Prototype to Product</h3>
               <p>I review a fast-built prototype or an existing system, fix fragile parts, and make it more dependable and easier to maintain as it grows.</p>
               <ul><li>Review what matters</li><li>Fix weak points</li><li>Easier to maintain</li></ul>
+              <a className="v2-service-detail-link" href="/services/prototype-to-product/">Explore this service <span aria-hidden="true">↗</span></a>
             </article>
             <article className="v2-service-offer v2-service-offer--product" id="mobile-app-development">
               <span className="v2-service-anchor" id="custom-digital-products" aria-hidden="true" />
               <h3>Custom Digital Products</h3>
               <p>I turn a specific need into a tailored web or mobile product, from understanding users and designing the experience to building and launching it.</p>
               <ul><li>Understand users</li><li>Tailored design</li><li>Web &amp; mobile</li></ul>
+              <a className="v2-service-detail-link" href="/services/custom-digital-products/">Explore this service <span aria-hidden="true">↗</span></a>
             </article>
           </div>
 

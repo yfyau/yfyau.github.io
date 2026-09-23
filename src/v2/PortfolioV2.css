@@ -886,6 +886,22 @@
   text-transform: uppercase;
 }
 
+.v2-service-detail-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.8rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 2px solid var(--v2-ink);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.v2-service-detail-link:hover {
+  gap: 0.7rem;
+}
+
 .v2-debug-note {
   position: relative;
   z-index: 1;

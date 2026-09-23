@@ -39,13 +39,17 @@ it("keeps the three consulting offers, legacy links, and crawlable metadata cons
   services.forEach((service, index) => {
     const card = cards[index];
     const currentAnchor = card.querySelector(".v2-service-anchor");
+    const slug = ["ai-transformation", "prototype-to-product", "custom-digital-products"][index];
+    const detailPath = "/services/" + slug + "/";
     expect(currentAnchor).not.toBeNull();
     expect(service.name).toBe(card.querySelector("h3").textContent);
     expect(service.description).toBe(card.querySelector("p").textContent);
     expect(service.provider["@id"]).toBe(person["@id"]);
-    expect(service.url).toBe(canonical + "#" + currentAnchor.id);
-    expect(service["@id"]).toBe(service.url);
+    expect(card.querySelector(".v2-service-detail-link").getAttribute("href")).toBe(detailPath);
+    expect(service.url).toBe(canonical + detailPath.slice(1));
+    expect(service["@id"]).toBe(service.url + "#service");
     expect(html).toContain(service.name);
+    expect(html).toContain('href="' + detailPath + '"');
   });
 
   const consultingCopy = container.querySelector("#consulting").textContent;
@@ -69,4 +73,38 @@ it("keeps the three consulting offers, legacy links, and crawlable metadata cons
 
   ReactDOM.unmountComponentAtNode(container);
   document.body.removeChild(container);
+});
+
+it("publishes three distinct, linked, crawlable service briefs", () => {
+  const home = new DOMParser().parseFromString(read("public", "index.html"), "text/html");
+  const homeServices = JSON.parse(home.querySelector('script[type="application/ld+json"]').textContent)["@graph"]
+    .filter((item) => item["@type"] === "Service");
+  const slugs = ["ai-transformation", "prototype-to-product", "custom-digital-products"];
+  const sitemap = read("public", "sitemap.xml");
+  const llmsIndex = read("public", "llms.txt");
+
+  expect((sitemap.match(/<loc>/g) || [])).toHaveLength(4);
+  slugs.forEach((slug, index) => {
+    const path = "/services/" + slug + "/";
+    const url = "https://jason.yfyau.com" + path;
+    const page = new DOMParser().parseFromString(read("public", "services", slug, "index.html"), "text/html");
+    const service = JSON.parse(page.querySelector('script[type="application/ld+json"]').textContent);
+
+    expect(page.querySelector('link[rel="canonical"]').getAttribute("href")).toBe(url);
+    expect(page.querySelector('meta[property="og:url"]').getAttribute("content")).toBe(url);
+    expect(page.querySelector('meta[name="description"]').getAttribute("content").length).toBeGreaterThan(80);
+    expect(page.querySelectorAll("h1")).toHaveLength(1);
+    expect(page.querySelector("h1").textContent).toBe(homeServices[index].name);
+    expect(page.querySelectorAll(".plain-list li")).toHaveLength(3);
+    expect(page.querySelectorAll(".steps li")).toHaveLength(3);
+    expect(page.querySelector('.service-nav a[aria-current="page"]').getAttribute("href")).toBe(path);
+    expect(page.querySelector('a[href^="mailto:"]')).not.toBeNull();
+    expect(service.url).toBe(url);
+    expect(service["@id"]).toBe(homeServices[index]["@id"]);
+    expect(service.name).toBe(homeServices[index].name);
+    expect(service.description).toBe(homeServices[index].description);
+    expect(page.body.textContent).toContain(service.description);
+    expect(sitemap).toContain("<loc>" + url + "</loc>");
+    expect(llmsIndex).toContain(url);
+  });
 });
