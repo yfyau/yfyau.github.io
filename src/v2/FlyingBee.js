@@ -19,15 +19,21 @@ const textRects=(element,origin)=>{
 };
 const mergeLines=rects=>{const rows=[];rects.forEach(r=>{const row=rows.find(a=>Math.abs(a[0].top-r.top)<2);if(row)row.push(r);else rows.push([r]);});return rows.map(unionRects).sort((a,b)=>a.top-b.top);};
 export function measureFlight(slot) {
-  const hero=slot.closest('.v2-hero'),world=hero.getBoundingClientRect(),rest=slot.getBoundingClientRect(),header=hero.closest('.v2-site').querySelector('.v2-header').getBoundingClientRect();
+  const hero=slot.closest('.v2-hero'),site=hero.closest('.v2-site'),world=hero.getBoundingClientRect(),rest=slot.getBoundingClientRect(),header=site.querySelector('.v2-header').getBoundingClientRect();
+  // Local fragments use one viewport snapshot. Rebuilds retain its document
+  // origin so ordinary scrolling moves the anchored bee with the hero.
+  const scrollX=window.scrollX||0,scrollY=window.scrollY||0;
+  const documentWorld={left:world.left+scrollX,top:world.top+scrollY,right:world.right+scrollX,bottom:world.bottom+scrollY,width:world.width,height:world.height};
   // Zero-sized SSR/test or hidden surfaces have no usable flight geometry.
-  if(!world.width||!world.height||!rest.width||!rest.height) return {hero,layout:{headerBottom:0},measurements:{hero:{width:world.width,height:world.height},world,lines:[],jasonFragments:[],taglineRects:[],P:{x:0,y:0},bee:{width:0,height:0},actions:{top:0}}};
-  const m={hero:{width:world.width,height:world.height},world,
+  if(!world.width||!world.height||!rest.width||!rest.height) return {hero,layout:{headerBottom:0},measurements:{hero:{width:world.width,height:world.height},world:documentWorld,lines:[],jasonFragments:[],taglineRects:[],P:{x:0,y:0},bee:{width:0,height:0},actions:{top:0}}};
+  const m={hero:{width:world.width,height:world.height},world:documentWorld,
     lines:mergeLines(textRects(hero.querySelector('h1'),world)),jasonFragments:textRects(hero.querySelector('.v2-hero-name'),world),taglineRects:textRects(hero.querySelector('.v2-hero-lead'),world),
     P:{x:rest.left-world.left+rest.width/2,y:rest.top-world.top+rest.height/2},bee:{width:rest.width,height:rest.height},
     actions:localRect(hero.querySelector('.v2-hero-actions').getBoundingClientRect(),world),art:localRect(hero.querySelector('.v2-hero-art').getBoundingClientRect(),world),
     eyebrow:unionRects(textRects(hero.querySelector('.v2-eyebrow'),world))};
-  return {hero,layout:{headerBottom:Math.max(0,header.bottom-world.top)},measurements:m};
+  // The sticky header's viewport bottom follows scrolling; only its natural
+  // flow boundary and measured height constrain this hero-local route.
+  return {hero,layout:{headerBottom:Math.max(0,site.getBoundingClientRect().top+header.height-world.top)},measurements:m};
 }
 const reduced=()=>window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const unwrap=(a,b)=>{while(a-b>Math.PI)a-=Math.PI*2;while(a-b<-Math.PI)a+=Math.PI*2;return a;};
