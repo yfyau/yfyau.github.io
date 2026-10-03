@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import "./PortfolioV2.css";
+import FlyingBee, { BeeFlightProvider } from "./FlyingBee";
 
 const MascotAvatar = "/v2/mascot/bee-avatar.webp";
 const HeroBee = "/v2/mascot/bee-coding.webp";
@@ -108,12 +109,33 @@ const interests = {
 
 const interestKeys = Object.keys(interests);
 
-function PortfolioV2() {
-  const [activeSection, setActiveSection] = useState(() => {
-    if (typeof window === "undefined") return "top";
-    const hash = window.location.hash.replace(/^#/, "");
-    return sections.some((section) => section.id === hash) ? hash : "top";
-  });
+const iconPaths = {
+  arrow: "M7 17 17 7 M7 7h10v10",
+  down: "M7 7 17 17 M7 17h10V7",
+  up: "M12 19V5 M5 12l7-7 7 7",
+  turn: "M6 3v14h12 M13 12l5 5-5 5",
+  check: "m5 12 4 4 10-10",
+};
+
+function Icon({ name = "arrow" }) {
+  return (
+    <svg className="v2-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+      aria-hidden="true" focusable="false">
+      <path d={iconPaths[name]} />
+    </svg>
+  );
+}
+
+
+function PortfolioV2({ initialYear = new Date().getFullYear() }) {
+  // Build output and the first browser render must share the same state.
+  const [activeSection, setActiveSection] = useState("top");
+  const [displayYear, setDisplayYear] = useState(initialYear);
+
+  useEffect(() => {
+    setDisplayYear(new Date().getFullYear());
+  }, []);
   const [selectedInterest, setSelectedInterest] = useState("snowboarding");
   const [interestImage, setInterestImage] = useState(() => ({
     visible: createInterestImage("snowboarding"),
@@ -170,17 +192,34 @@ function PortfolioV2() {
       .filter(Boolean);
     const header = root.querySelector(".v2-header");
     let observer = null;
+    let scrollFrame = null;
     const getReadingLine = () => Math.min(
       Math.max(header.getBoundingClientRect().height + 24, window.innerHeight * 0.28),
       window.innerHeight - 1
     );
     const markVisibleSection = () => {
+      const contact = sectionElements.find((section) => section.id === "contact");
+      const contactRect = contact && contact.getBoundingClientRect();
+      const scrollHeight = (document.scrollingElement || document.documentElement).scrollHeight;
+      const atBottom = Math.ceil(window.scrollY + window.innerHeight) >= scrollHeight - 2;
+      if (atBottom && contactRect && contactRect.top < window.innerHeight &&
+        contactRect.bottom > header.getBoundingClientRect().height) {
+        setActiveSection("contact");
+        return;
+      }
       const line = getReadingLine();
       const current = sectionElements.find((section) => {
         const rect = section.getBoundingClientRect();
         return rect.top <= line && rect.bottom > line;
       });
       if (current) setActiveSection(current.id);
+    };
+    const handleScroll = () => {
+      if (scrollFrame !== null) return;
+      scrollFrame = window.requestAnimationFrame(() => {
+        scrollFrame = null;
+        markVisibleSection();
+      });
     };
     const updateLayout = () => {
       root.style.setProperty("--v2-header-offset", `${header.getBoundingClientRect().height + 16}px`);
@@ -199,6 +238,7 @@ function PortfolioV2() {
     const resizeObserver = window.ResizeObserver ? new window.ResizeObserver(updateLayout) : null;
     if (resizeObserver) resizeObserver.observe(header);
     window.addEventListener("resize", updateLayout);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     const target = sectionElements.find((section) => `#${section.id}` === window.location.hash);
     const frame = target && target.scrollIntoView ? window.requestAnimationFrame(() => {
       target.scrollIntoView({ behavior: "auto", block: "start" });
@@ -207,6 +247,8 @@ function PortfolioV2() {
       if (observer) observer.disconnect();
       if (resizeObserver) resizeObserver.disconnect();
       window.removeEventListener("resize", updateLayout);
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollFrame !== null) window.cancelAnimationFrame(scrollFrame);
       if (frame !== null) window.cancelAnimationFrame(frame);
     };
   }, []);
@@ -324,21 +366,21 @@ function PortfolioV2() {
       </header>
 
       <main id="v2-main-content" ref={mainRef} tabIndex="-1">
-        <section className="v2-hero" id="top" aria-labelledby="v2-hero-title">
+        <BeeFlightProvider><section className="v2-hero" id="top" aria-labelledby="v2-hero-title">
           <div className="v2-hero-copy">
             <p className="v2-eyebrow">A CURIOUS MIND. A STUBBORN STREAK.</p>
             <h1 id="v2-hero-title">
-              Hi, I’m Jason<span className="v2-title-dot">.</span>
+              <span className="v2-hero-title-line">Hi, I’m </span><span className="v2-hero-title-line"><span className="v2-hero-name">Jason</span> Yau<span className="v2-title-dot">.</span></span>
             </h1>
             <p className="v2-hero-lead">
-              Software engineer, persistent problem solver, and the person bugs keep finding.
+              The person bugs keep <span className="v2-hero-lead-ending">finding.<FlyingBee /></span>
             </p>
             <div className="v2-hero-actions">
               <a className="v2-button v2-button--ink" href="#experience">
-                My experience <span aria-hidden="true">↘</span>
+                My experience <Icon name="down" />
               </a>
               <a className="v2-text-link" href="mailto:jason.yfyau@gmail.com">
-                Email Jason <span aria-hidden="true">↗</span>
+                Email Jason <Icon />
               </a>
             </div>
           </div>
@@ -357,20 +399,20 @@ function PortfolioV2() {
               />
             </div>
           </div>
-        </section>
+        </section></BeeFlightProvider>
 
         <section className="v2-experience v2-section" id="experience" aria-labelledby="v2-experience-title">
           <div className="v2-section-intro">
             <h2 id="v2-experience-title">Experience.</h2>
             <p>
-              From mobile products to distributed systems, I like figuring out how the pieces fit together.
+              I’m a Toronto-based software engineer and consultant. From mobile products to distributed systems, I like figuring out how the pieces fit together.
             </p>
           </div>
 
           <article className="v2-current-role">
             <div className="v2-current-role-topline">
               <span>NOW</span>
-              <span>JUL 2025 → PRESENT</span>
+              <span>JUL 2025 - PRESENT</span>
             </div>
             <div className="v2-current-role-main">
               <span className="v2-current-role-company">Okta</span>
@@ -421,7 +463,7 @@ function PortfolioV2() {
                   onClick={() => handleInterestSelect(key)}
                 >
                   <span>{interests[key].label}</span>
-                  <span aria-hidden="true">{selectedInterest === key ? "✓" : ""}</span>
+                  <span aria-hidden="true">{selectedInterest === key ? <Icon name="check" /> : null}</span>
                 </button>
               ))}
             </div>
@@ -476,26 +518,26 @@ function PortfolioV2() {
               <h3>Practical AI Transformation</h3>
               <p>I find where AI can save time or improve your service, redesign the process, and build practical tools and automations you can use day to day.</p>
               <ul><li>Find opportunities</li><li>Improve workflows</li><li>Put AI to work</li></ul>
-              <a className="v2-service-detail-link" href="/services/ai-transformation/">Explore this service <span aria-hidden="true">↗</span></a>
+              <a className="v2-service-detail-link" href="/services/ai-transformation/">Explore this service <Icon /></a>
             </article>
             <article className="v2-service-offer v2-service-offer--prototype" id="systems-data-reliability">
               <span className="v2-service-anchor" id="prototype-to-product" aria-hidden="true" />
               <h3>From Prototype to Product</h3>
               <p>I review a fast-built prototype or an existing system, fix fragile parts, and make it more dependable and easier to maintain as it grows.</p>
               <ul><li>Review what matters</li><li>Fix weak points</li><li>Easier to maintain</li></ul>
-              <a className="v2-service-detail-link" href="/services/prototype-to-product/">Explore this service <span aria-hidden="true">↗</span></a>
+              <a className="v2-service-detail-link" href="/services/prototype-to-product/">Explore this service <Icon /></a>
             </article>
             <article className="v2-service-offer v2-service-offer--product" id="mobile-app-development">
               <span className="v2-service-anchor" id="custom-digital-products" aria-hidden="true" />
               <h3>Custom Digital Products</h3>
               <p>I turn a specific need into a tailored web or mobile product, from understanding users and designing the experience to building and launching it.</p>
               <ul><li>Understand users</li><li>Tailored design</li><li>Web &amp; mobile</li></ul>
-              <a className="v2-service-detail-link" href="/services/custom-digital-products/">Explore this service <span aria-hidden="true">↗</span></a>
+              <a className="v2-service-detail-link" href="/services/custom-digital-products/">Explore this service <Icon /></a>
             </article>
           </div>
 
           <div className="v2-debug-note">
-            <p className="v2-debug-note-mark" aria-hidden="true">↳</p>
+            <p className="v2-debug-note-mark" aria-hidden="true"><Icon name="turn" /></p>
             <div>
               <h3>Bugs keep finding me. I’ve learned to return the favour.</h3>
               <p>
@@ -503,7 +545,7 @@ function PortfolioV2() {
               </p>
             </div>
             <a className="v2-button v2-button--yellow" href="mailto:jason.yfyau@gmail.com">
-              Email Jason <span aria-hidden="true">↗</span>
+              Email Jason <Icon />
             </a>
           </div>
         </section>
@@ -514,13 +556,13 @@ function PortfolioV2() {
             <p>Tell me what you’re working on, what’s getting stuck, and where you’d like a second pair of eyes.</p>
           </div>
           <div className="v2-contact-links">
-            <a href="mailto:jason.yfyau@gmail.com"><span>Email</span><strong>jason.yfyau@gmail.com</strong><span aria-hidden="true">↗</span></a>
-            <a href="https://github.com/yfyau" target="_blank" rel="noopener noreferrer"><span>GitHub</span><strong>github.com/yfyau</strong><span aria-hidden="true">↗</span></a>
-            <a href="https://www.linkedin.com/in/yfyau/" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><strong>linkedin.com/in/yfyau</strong><span aria-hidden="true">↗</span></a>
+            <a href="mailto:jason.yfyau@gmail.com"><span>Email</span><strong>jason.yfyau@gmail.com</strong><Icon /></a>
+            <a href="https://github.com/yfyau" target="_blank" rel="noopener noreferrer"><span>GitHub</span><strong>github.com/yfyau</strong><Icon /></a>
+            <a href="https://www.linkedin.com/in/yfyau/" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><strong>linkedin.com/in/yfyau</strong><Icon /></a>
           </div>
           <footer className="v2-footer">
-            <span>© {new Date().getFullYear()} Jason Yau</span>
-            <a href="#top" onClick={() => handleNavClick("top")}>Back to top ↑</a>
+            <span>© {displayYear} Jason Yau</span>
+            <a href="#top" onClick={() => handleNavClick("top")}>Back to top <Icon name="up" /></a>
           </footer>
         </section>
       </main>

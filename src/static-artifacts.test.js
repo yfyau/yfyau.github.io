@@ -117,7 +117,7 @@ it("keeps the Playful portfolio factual instead of performative", () => {
   expect(app).toContain("Email Jason");
   expect(app).not.toContain("BrokerBay outcomes");
   expect(app).toContain('href="https://www.linkedin.com/in/yfyau/"');
-  expect(html).toContain('href="https://www.linkedin.com/in/yfyau/"');
+  expect(html).toContain('https://www.linkedin.com/in/yfyau/');
   expect(app).not.toContain("proofPoints");
   expect(app).not.toContain("Prior-role track record");
   expect(app).toContain('<p className="hero-name">Jason Yau</p>');
@@ -229,7 +229,7 @@ it("ships the accepted consulting composition and discovery copy", () => {
   expect(css).toMatch(
     /\.problem-control\[aria-pressed="true"\]\s*\{[^}]*background:\s*var\(--sky-deep\);/s
   );
-  expect(html).toContain("make prototypes and systems dependable");
+  expect(html).toContain("turn prototypes into dependable products");
   expect(html).toContain('"AI transformation"');
   expect(html).toContain('"Systems and data reliability"');
   expect(html).toContain('"Workflow automation"');
@@ -287,30 +287,14 @@ it("publishes a lightweight Playful social card at the declared dimensions", () 
   expect(socialCard.length).toBeLessThan(250000);
 });
 
-it("keeps useful identity and contact details available without JavaScript", () => {
+it("uses the same homepage for initial HTML instead of a duplicated noscript page", () => {
   const html = readProjectFile("public", "index.html");
   const css = readProjectFile("src", "index.css");
 
-  expect(html).toContain("<noscript>");
-  expect(html).toContain('class="no-script-shell"');
-  expect(html).toContain('class="no-script-monogram"');
-  expect(html).toContain('src="%PUBLIC_URL%/jason-bee-icon.png"');
-  expect(html).toContain("Jason Yau");
-  expect(html).toContain("I build software");
-  expect(html).toContain("that holds up.");
-  expect(html).toContain("Senior Software Engineer at Okta");
-  expect(html).toContain('href="mailto:jason.yfyau@gmail.com"');
-  expect(html).toContain('href="https://github.com/yfyau"');
-  expect(html).not.toContain("This site needs JavaScript enabled to run.");
-  expect(css).toContain(".no-script-shell");
-  expect(css).toContain("background: #dcebf1;");
-  expect(css).toContain("#root:empty");
-  expect(css).toMatch(
-    /\.no-script-shell\s*\{[^}]*min-height:\s*100vh;[^}]*min-height:\s*100dvh;/s
-  );
-  expect(css).toMatch(
-    /\.no-script-content h1 span\s*\{[^}]*background:\s*linear-gradient\(transparent 62%, #f3c53b 62%\);/s
-  );
+  expect(html).toContain('<div id="root"></div>');
+  expect(html).not.toContain("<noscript>");
+  expect(html).not.toContain("no-script-shell");
+  expect(css).not.toContain(".no-script-shell");
 });
 
 it("keeps the Playful type system native across major desktop and mobile platforms", () => {
@@ -327,7 +311,7 @@ it("keeps the Playful type system native across major desktop and mobile platfor
   expect(indexCss).toContain('"Liberation Mono", "Courier New",');
   expect(indexCss).toContain("font-family: var(--font-mono);");
   expect(indexCss).toContain('--font-sans: "Aptos Display", "Segoe UI Variable Display"');
-  expect(indexCss.match(/font-family: var\(--font-sans\);/g)).toHaveLength(3);
+  expect(readProjectFile("src", "v2", "PortfolioV2.css")).toContain('font-family: "V2 Bricolage", "Trebuchet MS", "Segoe UI", sans-serif;');
   expect(appCss).toContain(
     '--sans: "Aptos Display", "Segoe UI Variable Display", "Trebuchet MS", Arial,'
   );
@@ -348,10 +332,10 @@ it("makes the supplied personal mark discoverable in the initial HTML", () => {
     path.join(process.cwd(), "public", "jason-bee-icon.png")
   );
 
-  expect(html).toContain(
-    '<link\n      rel="preload"\n      href="%PUBLIC_URL%/jason-bee-icon.png"\n      as="image"\n      type="image/png"\n      fetchpriority="high"\n    />'
-  );
-  expect(html.match(/jason-bee-icon\.png/g)).toHaveLength(4);
+  const page = new DOMParser().parseFromString(html, "text/html");
+  expect(page.querySelector('link[rel="preload"][href$="jason-bee-icon.png"]')).toBeNull();
+  expect(page.querySelector('link[rel="icon"][href$="jason-bee-icon.png"]')).not.toBeNull();
+  expect(html.match(/jason-bee-icon\.png/g)).toHaveLength(2);
   expect(app).toContain('const PersonalBeeIcon = "/jason-bee-icon.png";');
   expect(readPngDetails(personalMark)).toEqual({
     width: 460,

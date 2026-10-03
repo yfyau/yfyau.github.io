@@ -197,6 +197,7 @@
 }
 
 .v2-hero-copy {
+  container-type: inline-size;
   position: relative;
   z-index: 1;
   max-width: 42rem;
@@ -215,10 +216,26 @@
 .v2-hero h1 {
   max-width: 8ch;
   margin: 1.4rem 0 1.7rem;
-  font-size: clamp(4.4rem, 8.5vw, 7.5rem);
+  font-size: min(7.5rem, 19cqi);
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 1;
+}
+
+/* The heading and bee share a stacking context: the far arc passes behind glyphs. */
+.v2-hero h1 { position: relative; z-index: 2; max-width: 100%; }
+.v2-hero-title-line { display: block; white-space: nowrap; }
+
+.v2-service-intro .v2-eyebrow {
+  color: var(--v2-ink);
+}
+
+.v2-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  vertical-align: -0.125em;
 }
 
 .v2-title-dot {
@@ -232,6 +249,32 @@
   font-weight: 560;
   letter-spacing: -0.025em;
   line-height: 1.35;
+}
+
+.v2-hero-lead-ending {
+  white-space: nowrap;
+}
+
+/* The inline slot never moves; one outer layer moves and the inner art banks. */
+.v2-bee-slot {
+  display: inline-block;
+  position: relative;
+  width: 2.8em;
+  height: 2.24em;
+  margin-left: 0.25em;
+  vertical-align: -0.65em;
+}
+.v2-bee-position { position: absolute; inset: 0; z-index: 3; pointer-events: none; will-change: transform; }
+.v2-flying-bee { display: block; width: 100%; height: 100%; overflow: visible; pointer-events: none; color: var(--v2-ink); transform-origin: 50% 50%; }
+.v2-bee-facing { transform-box: view-box; transform-origin: 40px 32px; transition: transform 150ms ease-in-out; }
+.v2-bee-trail { opacity: .4; }
+.v2-bee-wing { transform-box: view-box; transform-origin: 42px 27px; }
+@keyframes v2-bee-wing-back { 0%,100% { transform: rotate(0) scaleY(1); } 50% { transform: rotate(-18deg) scaleY(.64); } }
+@keyframes v2-bee-wing-front { 0%,100% { transform: rotate(0) scaleY(1); } 50% { transform: rotate(16deg) scaleY(.56); } }
+@media (prefers-reduced-motion: no-preference) {
+  .v2-flying-bee--flying .v2-bee-wing-back { animation: v2-bee-wing-back 180ms ease-in-out 120ms infinite; }
+  .v2-flying-bee--flying .v2-bee-wing-front { animation: v2-bee-wing-front 180ms ease-in-out 165ms infinite; }
+  .v2-flying-bee--paused .v2-bee-wing { animation-play-state: paused; }
 }
 
 .v2-hero-actions {
@@ -1054,7 +1097,7 @@
   }
 
   .v2-hero h1 {
-    font-size: clamp(4rem, 10vw, 7rem);
+    font-size: min(7rem, 19cqi);
   }
 
   .v2-debug-note {
@@ -1074,11 +1117,18 @@
   }
 
   .v2-nav {
-    gap: 1.1rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.5rem;
+    overflow-x: visible;
   }
 
   .v2-nav a {
-    font-size: 0.63rem;
+    justify-content: center;
+    min-width: 44px;
+    font-size: 0.8rem;
+    letter-spacing: 0;
+    text-transform: none;
   }
 
   .v2-hero {
@@ -1088,17 +1138,19 @@
   }
 
   .v2-hero h1 {
-    max-width: 10ch;
+    max-width: 100%;
     margin-top: 1rem;
-    font-size: clamp(3.5rem, 17vw, 5rem);
+    font-size: min(5rem, 19cqi);
   }
+
 
   .v2-hero-lead {
     max-width: 22rem;
   }
 
   .v2-hero-visual {
-    min-height: min(92vw, 25rem);
+    aspect-ratio: 1;
+    min-height: 0;
     margin-top: 1.5rem;
   }
 
@@ -1176,8 +1228,8 @@
 
   .v2-career-detail {
     display: block;
-    padding: 0 2.2rem 1.2rem 4.7rem;
-    font-size: 0.82rem;
+    padding: 0 0.25rem 1.2rem;
+    font-size: 0.9rem;
   }
 
   .v2-career-detail ul {
@@ -1281,10 +1333,6 @@
 }
 
 @media (max-width: 25rem) {
-  .v2-wordmark span:last-child {
-    display: none;
-  }
-
   .v2-nav {
     justify-content: space-between;
     gap: 0.25rem;
@@ -1293,7 +1341,7 @@
 
   .v2-nav a {
     padding-inline: 0;
-    font-size: 0.6rem;
+    font-size: 0.8rem;
     letter-spacing: 0;
     white-space: nowrap;
   }

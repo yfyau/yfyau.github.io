@@ -49,7 +49,7 @@ it("keeps the three consulting offers, legacy links, and crawlable metadata cons
     expect(service.url).toBe(canonical + detailPath.slice(1));
     expect(service["@id"]).toBe(service.url + "#service");
     expect(html).toContain(service.name);
-    expect(html).toContain('href="' + detailPath + '"');
+    expect(card.querySelector('a[href="' + detailPath + '"]')).not.toBeNull();
   });
 
   const consultingCopy = container.querySelector("#consulting").textContent;
@@ -106,5 +106,20 @@ it("publishes three distinct, linked, crawlable service briefs", () => {
     expect(page.body.textContent).toContain(service.description);
     expect(sitemap).toContain("<loc>" + url + "</loc>");
     expect(llmsIndex).toContain(url);
+  });
+});
+
+it("keeps service arrows decorative and links named by readable copy", () => {
+  ["ai-transformation", "prototype-to-product", "custom-digital-products"].forEach((slug) => {
+    const page = new DOMParser().parseFromString(read("public", "services", slug, "index.html"), "text/html");
+    expect(page.body.textContent).not.toMatch(/[↗↘↑↓←→✓]/);
+    expect(page.querySelector(".header-back").textContent.trim()).toBe("Back to the main site");
+    expect(page.querySelectorAll("svg.service-icon")).toHaveLength(4);
+    page.querySelectorAll("svg.service-icon").forEach((icon) => {
+      expect(icon.getAttribute("aria-hidden")).toBe("true");
+      expect(icon.getAttribute("focusable")).toBe("false");
+      expect(icon.querySelector("path")).not.toBeNull();
+      expect(icon.closest("a").getAttribute("aria-label")).toBeNull();
+    });
   });
 });

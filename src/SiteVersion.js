@@ -18,10 +18,10 @@ class SiteBoundary extends React.Component {
   }
 }
 
-export default function SiteVersion() {
+export default function SiteVersion({ initialYear = new Date().getFullYear() }) {
   return (
     <SiteBoundary>
-      <PortfolioV2 />
+      <PortfolioV2 initialYear={initialYear} />
     </SiteBoundary>
   );
 }

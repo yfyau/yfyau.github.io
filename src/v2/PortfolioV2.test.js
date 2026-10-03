@@ -22,8 +22,12 @@ it("renders the v2 playful structure and all five destinations", () => {
   const container = renderV2();
 
   expect(container.querySelector(".v2-site")).not.toBeNull();
-  expect(container.querySelector("#v2-hero-title").textContent).toBe("Hi, I’m Jason.");
-  expect(container.textContent).toContain("Software engineer, persistent problem solver, and the person bugs keep finding.");
+  expect(container.querySelector("#v2-hero-title").textContent).toBe("Hi, I’m Jason Yau.");
+  expect(container.querySelector(".v2-hero-lead").textContent.trim()).toBe("The person bugs keep finding.");
+  const flyingBee = container.querySelector(".v2-hero-lead svg.v2-flying-bee");
+  expect(flyingBee.getAttribute("aria-hidden")).toBe("true");
+  expect(flyingBee.getAttribute("focusable")).toBe("false");
+  expect(container.querySelector("#experience .v2-section-intro p").textContent).toContain("I’m a Toronto-based software engineer and consultant.");
   expect(Array.from(container.querySelectorAll(".v2-nav a"), (link) => link.getAttribute("href"))).toEqual([
     "#top",
     "#experience",
@@ -239,4 +243,61 @@ it("keeps contact routes functional and avoids invented proof", () => {
   expect(container.querySelectorAll("h2")).toHaveLength(4);
 
   cleanup(container);
+});
+
+it("renders decorative arrows and the selected interest check as hidden SVG paths", () => {
+  const container = renderV2();
+  expect(container.textContent).not.toMatch(/[\u2190-\u21ff✓]/);
+  expect(container.querySelectorAll("svg.v2-icon").length).toBeGreaterThan(5);
+  container.querySelectorAll("svg.v2-icon").forEach((icon) => {
+    expect(icon.getAttribute("aria-hidden")).toBe("true");
+    expect(icon.getAttribute("focusable")).toBe("false");
+    expect(icon.querySelector("path")).not.toBeNull();
+  });
+  expect(container.querySelector('.v2-interest-tab[aria-pressed="true"] svg')).not.toBeNull();
+  cleanup(container);
+});
+
+it.each([800, 1200])("marks Contact at page bottom and restores Service above it at height %i", (height) => {
+  const oldHeight = window.innerHeight;
+  const oldScrollY = window.scrollY;
+  const oldScrollHeight = Object.getOwnPropertyDescriptor(document.documentElement, "scrollHeight");
+  const ranges = { top: [0, 600], experience: [600, 1200], "off-duty": [1200, 1800], consulting: [1800, 3200], contact: [3200, 3500] };
+  window.innerHeight = height;
+  window.scrollY = 3500 - height;
+  Object.defineProperty(document.documentElement, "scrollHeight", { configurable: true, value: 3500 });
+  const bounds = jest.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function () {
+    if (this.classList.contains("v2-header")) return { top: 0, bottom: 80, height: 80 };
+    const range = ranges[this.id] || [0, 0];
+    return { top: range[0] - window.scrollY, bottom: range[1] - window.scrollY, height: range[1] - range[0] };
+  });
+  let pendingFrame;
+  const requestFrame = jest.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+    pendingFrame = callback;
+    return 1;
+  });
+  const container = renderV2();
+  try {
+    expect(container.querySelector('.v2-nav a[aria-current="location"]').getAttribute("href")).toBe("#contact");
+    act(() => {
+      window.scrollY -= 100;
+      window.dispatchEvent(new Event("scroll"));
+      pendingFrame(0);
+    });
+    expect(container.querySelector('.v2-nav a[aria-current="location"]').getAttribute("href")).toBe("#consulting");
+    act(() => {
+      window.scrollY += 100;
+      window.dispatchEvent(new Event("scroll"));
+      pendingFrame(0);
+    });
+    expect(container.querySelector('.v2-nav a[aria-current="location"]').getAttribute("href")).toBe("#contact");
+  } finally {
+    cleanup(container);
+    bounds.mockRestore();
+    requestFrame.mockRestore();
+    window.innerHeight = oldHeight;
+    window.scrollY = oldScrollY;
+    if (oldScrollHeight) Object.defineProperty(document.documentElement, "scrollHeight", oldScrollHeight);
+    else delete document.documentElement.scrollHeight;
+  }
 });
