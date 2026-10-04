@@ -19,6 +19,12 @@ export function cubicTangent(s, t) {
   return point(3*u*u*(s.p1.x-s.p0.x)+6*u*t*(s.p2.x-s.p1.x)+3*t*t*(s.p3.x-s.p2.x),
     3*u*u*(s.p1.y-s.p0.y)+6*u*t*(s.p2.y-s.p1.y)+3*t*t*(s.p3.y-s.p2.y));
 }
+const cubicCurvature = (s, t, tangent) => {
+  const second=point(6*((1-t)*(s.p2.x-2*s.p1.x+s.p0.x)+t*(s.p3.x-2*s.p2.x+s.p1.x)),
+    6*((1-t)*(s.p2.y-2*s.p1.y+s.p0.y)+t*(s.p3.y-2*s.p2.y+s.p1.y)));
+  const speed=Math.hypot(tangent.x,tangent.y);
+  return speed>1e-8?Math.abs(tangent.x*second.y-tangent.y*second.x)/(speed*speed*speed):0;
+};
 const distanceToRect = (p, r) => Math.hypot(Math.max(r.left-p.x, 0, p.x-r.right), Math.max(r.top-p.y, 0, p.y-r.bottom));
 const smooth = t => { const x = clamp(t, 0, 1); return x*x*x*(10 + x*(-15 + 6*x)); };
 const phaseMultiplier = { A: 1, B: 1, C: .7, D: .85, E: 1.05 };
@@ -35,7 +41,7 @@ export function sampleDistance(route, distance) {
   const s=route.segments[segment];
   const p=cubicPoint(s, localT), tangent=cubicTangent(s, localT);
   const depthScale=s.phase==='C'?1-.06*Math.max(0,(route.innerOrbit.cy-p.y)/route.innerOrbit.ry):1;
-  return { ...p, tangent, heading: Math.atan2(tangent.y,tangent.x), phase:s.phase, depth:s.depth||'front', depthScale, segment, distance:clamp(distance,0,route.length) };
+  return { ...p, tangent, curvature:cubicCurvature(s,localT,tangent), heading: Math.atan2(tangent.y,tangent.x), phase:s.phase, depth:s.depth||'front', depthScale, segment, distance:clamp(distance,0,route.length) };
 }
 export function sampleFlight(route, seconds) {
   const time=clamp(seconds,0,route.duration);
@@ -53,18 +59,43 @@ function buildClock(route, duration) {
   const weights=phases.map(p=>(p.end-p.start)/p.multiplier), total=weights.reduce((a,b)=>a+b,0);
   let cumulative=0;
   const boundaries=weights.slice(0,-1).map(w=>{cumulative+=w;return duration*cumulative/total;});
-  const dt=1/240, clock=[{time:0,distance:0,speed:0}];
-  let integrated=0, lastVelocity=0;
-  for(let i=1;i<=Math.ceil(duration/dt);i++) {
-    const time=Math.min(duration,i*dt);
-    let v=phaseMultiplier.A;
-    boundaries.forEach((boundary,index)=> { v += (phases[index+1].multiplier-phases[index].multiplier)*smooth((time-boundary+.16)/.32); });
-    v *= smooth(time/.45) * smooth((duration-time)/.6);
-    integrated+=(lastVelocity+v)*.5*(time-clock[clock.length-1].time);
-    clock.push({time,distance:integrated,speed:v}); lastVelocity=v;
-  }
-  const calibration=route.length/integrated;
-  clock.forEach(row=>{row.distance*=calibration;row.speed*=calibration;});
+  const dt=1/240;
+  const integrate = turnAt => {
+    const clock=[{time:0,distance:0,speed:0,turnFactor:1}];
+    let integrated=0,lastVelocity=0;
+    for(let i=1;i<=Math.ceil(duration/dt);i++) {
+      const time=Math.min(duration,i*dt);
+      let v=phaseMultiplier.A;
+      boundaries.forEach((boundary,index)=> { v += (phases[index+1].multiplier-phases[index].multiplier)*smooth((time-boundary+.16)/.32); });
+      const turnFactor=turnAt(time);
+      v *= smooth(time/.45) * smooth((duration-time)/.6) * turnFactor;
+      integrated+=(lastVelocity+v)*.5*(time-clock[clock.length-1].time);
+      clock.push({time,distance:integrated,speed:v,turnFactor});lastVelocity=v;
+    }
+    const calibration=route.length/integrated;
+    clock.forEach(row=>{row.distance*=calibration;row.speed*=calibration;});
+    return {clock,calibration};
+  };
+  // Locate turns on a provisional distance clock, then anticipate them by 160ms.
+  // A short symmetric time filter avoids speed steps at cubic/phase joins. This
+  // only shapes A/B, and its bounded 14% reduction never masks a bad corner.
+  const provisional=integrate(()=>1),guide={...route,clock:provisional.clock};
+  const turnAt = time => {
+    let severity=0,totalWeight=0;
+    for(let i=-4;i<=4;i++) {
+      const pose=sampleFlight(guide,time+.16+i*.05),weight=5-Math.abs(i);
+      if(pose.phase==='A'||pose.phase==='B') severity+=weight*smooth((pose.curvature*route.r-.08)/.65);
+      totalWeight+=weight;
+    }
+    return 1-.14*severity/totalWeight;
+  };
+  // Curvature may change abruptly at a G1 join even with an oval contour.
+  // Forward/backward 100ms damping removes that sample step without delaying
+  // the planned anticipation; integrate the smoothed factor, not raw curvature.
+  const factors=provisional.clock.map(row=>turnAt(row.time)),alpha=1-Math.exp(-dt/.1);
+  for(let i=1;i<factors.length;i++) factors[i]=mix(factors[i-1],factors[i],alpha);
+  for(let i=factors.length-2;i>=0;i--) factors[i]=mix(factors[i+1],factors[i],alpha);
+  const {clock,calibration}=integrate(time=>factors[Math.min(factors.length-1,Math.round(time/dt))]);
   // Locate real phase times in the integrated profile, rather than assert rough weights.
   let cursor=0;
   const timeAt = distance => {
@@ -99,8 +130,10 @@ export function buildFlightPath(layout, measurements, params={}) {
   const outerRight=Math.min(rightLimit,Math.max(H.right+Math.max(24,H.width*(narrow?.12:.23)),m.P.x+16));
   const outerTop=Math.max(bounds.top,H.top-H.height*(narrow?.38:.48));
   if(outerRight<=outerLeft+40||outerTop>=cy-18||m.P.x<bounds.left||m.P.x>rightLimit||m.P.y>bounds.bottom) return fail('The title flight cannot fit the physical hero/CTA/illustration corridor.');
-  const corner=Math.min(32,(outerRight-outerLeft)*.14,(cy-outerTop)*.22);
-  const entryY=Math.max(outerTop+corner+3,innerOrbit.top-8);
+  const topX=mix(outerLeft,outerRight,.5);
+  const rightY=mix(outerTop,cy,.52),entryY=mix(outerTop,cy,.62);
+  const rightRadius=outerRight-topX,leftRadius=topX-outerLeft;
+  const rightRise=rightY-outerTop,leftRise=entryY-outerTop;
   const returnY=Math.min(bounds.bottom,Math.max(m.P.y+12,G.bottom+8));
   const exitY=Math.min(returnY-12,Math.max(cy+24,innerOrbit.bottom+12));
   if(entryY>=cy||exitY<=cy||returnY<=exitY+2||returnY<=m.P.y+2) return fail('The Jason entry/exit and docking turn cannot fit above the CTA.');
@@ -108,18 +141,26 @@ export function buildFlightPath(layout, measurements, params={}) {
   const add=(phase,p1,p2,p3,depth='front')=>{segments.push({phase,depth,p0:current,p1,p2,p3});current=p3;};
   // One continuous route: departure, the broad title contour, then a tighter
   // four-quarter oval centred on Jason's measured fragments. No forced row gaps.
-  add('A',point(mix(m.P.x,outerRight,.55),m.P.y),point(outerRight,m.P.y),point(outerRight,outerTop+corner));
-  add('B',point(outerRight,outerTop),point(outerLeft+2*corner,outerTop),point(outerLeft+corner,outerTop));
-  add('B',point(outerLeft,outerTop),point(outerLeft,entryY-corner*.5),point(outerLeft,entryY));
-  add('B',point(outerLeft,entryY+(cy-entryY)*.4),point(innerOrbit.left,cy-(cy-entryY)*.4),point(innerOrbit.left,cy));
+  // The broad contour uses ellipse-sized handles rather than capped corners.
+  // The departure is already climbing; its terminal handle matches the right
+  // quarter's curvature before the top bow opens into the left descent.
+  const departureX=mix(m.P.x,outerRight,.4),departureRise=m.P.y-rightY;
+  const departureHandle=Math.min(departureRise*.75,
+    K*rightRise*Math.sqrt((outerRight-departureX)/(rightRadius*(1-K))));
+  add('A',point(departureX,m.P.y-departureRise*.28),point(outerRight,rightY+departureHandle),point(outerRight,rightY));
+  add('B',point(outerRight,rightY-K*rightRise),point(topX+K*rightRadius,outerTop),point(topX,outerTop));
+  add('B',point(topX-K*leftRadius,outerTop),point(outerLeft,entryY-K*leftRise),point(outerLeft,entryY));
+  const entryHandle=Math.min(K*ry,(cy-entryY)*.45);
+  add('B',point(outerLeft,entryY+(cy-entryY)*.4),point(innerOrbit.left,cy-entryHandle),point(innerOrbit.left,cy));
   add('C',point(innerOrbit.left,cy+K*ry),point(cx-K*rx,innerOrbit.bottom),point(cx,innerOrbit.bottom));
   add('C',point(cx+K*rx,innerOrbit.bottom),point(innerOrbit.right,cy+K*ry),point(innerOrbit.right,cy));
   add('C',point(innerOrbit.right,cy-K*ry),point(cx+K*rx,innerOrbit.top),point(cx,innerOrbit.top),'back');
   add('C',point(cx-K*rx,innerOrbit.top),point(innerOrbit.left,cy-K*ry),point(innerOrbit.left,cy),'back');
   add('D',point(innerOrbit.left,cy+(exitY-cy)*.35),point(outerLeft,exitY-(exitY-cy)*.35),point(outerLeft,exitY));
-  const returnCorner=Math.min(24,(m.P.x-outerLeft)*.24);
+  const returnCorner=Math.min(72,(m.P.x-outerLeft)*.38,(returnY-exitY)*1.2);
   if(returnCorner<2) return fail('The docking lane has no room for a continuous return turn.');
-  add('E',point(outerLeft,returnY),point(outerLeft+returnCorner*.45,returnY),point(outerLeft+returnCorner,returnY));
+  // Spread the lower turn across its available lane instead of a small corner.
+  add('E',point(outerLeft,exitY+K*(returnY-exitY)),point(outerLeft+returnCorner*(1-K),returnY),point(outerLeft+returnCorner,returnY));
   add('E',point(mix(outerLeft+returnCorner,m.P.x,.5),returnY),point(m.P.x,m.P.y+(returnY-m.P.y)*.55),m.P);
   const arc=[{distance:0,segment:0,t:0,x:m.P.x,y:m.P.y}]; let length=0,previous=m.P;
   segments.forEach((s,index)=>{for(let i=1;i<=120;i++){const p=cubicPoint(s,i/120);length+=Math.hypot(p.x-previous.x,p.y-previous.y);arc.push({...p,distance:length,segment:index,t:i/120});previous=p;}});

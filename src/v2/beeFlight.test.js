@@ -26,8 +26,8 @@ it.each([false,true])('keeps compact measured rows and a complete four-quarter J
   expect(poses[0].depth).toBe('front');expect(poses[2].depth).toBe('front');
   const far=r.arc.find(a=>a.segment===6&&a.t>.5);expect(sampleDistance(r,far.distance).depth).toBe('back');
 });
-it('shares all endpoints and G1 direction without cusps',()=>{
-  const r=build(fixture());expect(r.ok).toBe(true);
+it.each([false,true])('shares all endpoints and G1 direction without cusps, wide=%s',wide=>{
+  const r=build(fixture(wide));expect(r.ok).toBe(true);
   for(let i=1;i<r.segments.length;i++){
     const a=r.segments[i-1],b=r.segments[i];expect(a.p3).toEqual(b.p0);
     const u=cubicTangent(a,1),v=cubicTangent(b,0),n=Math.hypot(u.x,u.y)*Math.hypot(v.x,v.y);
@@ -71,4 +71,49 @@ it('matches both resize bridge endpoint velocity vectors at their time scale',()
   const start=cubicTangent(b.segment,0),end=cubicTangent(b.segment,1);
   expect(Math.hypot(start.x,start.y)/b.duration).toBeCloseTo(speed,6);
   expect(Math.hypot(end.x,end.y)/b.duration).toBeCloseTo(target.speed,6);
+});
+
+it.each([false,true])('leaves diagonally and bows over the title before Jason, wide=%s',wide=>{
+  const r=build(fixture(wide)),launch=r.segments[0],top=r.segments[1];
+  expect(launch.p1.x).toBeGreaterThan(launch.p0.x);
+  expect(launch.p1.y).toBeLessThan(launch.p0.y-8);
+  // A broad curved top reaches its summit inside the contour, rather than
+  // ending a long flat run beside a tiny corner.
+  const left=r.segments[2].p3.x,right=launch.p3.x,topX=top.p3.x;
+  expect((topX-left)/(right-left)).toBeGreaterThan(.35);
+  expect((topX-left)/(right-left)).toBeLessThan(.65);
+  const mid=cubicPoint(top,.5);
+  expect(mid.y-top.p3.y).toBeGreaterThan(12);
+});
+
+it.each([false,true])('keeps early turns broad and their speed shaping bounded, wide=%s',wide=>{
+  const r=build(fixture(wide));
+  const first=r.arc.filter(a=>'AB'.includes(r.segments[a.segment].phase));
+  const curves=first.map(a=>sampleDistance(r,a.distance).curvature);
+  // A/B cannot regress into the old tight upper corner (peak > .15px^-1).
+  expect(Math.max(...curves)).toBeLessThan(.08);
+  const factors=r.clock.map(c=>c.turnFactor);
+  expect(Math.min(...factors)).toBeGreaterThanOrEqual(.86);
+  expect(Math.min(...factors)).toBeLessThan(.99);
+  expect(Math.max(...factors)).toBeLessThanOrEqual(1);
+  for(let i=1;i<factors.length;i++) expect(Math.abs(factors[i]-factors[i-1])).toBeLessThan(.005);
+  r.clock.slice(1,-1).forEach(row=>expect(row.speed).toBeGreaterThan(0));
+  expect(r.clock[r.clock.length-1].distance).toBeCloseTo(r.length,6);
+  expect(r.duration).toBe(9);
+});
+
+
+it.each([false,true])('rounds the return turn while docking at the same point, wide=%s',wide=>{
+  const r=build(fixture(wide)),e=r.segments.filter(s=>s.phase==='E');
+  const oldWidth=Math.min(24,(r.origin.x-e[0].p0.x)*.24),y=e[0].p3.y;
+  const old={p0:e[0].p0,p1:{x:e[0].p0.x,y},p2:{x:e[0].p0.x+oldWidth*.45,y},p3:{x:e[0].p0.x+oldWidth,y}};
+  const peak=s=>Math.max(...Array.from({length:101},(_,i)=>{
+    const t=i/100,u=1-t,v=cubicTangent(s,t);
+    const x=6*(u*(s.p2.x-2*s.p1.x+s.p0.x)+t*(s.p3.x-2*s.p2.x+s.p1.x));
+    const y=6*(u*(s.p2.y-2*s.p1.y+s.p0.y)+t*(s.p3.y-2*s.p2.y+s.p1.y));
+    return Math.abs(v.x*y-v.y*x)/Math.pow(Math.hypot(v.x,v.y),3);
+  }));
+  expect(peak(e[0])).toBeLessThan(peak(old)*.9);
+  expect(e[1].p3).toEqual(r.origin);
+  expect(sampleFlight(r,9).speed).toBe(0);
 });

@@ -303,6 +303,29 @@
   transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
+/* Fit both hero actions in a narrow column without reducing their type size. */
+@container (max-width: 20rem) {
+  .v2-hero-actions {
+    column-gap: 1.1rem;
+  }
+
+  .v2-hero-actions .v2-button {
+    gap: 0.5rem;
+    padding-inline: 0.6rem;
+  }
+
+  .v2-hero-actions > a {
+    white-space: nowrap;
+  }
+}
+
+/* Preserve the wider action gap at the smallest supported viewport. */
+@container (max-width: 17rem) {
+  .v2-hero-actions .v2-button {
+    padding-inline: 0.45rem;
+  }
+}
+
 .v2-button:hover {
   transform: translate(0.15rem, 0.15rem);
   box-shadow: 0.12rem 0.12rem 0 var(--v2-ink);
