@@ -2,6 +2,11 @@
 
 This folder is the continuity layer for work on Jason Yau's personal website.
 
+- **Current baseline:** [stable-2026-10-04](../releases/stable-2026-10-04.md), source `master`, Pages `build:/`.
+- [Stable cleanup and remaining follow-ups](worklog/2026-10-04.md).
+- Earlier local September/October engineering records and design provenance: Git archive tag `archive/2026-10-04/codex-homepage-prerender-20261002`. These remain recoverable locally; old design experiments are not active tasks.
+- Build acceptance: `npm run build` includes `scripts/prerender.js` through `postbuild`; Pages must receive the verified generated output.
+
 - [Current task and status](CURRENT.md)
 - [Design and engineering decisions](DECISIONS.md)
 - [Proposed coherent design direction](../design-direction.md)

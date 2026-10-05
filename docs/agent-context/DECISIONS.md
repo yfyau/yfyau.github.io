@@ -2197,3 +2197,12 @@ Move `master` to the exact source commit with `--force-with-lease=refs/heads/mas
 - Immediate production smoke returned HTTP 200 with `main.b7c8cfeb` CSS and `main.47de3fd1` JS. Raw `master/package.json` and `master/src/App.js` return source; raw `build/index.html` returns the optimized shell and `build/package.json` returns 404.
 - The leased `master` rewrite succeeded from exact expected old tip `a937256` to source baseline `f3d3483`. GitHub continues to report `master` as the default branch.
 - After completion, GitHub created separate commit `5ac5eb6 Create CNAME` on `build`, adding only `CNAME: yfyau.com`. The migration observed and preserved that concurrent external state; it did not create, revert, or claim verification of the associated DNS/custom-domain cutover.
+
+
+## DEC-STABLE-20261004: One active master baseline, recoverable historical work
+
+Date: 2026-10-04. Status: accepted. Owner: Jason (cleanup/stable request).
+
+Keep the repository's existing default name master and use dated source/build stable tags for the accepted website. Retire obsolete local worktrees and working branches only after preserving commit tips and non-committed generated output. Keep cancelled drafts in the existing stash and archive references, outside the active task list. Dependencies remain a separate review.
+
+Rationale: local historical branches diverged from the public source despite identical product content; one active master checkout reduces ambiguity without merging drafts or rewriting public history. Renaming the default branch to main and deleting experimental history were unnecessary. Recovery is by selected files/branches from local archive tags; a later authorized task may reopen them. Existing historical decision records are retained. Evidence: stable-2026-10-04 release record and2026-10-04worklog.

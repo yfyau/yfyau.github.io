@@ -1,3 +1,23 @@
+# Current stable baseline - 2026-10-04
+
+## V2-031: Stable baseline and repository cleanup
+
+Status: stable baseline complete. All 94 tests in 9 suites pass; source/build stable tags identify the accepted release. See the release record for exact product and artifact commits.
+
+- Accepted site: https://jason.yfyau.com/ . Default/source branch: `master`; Pages serves `build:/`.
+- Accepted product source: `157149bafec7b3c51d5cde1711e2357106ae9449`; deployed artifact: `ba6c4390a66af5eb8d9df7ac40449a21c6da5071`.
+- Current product includes the two-line title, scroll-safe bee docking, smoother A/B and E flight, and compact action gap of 1.1rem. Product files are unchanged by this cleanup.
+- One primary worktree remains, checked out on `master`. Sixteen obsolete release worktrees removed after preservation; eight retired local branches have archive tags. No active website implementation is pending.
+- The 148-file draft stash remains local: `5b6db0e4d62de6a3048d29860c1e24196f25200a`. Cancelled 3D/rig experiments are archived, not pending release work. Do not resume them without new direction.
+- Earlier local engineering history, decisions and design provenance are preserved at `archive/2026-10-04/codex-homepage-prerender-20261002` (commit `7f0cfda`). Inspect individual paths with `git show`; do not merge the entire historical branch into current product source.
+- Open follow-ups: Dependabot PRs #5, #6, #7; physical iPhone Safari acceptance remains untested. These are not unfinished approved feature work and were not merged by cleanup.
+- Scope: Git/worktree cleanup, recovery anchors and stable documentation only; no dependencies, design, DNS or deployment artifact changes.
+- Release/recovery details: [stable-2026-10-04](../releases/stable-2026-10-04.md). Audit/checkpoint: [October 4 worklog](worklog/2026-10-04.md).
+
+The entries below are retained historical context, not the active task list.
+
+---
+
 # Current task
 
 ## CR-004: Expand the primary header navigation
