@@ -2241,3 +2241,8 @@ Explicit review tradeoffs: .js source edits use automatic full-page reload rathe
 ## DEC-V2-035: Supported supplemental UI lint and authorized stable release
 
 Date:2026-10-24. Owner:root; approved by Jason's continue-all response to the concrete lint/verification/commit/CI/deploy/stable sequence. Retain ESLint10 and add exact Oxlint1.89.0 with29selected built-in React/jsx-a11y/import checks. Rejected unsupported peer forcing, ESLint downgrade, custom a11y rule engine and unrelated React upgrade.9CLI fixture cases demonstrate failure and valid acceptance; remaining non-equivalent CRA rules and dev full reload documented in development.md.133tests/12suites and clean installation/audit pass. Publish only the verified build after hosted CI, preserve master/build topology and dated paired stable tags. No DNS/GitHub settings changes. Browser tooling is unavailable for a fresh live visual run; artifact HTTP equality is distinct from prior browser checks and unrun physical Safari. Exact release identities/results follow in CURRENT and release record; no rollback publication without new authority.
+
+
+### DEC-V2-035 release result
+
+Implementationf8e8993 passed local133tests, candidate/master hosted CI, clean install/audit. Publishedb70a9b2 passed Pages rollout,28artifact checks and27public HTTP byte checks; custom-domain metadata confirmed separately. GitHub dependency alerts0. Stable release tags dated2026-10-24 preserve existing master/build convention and previous recovery tags. Browser/physical Safari evidence limitations remain explicit in release record; no visual pass inferred from HTTP.
