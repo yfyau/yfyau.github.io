@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { expect, it } from "vitest";
 
 const readProjectFile = (...segments) =>
   fs.readFileSync(path.join(process.cwd(), ...segments), "utf8");
@@ -11,31 +12,6 @@ const readPngDetails = (image) => {
     height: image.readUInt32BE(20),
     colorType: image[25],
   };
-};
-
-const readJpegDimensions = (image) => {
-  expect(image.readUInt16BE(0)).toBe(0xffd8);
-
-  let offset = 2;
-  while (offset < image.length) {
-    while (image[offset] === 0xff) offset += 1;
-    const marker = image[offset];
-    offset += 1;
-
-    if (marker === 0xd9 || marker === 0xda) break;
-    const segmentLength = image.readUInt16BE(offset);
-    const isStartOfFrame =
-      marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker);
-    if (isStartOfFrame) {
-      return {
-        height: image.readUInt16BE(offset + 3),
-        width: image.readUInt16BE(offset + 5),
-      };
-    }
-    offset += segmentLength;
-  }
-
-  throw new Error("JPEG dimensions were not found");
 };
 
 const readWebpDimensions = (image) => {
@@ -51,7 +27,7 @@ const readWebpDimensions = (image) => {
 };
 
 it("keeps the install identity encoding-safe and visually aligned", () => {
-  const html = readProjectFile("public", "index.html");
+  const html = readProjectFile("index.html");
   const manifest = JSON.parse(readProjectFile("public", "manifest.json"));
   const beeIcon = fs.readFileSync(
     path.join(process.cwd(), "public", "jason-bee-icon.png")
@@ -72,10 +48,10 @@ it("keeps the install identity encoding-safe and visually aligned", () => {
   expect(manifest.name).not.toContain("??");
   expect(html).toContain('<meta name="theme-color" content="#dcebf1" />');
   expect(html).toContain(
-    '<link rel="icon" type="image/png" sizes="460x460" href="%PUBLIC_URL%/jason-bee-icon.png" />'
+    '<link rel="icon" type="image/png" sizes="460x460" href="/jason-bee-icon.png" />'
   );
   expect(html).toContain(
-    '<link rel="apple-touch-icon" href="%PUBLIC_URL%/jason-bee-icon.png" />'
+    '<link rel="apple-touch-icon" href="/jason-bee-icon.png" />'
   );
   expect(readPngDetails(beeIcon)).toEqual({
     width: 460,
@@ -90,7 +66,7 @@ it("keeps the install identity encoding-safe and visually aligned", () => {
 it("keeps the Playful portfolio factual instead of performative", () => {
   const app = readProjectFile("src", "App.js");
   const css = readProjectFile("src", "App.css");
-  const html = readProjectFile("public", "index.html");
+  const html = readProjectFile("index.html");
   const visibleSources = `${app}\n${html}`;
 
   expect(visibleSources).not.toMatch(/[—–·]/);
@@ -194,7 +170,7 @@ it("keeps the Playful portfolio factual instead of performative", () => {
 it("ships the accepted consulting composition and discovery copy", () => {
   const app = readProjectFile("src", "App.js");
   const css = readProjectFile("src", "App.css");
-  const html = readProjectFile("public", "index.html");
+  const html = readProjectFile("index.html");
 
   [
     "Bring me the",
@@ -267,7 +243,7 @@ it("keeps the current-role poster factual and prominent", () => {
 });
 
 it("publishes a lightweight Playful social card at the declared dimensions", () => {
-  const html = readProjectFile("public", "index.html");
+  const html = readProjectFile("index.html");
   const socialCard = fs.readFileSync(
     path.join(process.cwd(), "public", "og-card-v3.png")
   );
@@ -288,7 +264,7 @@ it("publishes a lightweight Playful social card at the declared dimensions", () 
 });
 
 it("uses the same homepage for initial HTML instead of a duplicated noscript page", () => {
-  const html = readProjectFile("public", "index.html");
+  const html = readProjectFile("index.html");
   const css = readProjectFile("src", "index.css");
 
   expect(html).toContain('<div id="root"></div>');
@@ -325,7 +301,7 @@ it("keeps the Playful type system native across major desktop and mobile platfor
 });
 
 it("makes the supplied personal mark discoverable in the initial HTML", () => {
-  const html = readProjectFile("public", "index.html");
+  const html = readProjectFile("index.html");
   const app = readProjectFile("src", "App.js");
   const css = readProjectFile("src", "App.css");
   const personalMark = fs.readFileSync(
@@ -590,7 +566,7 @@ it("publishes the static build to the configured GitHub Pages source branch", ()
 
 it("keeps every canonical discovery URL on jason.yfyau.com", () => {
   const packageJson = JSON.parse(readProjectFile("package.json"));
-  const html = readProjectFile("public", "index.html");
+  const html = readProjectFile("index.html");
   const robots = readProjectFile("public", "robots.txt");
   const sitemap = readProjectFile("public", "sitemap.xml");
 

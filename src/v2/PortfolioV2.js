@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 
 import "./PortfolioV2.css";
 import FlyingBee, { BeeFlightProvider } from "./FlyingBee";
+const { useEffect, useRef, useState } = React;
 
 const MascotAvatar = "/v2/mascot/bee-avatar.webp";
+const MascotAvatarAlt = "A bee avatar with round glasses and blue wings.";
 const HeroBee = "/v2/mascot/bee-coding.webp";
 
 const interestAssets = {
@@ -298,6 +300,7 @@ function PortfolioV2({ initialYear = new Date().getFullYear() }) {
       image.getAttribute("src") === MascotAvatar
     ) return;
     image.dataset.mascotFallback = "true";
+    image.alt = MascotAvatarAlt;
     image.src = MascotAvatar;
   };
 
@@ -321,11 +324,12 @@ function PortfolioV2({ initialYear = new Date().getFullYear() }) {
       image.getAttribute("src") === MascotAvatar
     ) return;
     image.dataset.mascotFallback = "true";
+    if (image.getAttribute("aria-hidden") !== "true") image.alt = MascotAvatarAlt;
     image.src = MascotAvatar;
     setInterestImage((current) => {
       const updateSource = (candidate) => (
         candidate && candidate.key === key
-          ? { ...candidate, src: MascotAvatar }
+          ? { ...candidate, src: MascotAvatar, alt: MascotAvatarAlt }
           : candidate
       );
       return {

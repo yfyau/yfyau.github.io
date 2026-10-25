@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { act } from "react-dom/test-utils";
+import { expect, it, vi } from "vitest";
 
 import PortfolioV2 from "./PortfolioV2";
 
@@ -46,6 +47,42 @@ it("renders the v2 playful structure and all five destinations", () => {
   expect(container.querySelector(".v2-wordmark-mark img").getAttribute("src")).toBe("/v2/mascot/bee-avatar.webp");
   expect(container.querySelector(".v2-hero-art img").getAttribute("src")).toBe("/v2/mascot/bee-coding.webp");
   expect(container.querySelector(".v2-hero-art img").getAttribute("loading")).toBe("eager");
+
+  cleanup(container);
+});
+
+it("moves focus to the main content when the skip link is activated", () => {
+  const container = renderV2();
+  const skipLink = container.querySelector(".v2-skip-link");
+  const main = container.querySelector("#v2-main-content");
+  const click = new MouseEvent("click", { bubbles: true, cancelable: true });
+
+  act(() => {
+    skipLink.dispatchEvent(click);
+  });
+
+  expect(click.defaultPrevented).toBe(true);
+  expect(document.activeElement).toBe(main);
+
+  cleanup(container);
+});
+
+it("keeps section navigation and the footer back-to-top link aligned with their destinations", () => {
+  const container = renderV2();
+  const experienceLink = container.querySelector('.v2-nav a[href="#experience"]');
+  const topLink = container.querySelector(".v2-footer a[href='#top']");
+
+  act(() => {
+    experienceLink.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  });
+  expect(container.querySelector('.v2-nav a[aria-current="location"]')).toBe(experienceLink);
+  expect(container.querySelector(experienceLink.getAttribute("href"))).not.toBeNull();
+
+  act(() => {
+    topLink.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  });
+  expect(container.querySelector('.v2-nav a[aria-current="location"]').getAttribute("href")).toBe("#top");
+  expect(container.querySelector(topLink.getAttribute("href"))).not.toBeNull();
 
   cleanup(container);
 });
@@ -148,8 +185,71 @@ it("falls back once and remounts the next selected mascot after a load failure",
   cleanup(container);
 });
 
+it("describes the hero bee avatar after the scene image falls back", () => {
+  const container = renderV2();
+  const hero = container.querySelector(".v2-hero-art img");
+
+  act(() => {
+    hero.dispatchEvent(new Event("error"));
+  });
+
+  expect(hero.getAttribute("src")).toBe("/v2/mascot/bee-avatar.webp");
+  expect(hero.getAttribute("alt")).toBe("A bee avatar with round glasses and blue wings.");
+
+  cleanup(container);
+});
+
+it("describes an interest fallback as an avatar and restores the selected scene description", () => {
+  const container = renderV2();
+  const buttons = container.querySelectorAll(".v2-interest-tab");
+  const getArt = () => container.querySelector('.v2-interest-art img:not([aria-hidden="true"])');
+
+  act(() => {
+    getArt().dispatchEvent(new Event("error"));
+  });
+
+  expect(getArt().getAttribute("src")).toBe("/v2/mascot/bee-avatar.webp");
+  expect(getArt().getAttribute("alt")).toBe("A bee avatar with round glasses and blue wings.");
+
+  act(() => {
+    buttons[1].dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  });
+
+  const outgoing = container.querySelector('.v2-interest-art img[aria-hidden="true"]');
+  expect(outgoing.getAttribute("alt")).toBe("");
+  expect(getArt().getAttribute("src")).toBe("/v2/mascot/bee-shinobi.webp");
+  expect(getArt().getAttribute("alt")).toBe("A matte 3D bee in a rust-orange shinobi robe holding a katana");
+
+  cleanup(container);
+});
+
+it("keeps a failed outgoing interest image decorative during a transition", () => {
+  const container = renderV2();
+  const buttons = container.querySelectorAll(".v2-interest-tab");
+
+  act(() => {
+    buttons[1].dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  });
+
+  const outgoing = container.querySelector('.v2-interest-art img[aria-hidden="true"]');
+  const incoming = container.querySelector('.v2-interest-art img:not([aria-hidden="true"])');
+  expect(outgoing).not.toBeNull();
+  expect(outgoing.getAttribute("alt")).toBe("");
+
+  act(() => {
+    outgoing.dispatchEvent(new Event("error"));
+  });
+
+  expect(outgoing.getAttribute("src")).toBe("/v2/mascot/bee-avatar.webp");
+  expect(outgoing.getAttribute("aria-hidden")).toBe("true");
+  expect(outgoing.getAttribute("alt")).toBe("");
+  expect(incoming.getAttribute("alt")).toBe("A matte 3D bee in a rust-orange shinobi robe holding a katana");
+
+  cleanup(container);
+});
+
 it("crossfades from the loaded outgoing art while keeping one accessible active image", () => {
-  jest.useFakeTimers();
+  vi.useFakeTimers();
   const container = renderV2();
   const button = container.querySelectorAll(".v2-interest-tab")[1];
 
@@ -172,14 +272,14 @@ it("crossfades from the loaded outgoing art while keeping one accessible active 
   expect(incoming.className).toContain("v2-interest-art-image--ready");
 
   act(() => {
-    jest.advanceTimersByTime(300);
+    vi.advanceTimersByTime(300);
   });
 
   expect(container.querySelectorAll(".v2-interest-art img")).toHaveLength(1);
   expect(container.querySelector('.v2-interest-art img:not([aria-hidden="true"])').getAttribute("src")).toBe("/v2/mascot/bee-shinobi.webp");
 
   cleanup(container);
-  jest.useRealTimers();
+  vi.useRealTimers();
 });
 
 it("lets the latest rapid interest selection win", () => {
@@ -266,13 +366,13 @@ it.each([800, 1200])("marks Contact at page bottom and restores Service above it
   window.innerHeight = height;
   window.scrollY = 3500 - height;
   Object.defineProperty(document.documentElement, "scrollHeight", { configurable: true, value: 3500 });
-  const bounds = jest.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function () {
+  const bounds = vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function () {
     if (this.classList.contains("v2-header")) return { top: 0, bottom: 80, height: 80 };
     const range = ranges[this.id] || [0, 0];
     return { top: range[0] - window.scrollY, bottom: range[1] - window.scrollY, height: range[1] - range[0] };
   });
   let pendingFrame;
-  const requestFrame = jest.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+  const requestFrame = vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
     pendingFrame = callback;
     return 1;
   });

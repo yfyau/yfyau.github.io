@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {act,Simulate} from 'react-dom/test-utils';
+import {expect,it,vi} from 'vitest';
 import FlyingBee,{BeeFlightProvider,BeeFlightContext,measureFlight} from './FlyingBee';
 import {buildFlightPath} from './beeFlight';
 // Test-only control harness exercises the player without shipping retired UI.
@@ -23,9 +24,9 @@ function setup({reduced=false,invalid=false,debug=false,scrollX=0,scrollY=0,head
   const inViewport=r=>rect(r.left+model.world.x-model.scroll.x,r.top+model.world.y-model.scroll.y,r.width,r.height);
   const oldMedia=window.matchMedia;window.matchMedia=()=>({matches:reduced,addListener(){},removeListener(){}});
   let stamp=0,id=0;const pending=new Map();
-  const request=jest.spyOn(window,'requestAnimationFrame').mockImplementation(callback=>{pending.set(++id,callback);return id;});
-  const cancel=jest.spyOn(window,'cancelAnimationFrame').mockImplementation(value=>pending.delete(value));
-  const bounds=jest.spyOn(Element.prototype,'getBoundingClientRect').mockImplementation(function(){
+  const request=vi.spyOn(window,'requestAnimationFrame').mockImplementation(callback=>{pending.set(++id,callback);return id;});
+  const cancel=vi.spyOn(window,'cancelAnimationFrame').mockImplementation(value=>pending.delete(value));
+  const bounds=vi.spyOn(Element.prototype,'getBoundingClientRect').mockImplementation(function(){
     if(model.invalid)return rect(0,0,0,0);
     if(this.classList.contains('v2-site'))return rect(-model.scroll.x,-model.scroll.y,305,3000);
     if(this.classList.contains('v2-hero'))return inViewport(rect(0,0,305,1100));
@@ -36,7 +37,7 @@ function setup({reduced=false,invalid=false,debug=false,scrollX=0,scrollY=0,head
     return rect(0,0,0,0);
   });
   const previousRange=document.createRange;
-  document.createRange=jest.fn(()=>{
+  document.createRange=vi.fn(()=>{
     let node;return {setStart(n){node=n;},setEnd(){},getClientRects(){
       const text=node.textContent.trim();
       if(text==='Jason')return [inViewport(model.J)];
@@ -80,12 +81,52 @@ it('ignores wing animation end events and keeps a single master clock',()=>{
 it.each([false,true])('keeps reduced motion static even when geometry is invalid=%s',invalid=>{
   const f=setup({reduced:true,invalid});try{expect(f.bee().classList.contains('v2-flying-bee--flying')).toBe(false);act(()=>Simulate.click(f.button()));f.step(2000);expect(f.bee().classList.contains('v2-flying-bee--flying')).toBe(false);expect(f.container.querySelector('.v2-hero-lead').textContent).toBe('The person bugs keep finding.');}finally{f.cleanup();}
 });
+it('recovers automatically when an initially invalid layout becomes usable',()=>{
+  const f=setup({invalid:true});try{
+    expect(f.bee().dataset.flightStatus).toBe('blocked');
+    f.model.invalid=false;f.rebuild('resize');f.step(20);
+    expect(f.bee().dataset.flightStatus).toBe('flying');
+    f.step(9500);expect(f.bee().dataset.flightStatus).toBe('parked');expect(f.position()).toBe('translate(0px, 0px)');
+  }finally{f.cleanup();}
+});
 it('preserves the screen point and blocks resume when resize removes a safe corridor',()=>{
   const f=setup();try{
     f.step(4000);const before=f.position().match(/-?[\d.]+/g).map(Number),screen={x:f.model.P.x+before[0],y:f.model.P.y+before[1]};
     f.model.P.x+=40;f.model.J=rect(-500,120,135,67.2);act(()=>{window.dispatchEvent(new Event('resize'));});f.step(20);
     const after=f.position().match(/-?[\d.]+/g).map(Number);expect(f.model.P.x+after[0]).toBeCloseTo(screen.x,6);expect(f.model.P.y+after[1]).toBeCloseTo(screen.y,6);
     expect(f.bee().dataset.flightStatus).toBe('blocked');const blocked=f.position();act(()=>Simulate.click(f.button()));f.step(1000);expect(f.bee().dataset.flightStatus).toBe('blocked');expect(f.position()).toBe(blocked);
+  }finally{f.cleanup();}
+});
+it('automatically resumes an active flight after blocked geometry becomes valid',()=>{
+  const f=setup();try{
+    f.step(4000);const before=f.documentPoint(),originalP={...f.model.P},originalJ={...f.model.J};
+    f.model.P.x+=40;f.model.J=rect(-500,120,135,67.2);f.rebuild('resize');f.step(20);
+    expect(f.bee().dataset.flightStatus).toBe('blocked');expectPoint(f.documentPoint(),before);
+    f.model.P=originalP;f.model.J=originalJ;f.rebuild('resize');f.step(20);
+    expectPoint(f.documentPoint(),before);expect(f.bee().dataset.flightStatus).toBe('flying');
+    f.step(9500);expect(f.bee().dataset.flightStatus).toBe('parked');expect(f.position()).toBe('translate(0px, 0px)');
+  }finally{f.cleanup();}
+});
+it('keeps an intentional Escape pause after blocked geometry becomes valid',()=>{
+  const f=setup();try{
+    f.step(4000);act(()=>{window.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape'}));});
+    const before=f.documentPoint(),originalP={...f.model.P},originalJ={...f.model.J};
+    f.model.P.x+=40;f.model.J=rect(-500,120,135,67.2);f.rebuild('resize');f.step(20);
+    expect(f.bee().dataset.flightStatus).toBe('blocked');expectPoint(f.documentPoint(),before);
+    f.model.P=originalP;f.model.J=originalJ;f.rebuild('resize');f.step(20);
+    expect(f.bee().dataset.flightStatus).toBe('paused');expectPoint(f.documentPoint(),before);
+    f.step(1000);expectPoint(f.documentPoint(),before);
+  }finally{f.cleanup();}
+});
+it('records Escape intent while safety-blocked and stays paused after recovery',()=>{
+  const f=setup();try{
+    f.step(4000);const before=f.documentPoint(),originalP={...f.model.P},originalJ={...f.model.J};
+    f.model.P.x+=40;f.model.J=rect(-500,120,135,67.2);f.rebuild('resize');f.step(20);
+    expect(f.bee().dataset.flightStatus).toBe('blocked');
+    act(()=>{window.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape'}));});
+    f.model.P=originalP;f.model.J=originalJ;f.rebuild('resize');f.step(20);
+    expect(f.bee().dataset.flightStatus).toBe('paused');expectPoint(f.documentPoint(),before);
+    f.step(1000);expectPoint(f.documentPoint(),before);
   }finally{f.cleanup();}
 });
 it('renders the far Jason arc behind the actual heading then returns to front',()=>{
@@ -104,7 +145,7 @@ it('coalesces startup dock settling at zero distance without an unsafe resize br
 });
 it('uses the slow master-clock timebase for a safe in-flight resize bridge',async()=>{
   const f=setup({debug:true});try{
-    await act(async()=>{await Promise.resolve();});
+    await act(async()=>{await vi.dynamicImportSettled();});
     const click=text=>{const button=Array.from(f.container.querySelectorAll('button')).find(b=>b.textContent===text);expect(button).toBeTruthy();act(()=>Simulate.click(button));};
     click('0.25 speed');f.step(18000);
     const before=f.position().match(/-?[\d.]+/g).map(Number),screen={x:f.model.P.x+before[0],y:f.model.P.y+before[1]};

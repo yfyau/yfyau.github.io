@@ -1,12 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { act } from "react-dom/test-utils";
+import { expect, it, vi } from "vitest";
 import SiteVersion from "./SiteVersion";
 
-jest.mock("./v2/PortfolioV2", () => {
-  const React = require("react");
-  return function MockPortfolioV2() {
-    return React.createElement("main", { "data-testid": "portfolio-v2" }, "V2 portfolio");
+vi.mock("./v2/PortfolioV2", async () => {
+  const ReactModule = await import("react");
+  const React = ReactModule.default || ReactModule;
+  return {
+    default: function MockPortfolioV2() {
+      return React.createElement("main", { "data-testid": "portfolio-v2" }, "V2 portfolio");
+    },
   };
 });
 

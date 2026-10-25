@@ -1,3 +1,156 @@
+# V2-035 - Restore static UI lint coverage and release the verified candidate
+
+Date: 2026-10-24. Phase: verified locally; committing release candidate. Owner: root. Jason explicitly said "continue and do all of it" after the proposed lint coverage, final verification, commit/push, hosted CI, deploy and stable sequence. This supersedes V2-034's former local-only boundary for this release; preserve the accepted design/function and all V2-032/033/034 work.
+
+Contract: restore selected CRA React/accessibility checks with supported tools, add meaningful lint failure fixtures, run clean install/audit/full verification and browser smoke, commit the candidate, push and require green hosted CI, fast-forward master if remote history allows, publish build/ via the existing gh-pages command, verify live assets/routes/behavior, then tag source/build stable-2026-10-24 and stable-2026-10-24-build. No DNS/settings changes, React upgrade, redesign, forced peers, forced Git updates, unrelated cleanup or automatic PR closure. Physical iPhone Safari needs a real device and remains separately disclosed if unavailable; it is not replaced by viewport emulation.
+
+Investigation: old eslint-plugin-react7.37.5, jsx-a11y6.10.2 and import2.32.0 still cap peer support at ESLint9; @eslint-react would require a new TS peer and not cover all a11y. Preferred bounded alternative: pinned Oxlint1.89.0 with built-in React/jsx-a11y/import rules as a supplemental selected-rule gate, retaining ESLint10 core/Hooks/classic factory. Official Oxlint docs list those built-ins. Pilot one invalid/valid JSX fixture and actual src tree before integrating. Do not claim byte-for-byte CRA rule parity. Shared package/lock/config owned by root; read-only worker checks release conventions. Budget: one lint pilot, meaningful failure fixtures, one integrated gate and hosted/live checks; default initial+10 per problem, stop for unsupported install, design-changing fixes, remote divergence or publishing failure without justified safe correction.
+
+Acceptance: selected missing-alt/invalid-ARIA/invalid-anchor/duplicate-prop/unsafe-target/import-order cases fail while current intended UI passes; no suppression of genuine failures; audit remains clear or findings explicitly triaged; all existing124tests preserved. Live product artifacts must match locally verified build. Record physical-device and dev full-reload limitations. Recovery: existing v2-034-before snapshot plus Git stable-2026-10-04 source/build tags; no destructive resets. Prior task records retained below.
+
+Result so far:29selected Oxlint rules run alongside ESLint;9negative/positive CLI fixtures pass. Clean npm ci installed246packages, audit0, and npm run verify passed133tests/12suites, both lint gates, build/prerender and4HTML/46refs. Static files/CSS and homepage root match the preserved accepted candidate. Local preview restarted on43830 (HTTP200). Current browser tools expose no available browser; a fresh browser run and real iPhone Safari remain unrun, rather than inferred from HTTP/previous checks. Next: commit/push CI, reconcile master, publish and mark stable after live artifact verification.
+
+---
+
+# V2-034 - Remove the legacy CRA toolchain
+
+Date: 2026-10-23. Phase: tested locally; ready for user review. Jason explicitly approved the Vite + Vitest plan, retaining design/functions and stopping at local tested review with no deployment. Preserve previous V2-032/V2-033 changes on codex/dependency-ci-bee-recovery. Pre-migration snapshot: visualization folder v2-034-before (tracked/untracked source, SHA256 manifest, candidate patch and built output).
+
+## Local result and review evidence
+
+Vite8.3.5/Vitest5.0.5 replace CRA; React/ReactDOM remain16.9.0. Root index.html, classic .js JSX transform, build/ output, standalone service pages, Vite SSR prerender, manual publication and browser policy are retained. All prior V2-032/V2-033 edits remain on codex/dependency-ci-bee-recovery, HEAD732bcdb06928d98efcc3c0dd67fe63148fd355a0. No commit/push/merge/tag/deploy performed.
+
+- Clean npm ci installed244 packages without forced peers; npm ls --depth=0 passed. Both full-graph and production-only npm audits report0 known advisories, down from229 before this migration. CRA/react-app Babel packages are absent from the lockfile; active code/config no longer uses CRA flags/placeholders.
+- Final pinned Node24.22.1/npm11.19.1 `npm run verify` passed: lint;124tests/11suites (13.82s); build/postbuild prerender;4HTMLdocuments/46local references. All119previous cases retained. Added gate/lint/coexistence tests. git diff --check passed.
+- Generated homepage root markup is exactly identical to the pre-migration candidate (13731characters).27public assets/service files/CSS compare unchanged; production component behavior is unchanged outside React16 SSR import interop. Source and asset hashes are in the recovery/evidence folder.
+- Real browser built/dev checks at320/390/430/768/1440 confirmed no horizontal overflow; built heading keeps two lines and CTAs one row. Service pages at320/390/430 keep the current tab visible. Skip-link focus, navigation/Contact highlighting, Boss fights/Coffee switching, debug lazy loading, and bee scroll/resize recovery/docking passed; warning/error logs empty. Main preview remains http://127.0.0.1:43830/ ; temporary dev server/tab closed.
+
+Review limitations: .js component edits update by full-page reload and reset in-page state; state-preserving Fast Refresh is not implemented. ESLint10 core/JSX-reference, classic React factory and Hooks checks run, but selected obsolete CRA React/import/jsx-a11y static rules have no supported ESLint10 plugin equivalent in this candidate. Rendered accessibility tests do not provide full static parity; retain this as an explicit review tradeoff/follow-up, not an invisible reduction. Physical iPhone/Safari and hosted CI were not run. The real-browser shared dev/prerender cache failure was corrected by separate caches and manually rechecked; the automated coexistence smoke passes but controlled removal of cache isolation also passes, so it is not sensitivity proof for that defect. Existing unsafe-resize bridge policy remains unchanged.
+
+Evidence folder: C:/Users/Jason/.codex/visualizations/2026/09/18/01a0b436-d8b5-7dd3-b2d0-72d3c1aee669/ . Files: v2-034-before/ recovery snapshot; v2-034-audit-baseline.json, v2-034-audit-after.json, v2-034-audit-production.json; v2-034-preservation.json; v2-034-markup-comparison.json; v2-034-review-preview.png. Commands/limits: [development checks](../development.md). Detailed failures/corrections: [October23worklog](worklog/2026-10-23.md).
+
+## Outcome and scope
+
+Remove react-scripts and the old CRA-owned dependency graph instead of hiding audit output. Preserve the current V2-032/V2-033 local review candidate, its React/ReactDOM 16.9.0 behavior, visual design, content, bee geometry/timing/recovery, image transitions, prerendered SEO, three static service routes, and manual GitHub Pages build:/ publishing at jason.yfyau.com. Continue using pinned Node 24.22.1/npm 11.19.1 and build/ output.
+
+In scope: replace build/dev/test/lint tooling; replace CRA-specific prerender source loading; relocate the HTML entry; mechanical test/config adjustments; directly affected scripts, CI gate and development/continuity docs. No React major upgrade, redesign, new product feature, framework/router/server introduction, broad legacy App deletion, public API/content changes, GitHub settings, commit/push/merge/tag/deploy or system-wide runtime installation. All previous uncommitted work must be preserved.
+
+## Pre-migration evidence
+
+- Fresh npm audit: 229 total (20 critical, 65 high, 135 moderate, 9 low); only direct flagged dependency is react-scripts 3.3.1. Audit recommends 5.0.1, but that is still the deprecated CRA line; no claim that upgrading it removes all warnings. Current count describes the dependency graph, not a demonstrated browser exploit.
+- Current acceptance baseline: 119 tests across 10 suites; full local verification, prerender and 4 HTML / 47 local reference checks pass. Production design/static CSS and service pages are accepted; prior candidate changes remain uncommitted on codex/dependency-ci-bee-recovery, HEAD732bcdb.
+- CRA supplies build/dev, ESLint, Jest and a Babel preset. scripts/prerender.js resolves both Babel and babel-preset-react-app from react-scripts and uses temporary source loaders. Replacing only the bundler would leave this coupling.
+- JSX appears in .js files. React16.9 requires classic JSX runtime. The only lazy import is BeeFlightDebug. There are 36 jest API references in six files, including one hoisted mock; no Testing Library/Enzyme. Layout mocks and DOMParser need jsdom; fake timers/RAF and hydration are key behavioral risks.
+- public/index.html is the current shell with PUBLIC_URL placeholders. Public assets, services, discovery files and CNAME must retain root-relative URLs. Existing serviceWorker registration is unused; unregister is called and must remain effective. Browserslist currently drives CRA transformations/prefixing; Vite defaults alone are not an equivalent policy.
+
+## Chosen approach and alternatives
+
+Chosen: Vite plus its React plugin for dev/build and source transforms, Vitest/jsdom for tests, and Vite's server-side source loader for the existing ReactDOMServer prerender. Keep classic JSX and React16.9; avoid renaming all JSX source files by explicit source transform configuration. Retain build/ output, root base path and the existing gh-pages command. Keep the existing CLI contract (start/build/test/test:ci/verify/predeploy); remove CRA-only eject and the OpenSSL legacy flag.
+
+Candidates verified against official registry metadata today: vite8.3.5, @vitejs/plugin-react6.1.2, vitest5.0.5, jsdom30.1.3. All support the pinned Node24.22.1. Pin exact compatible releases in the manifest/lock during implementation; do not add optional React Compiler, Vitest UI, coverage or browser-runner packages.
+
+Retain an explicit lint gate when removing CRA's implicit build lint: current supported ESLint10 (10.13.0), @eslint/js10.0.1 and compatible eslint-plugin-react-hooks7.1.1, using the relevant existing core/JSX/Hook checks. ESLint10 tracks JSX references natively; avoid pulling EOL ESLint9 merely for the older eslint-plugin-react peer range. Match the existing checking intent and document rule differences; do not blanket disable warnings or use new style rules to force a source rewrite. Any significant lint-parity gap returns for a decision.
+
+Browser compatibility: preserve the explicit Browserslist policy using maintained compatibility data, PostCSS/autoprefixer (8.5.31/10.6.1 candidates), and explicit Vite build targets. Use official @vitejs/plugin-legacy8.2.3/its compatible terser peer if the policy includes browsers below Vite's native ESM baseline. Do not silently accept Vite's default Safari16.4 minimum. Do not promise support beyond what current application APIs/CSS already support; record the actual resolved target set and compare behavior.
+
+Alternatives: (A) CRA5 update is a smaller manifest change but retains a deprecated aggregate toolchain and uncertain residual audit debt; not the recommended durable outcome. (B) Vite plus standalone Jest/Babel minimizes test edits but keeps two source-transform pipelines, more direct tooling and a separate prerender loader; retain as fallback only if a bounded Vitest pilot exposes a material incompatibility. (C) React/Next/Astro/full redesign expands product/runtime scope and is excluded. No npm audit fix --force or unsafe transitive overrides.
+
+## Ordered implementation and ownership
+
+1. Preserve a local pre-migration recovery snapshot of all current modified/untracked review-candidate files and the accepted built output, excluding node_modules/.git/secrets. Record hashes and exact paths. Work on a local codex/ migration branch or retain the existing review branch with explicit task ownership; do not reset/stash away prior work. Root owns manifest, lockfile, shared config, command contract and integration.
+2. Resolve and pin only the agreed tooling packages. Replace react-scripts in start/build/test scripts; add explicit lint to verify and update the gate's fail-fast tests. Remove react-app config inheritance and OpenSSL workaround. Clean npm ci must succeed without forced peer overrides. Capture before/after complete and production-only audit results.
+3. Build/dev/prerender pilot: root index.html replaces public/index.html, preserving metadata and root placeholder; use normal root asset URLs. Set base=/, outDir=build and explicit .js JSX/classic transform. Keep public copying and three service pages intact. Replace CRA Babel hooks with Vite source loading and ReactDOMServer render; allow internal helper async conversion with matching awaited tests, while retaining empty-root/build-year/error-shell checks and final loader/server cleanup. Keep hydration entry semantics. Preserve service-worker unregister without CRA env references or enabling a new worker.
+4. Run one representative pilot before mechanical test fan-out: PortfolioV2 behavior plus hydration/prerender on the new transform/runtime. Verify React singleton/classic JSX, CSS handling, jsdom URL/visual mode, fake timers and RAF behavior. Stop and reassess on shared transform/environment failure; do not mask it by changing product behavior.
+5. Once the pilot is sound, migrate remaining Jest calls to explicit Vitest APIs and adapt the hoisted mock to Vitest's module shape. Keep the existing 119 cases and assertions; update only tool-specific paths/mock/timer setup as required. Keep legacy App tests present for this migration. Node-only filesystem/prerender tests can use the appropriate test environment. Build verifier must check actual generated HTML/assets without assuming CRA chunk filenames.
+6. Integrate lint/test/build/prerender/artifact checks under npm run verify and retain predeploy's use of it. Existing CI still runs npm ci/verify and uploads build/ with no publishing action. Update docs/development.md and canonical records with command behavior, targets, evidence and residuals.
+7. Verify the candidate in real browser: dev and built output, mobile/tablet/desktop (320/390/430/768/1440), top/anchor navigation and focus, three service routes, mascot switching, bee play/dock/scroll/resize and reduced-motion behavior. Exercise beeDebug lazy loading separately. Compare visible markup/assets/style behavior against the preserved candidate. Leave a local preview for review, no publication.
+
+Likely affected files: package.json/package-lock.json; new vite/vitest and ESLint/PostCSS config; root index.html with public/index.html relocated; scripts/prerender.js, scripts/verify.js and build verifier only if necessary; src/serviceWorker.js and entry comments/env handling; src/**/*.test.js for API/path changes; docs/development.md and agent-context records. Source component layout/beeFlight.js/CSS/assets/service content are not redesign targets. Assign non-overlapping test/config ownership only after the pilot; no recursive worker fan-out.
+
+## Acceptance, checks and stop conditions
+
+- Clean npm ci succeeds on pinned Node24/npm11, without --legacy-peer-deps/--force. npm ls --depth=0 shows the intended tools and React16.9 unchanged.
+- npm ls react-scripts babel-preset-react-app confirms they are absent; active scripts/config no longer invoke CRA or --openssl-legacy-provider. Historical docs may still mention them.
+- All 119 existing tests remain represented and pass under the new harness; new migration regressions may increase the count. No skip/relaxed assertions to pass. npm run verify passes explicit lint, tests, build/prerender and artifact checks. Failure gates still stop later stages.
+- Four crawlable HTML pages retain canonical metadata/provider identity, valid local references, root asset paths, discovery files and CNAME. Homepage is prerendered and hydrates without replacement/warnings; malformed prerender must fail without overwriting source/output unexpectedly.
+- Browser and source comparison establish preserved design/functions, safe bee recovery and lazy debug chunk. Report physical iPhone/Safari and hosted CI gaps honestly; no claim until run.
+- Re-run npm audit --json and npm audit --omit=dev --json, report full severity/path differences. Target no known advisories in the chosen resolved replacement graph, but do not promise zero before resolution. Any remaining alert is triaged by direct/transitive path and runtime/tooling exposure; no suppressions counted as remediation. Unresolved high/critical in the replacement graph blocks claiming the cleanup complete.
+- Stop for a required React upgrade, changed user-facing behavior/browser support, inability to preserve current tests, significant new dependency/architecture family beyond this plan, or unsafe/unjustified override. Default retry ledger: initial +10 per unresolved acceptance problem, reassess after3failed corrections; tooling failures tracked separately. At a material blocker return with concrete options, not weakened acceptance.
+- Rollback: restore only V2-034 changes from the exact pre-migration snapshot, restore prior manifest/lock and npm ci, then the prior build/preview. Never use git reset --hard or overwrite the earlier V2-032/V2-033 work. Public stable release remains untouched.
+
+Expected budget: one build/hydration pilot, one bounded test migration, one integrated verification and visual review; hours rather than a package-only patch. No open-ended framework cleanup.
+
+## Sources and next commitment
+
+Official references checked: https://react.dev/blog/2025/02/14/sunsetting-create-react-app ; https://vite.dev/guide/ ; https://vite.dev/guide/build ; https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react ; https://vitest.dev/guide/migration/ ; https://eslint.org/version-support/ ; https://eslint.org/docs/latest/use/migrate-to-10.0.0 . Registry versions were checked directly against registry.npmjs.org during planning, before implementation. Audit evidence: local visualization folder v2-034-audit-baseline.json.
+
+Next: Jason reviews the tested local candidate and the explicit development/lint tradeoffs. No implementation step remains in the approved migration; commit/publication requires later authorization. The approved plan below was executed without React/design/function changes.
+
+---
+
+# V2-033 - Current UI coverage and metadata follow-ups
+
+Date: 2026-10-23. Phase: tested locally; ready for user review. User explicitly selected the recommended tests and small fixes batch after the tested V2-032 review candidate. V2-032 remains uncommitted locally on codex/dependency-ci-bee-recovery; preserve it in full.
+
+Contract: improve tests for shipped PortfolioV2 accessibility behaviors, accurate image fallback alternative text, and standalone service-provider identity in three service pages. Preserve all normal visual design, text, typography, animation route, interaction policy and current dependency/CI work. No commit/push/deploy, framework migration, new UI controls, broad legacy-test deletion, architecture change or new dependencies.
+
+Evidence: read-only exploration confirmed App.test.js renders the unshipped App, whereas existing PortfolioV2 tests already cover most live behavior. The useful missing behaviors are skip-link focus and navigation/back-to-top semantics; do not duplicate current motion/interest/service tests. Hero fallback changes src but keeps scene-specific alt; interest fallback state does the same. Each service page currently has a valid provider @id reference but lacks local Person identity. Schema.org provider permits a Person (https://schema.org/provider); this is metadata completeness, not a ranking guarantee.
+
+Plan/ownership: one coding worker owns PortfolioV2.js and PortfolioV2.test.js for fallback red/green and current UI behavior coverage. A second owns three public/services/*/index.html JSON-LD sections and seo.test.js for consistent provider identity with homepage; only JSON-LD changes. Root owns integration, review and continuity. Keep legacy source/test deletion deferred: relevant coverage is added to live UI, and remaining legacy tests are explicitly recorded rather than blindly ported.
+
+Acceptance: targeted regressions demonstrate old fallback alt mismatch and pass with accurate avatar alt; hidden outgoing artwork stays decorative, repeated error does not loop, switching restores scene alt. Current-page skip/anchor/nav tests assert browser-visible semantics. Each service document independently identifies its provider with the same Person @id/name/url as home. Full npm run verify passes and built page checks confirm unchanged visible markup/CSS and consistent metadata. Run local browser smoke as appropriate. Budget: two bounded worker slices, one integration gate; default initial +10 retries per independent problem. Stop on product/design ambiguity or need for broader architecture/publication authority.
+
+Result: completed. Hero/interest fallbacks now use accurate avatar alt text; outgoing hidden images retain empty alt, repeated errors keep their guard, and changing interests restores scene descriptions. Added live PortfolioV2 skip focus, section navigation and footer return tests. Each service provider now includes Person type, canonical ID, name, URL and sameAs aligned with the homepage.
+
+Verification: Node 24.22.1/npm 11.19.1 `npm run verify` passed 119 tests in 10 suites, production/prerender build and 4 HTML documents / 47 local references. UI targeted suite 16/16 and SEO 3/3 passed, including red/green coverage for the two visible fallback cases, hidden outgoing fallback and provider completeness. All acceptance failures closed after one correction each. Service comparison against HEAD confirms only provider JSON-LD changed; normal HTML, other schema fields, CSS and flight geometry are unchanged. Browser keyboard Tab -> Skip to content -> Enter focused v2-main-content; Boss fights/Coffee loaded with only the incoming/current image described, Back to top marked Home, and served service metadata had the expected identity. Browser warnings/errors empty. The first keyboard probe retained a #top fragment focus position; fresh root navigation established the expected tab sequence, no product defect.
+
+Remaining follow-ups: broad retirement of legacy App tests is still deferred; current live coverage was added without deleting historical checks. V2-032 CRA audit/deprecation debt, hosted CI run and physical Safari acceptance remain as recorded below. New provider metadata improves standalone identity completeness; no search-ranking or AI-answer gain was measured. No other features, dependencies or visible controls were added.
+
+Next: user reviews the combined V2-032/V2-033 candidate at http://127.0.0.1:43830/ on codex/dependency-ci-bee-recovery. No commit/push/merge/tag/deploy performed. See worklog/2026-10-23.md for test/review evidence.
+
+---
+
+# V2-032 - Dependency hygiene, CI and bee recovery
+
+Date: 2026-10-23. Phase: tested locally; ready for user review. User approved these three bounded review recommendations and requested a tested local result for review. Baseline: master `732bcdb` / stable-2026-10-04. Working branch: codex/dependency-ci-bee-recovery.
+
+## Contract and approved direction
+
+Outcome: reproducible dependency installation/runtime, a non-deploying CI check of the tested/prerendered artifact, and automatic recovery from geometry blockage without overriding an intentional pause or reduced-motion preference. Keep the accepted design, content, route geometry, timing and deployment destination unchanged.
+
+Scope: package manifest/lockfile/runtime pins; CI workflow and focused verification helpers; FlyingBee player state and regression tests; directly affected setup and continuity docs. No CRA/framework migration, React major upgrade, new visible controls, SEO/copy/design changes, automatic dependency fixes, GitHub settings, push/merge/tag/deployment or cancelled mascot work.
+
+Evidence: review found 94 tests pass; old Node 21/CRA 3; unused direct dependencies; no repo CI; blocked flight lacks recovery. Existing lockfile is v1. npm audit229findings spans tooling and dependencies, not proven browser exposure.
+
+## Ordered implementation plan
+
+1. Pin a supported Node LTS/npm pair after reading official distribution metadata; use a portable local runtime for validation, not a global system replacement. Remove unused direct body-scroll-lock/lodash/react-router/react-router-dom after reference checks. Move build/publish tools to devDependencies; update gh-pages to patched compatible release. Preserve existing React16.9/CRA3.3.1 runtime/build versions. Refresh lockfile reproducibly; make only scoped compatible transitive updates when justified, not broad major changes.
+2. Add a read-only GitHub Actions check for pull requests and source pushes: pinned runtime, npm ci, complete tests, production build/prerender, built-output checks and retained build artifact. Shared local verification command must fail before build/publish on failed tests. Existing deploy command stays manual; predeploy can run the shared gate. Use minimal permissions and pinned official actions. No hosted run can be claimed before a later authorized push.
+3. Implement bee regression test first, demonstrate blocked-to-valid failure, then distinguish user pause from safety blockage. Preserve smooth transition when a safe bridge exists; fail closed if a bridge is unsafe. Respect reduced motion, Escape, finished docking, scroll origins and hover policy. No route/visual redesign.
+4. Integrate; clean-install on pinned runtime, run all tests, build/prerender and artifact checks. Compare static source/style/content and route fixtures with baseline. Run local browser smoke for responsive CTA/hero and flight docking/scroll/resize where tools allow. Record actual environment limitations, residual audit findings and exact commands.
+5. Update canonical record and provide local preview/diff for review; stop before commit/push/deploy unless requested.
+
+Alternatives: retain dependency debt untouched (misses approved hygiene); migrate CRA now (too broad); automatic major audit fixes (uncontrolled behavior risk); add a Resume button (explicitly outside accepted design). Keep bounded hygiene with current CRA compatibility workaround, and defer the framework migration.
+
+Risks/mitigations: old CRA may reject modern npm peers or emit deprecations; use a narrowly documented install compatibility setting if required rather than hide test failures. Dependency changes require clean install/build proof, not audit counts alone. Geometry recovery must preserve user intent and avoid teleporting. Shared manifest/lock/runtime ownership stays with root; worker edits are disjoint.
+
+Acceptance: clean install on pinned runtime; all current and new tests pass; failed-test gate stops later stages; built homepage retains prerendered heading/services and referenced assets; intended recovery/docking works and intentional pause/reduced motion remains; no unapproved visual/source changes. CI configuration validated locally, hosted CI status explicitly unverified until push. Any material migration/security/behavior change returns for direction. Default retry ledger10afterinitial per problem; record actual product failures separately from tooling failures.
+
+## Result and verification
+
+- Dependency hygiene: removed four unused direct dependencies; React/ReactDOM stay 16.9.0, CRA stays 3.3.1, gh-pages is 6.3.0. Build/publish tools are devDependencies. `.nvmrc` pins Node 24.22.1; npm 11.19.1 is recorded in packageManager. Lock format 1 -> 3 accounts for most diff lines; only scoped compatible dependency updates were made.
+- Portable official Node runtime was checksum-verified; system Node was not replaced. `npm ci --no-audit --no-fund` passed (1594 packages), without legacy-peer-deps. `npm ls --depth=0` reports only the four intended packages.
+- Final `npm run verify` on Node 24.22.1/npm 11.19.1 passed: 114 tests in 10 suites, production build + prerender, and 4 HTML documents / 47 local references. Failure-path tests confirm later stages stop on test/build/artifact errors. The runner uses the same Node/npm CLI without a shell.
+- GitHub CI is configured for master PRs, master/codex pushes and manual dispatch, with read-only contents, pinned action SHAs and a 7-day build artifact. YAML/policy and local equivalent checks passed. Hosted CI is UNRUN pending an authorized push; no branch protection or deployment settings changed.
+- Bee player tracks explicit pause separately from safety blockage. Initial-invalid and active-flight recovery plus Escape-before/during-block regressions passed red/green. Safe recovery preserves the document point and docks at translate(0px, 0px); unsafe bridges still stop. No route geometry, CSS, fonts, copy, images or product component layout changed.
+- Browser smoke on the local built site: 320/390/430/768/1440 widths preserve the two-line heading; stationary layout has no horizontal overflow. CTA remains one row at measured 320/390/768/1440 widths. Desktop -> 390 mid-flight correctly blocked an unsafe bridge; return to desktop resumed and docked after scrolling. Escape -> resize block -> original width remained paused. Browser warning/error log was empty. Physical iPhone Safari remains untested.
+- Existing limitation retained: a drastic mid-flight resize can temporarily leave a preserved bee point outside the narrower viewport while blocked (seen at 1440 -> 390), until safe recovery is possible. This task does not redesign that fail-closed bridge policy.
+- Remaining dependency debt: npm audit still totals 229 findings (20 critical, 65 high, 135 moderate, 9 low); the only directly flagged package is legacy react-scripts. Counts are dependency-tree findings, not demonstrated browser exploitability. CRA deprecation and stale caniuse-lite warnings remain. No major migration/force fix attempted.
+
+Next: user reviews the local preview and diff on `codex/dependency-ci-bee-recovery`. No commit, push, tag, merge or deploy performed. Preview: http://127.0.0.1:43830/#top (loopback Python server). Commands and behavior: [development checks](../development.md); execution/retry evidence: [October 23 worklog](worklog/2026-10-23.md). All three bee problem ledgers closed after one correction each; integration gate passes.
+
+---
+
 # Current stable baseline - 2026-10-04
 
 ## V2-031: Stable baseline and repository cleanup

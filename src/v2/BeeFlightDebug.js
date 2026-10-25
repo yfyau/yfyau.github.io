@@ -1,6 +1,7 @@
 // Loaded only by the explicit ?beeDebug=1 development/review URL.
-import React,{useState} from 'react';
+import React from 'react';
 import {sampleDistance,sampleFlight} from './beeFlight';
+const {useState} = React;
 const colors={A:'#087e8b',B:'#2255aa',C:'#b41596',D:'#cf5414',E:'#167436'};
 const box=(r,color,key,pad=0)=><rect key={key} x={r.left-pad} y={r.top-pad} width={r.width+2*pad} height={r.height+2*pad} fill="none" stroke={color} strokeDasharray={pad?'3 3':undefined}/>;
 export default function BeeFlightDebug({view,controller}) {

@@ -1,18 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { act } from "react-dom/test-utils";
+import { expect, it, vi } from "vitest";
 import App from "./App";
 
 const installIntersectionObserverMock = () => {
   const original = window.IntersectionObserver;
   const instances = [];
 
-  window.IntersectionObserver = jest.fn((callback, options) => {
+  window.IntersectionObserver = vi.fn(function IntersectionObserverMock(callback, options) {
     const observer = {
       callback,
       options,
-      observe: jest.fn(),
-      disconnect: jest.fn(),
+      observe: vi.fn(),
+      disconnect: vi.fn(),
     };
     instances.push(observer);
     return observer;
@@ -433,12 +434,12 @@ it("marks the current reading location in the persistent navigation", () => {
   const consultingSection = container.querySelector("#consulting");
   const contactSection = container.querySelector("#contact");
 
-  header.getBoundingClientRect = jest.fn(() => createBounds(0, 77));
-  heroSection.getBoundingClientRect = jest.fn(() => createBounds(0, 500));
-  experienceSection.getBoundingClientRect = jest.fn(() => createBounds(500, 1000));
-  aboutSection.getBoundingClientRect = jest.fn(() => createBounds(1000, 2000));
-  consultingSection.getBoundingClientRect = jest.fn(() => createBounds(2000, 3000));
-  contactSection.getBoundingClientRect = jest.fn(() => createBounds(3000, 4000));
+  header.getBoundingClientRect = vi.fn(() => createBounds(0, 77));
+  heroSection.getBoundingClientRect = vi.fn(() => createBounds(0, 500));
+  experienceSection.getBoundingClientRect = vi.fn(() => createBounds(500, 1000));
+  aboutSection.getBoundingClientRect = vi.fn(() => createBounds(1000, 2000));
+  consultingSection.getBoundingClientRect = vi.fn(() => createBounds(2000, 3000));
+  contactSection.getBoundingClientRect = vi.fn(() => createBounds(3000, 4000));
 
   act(() => {
     window.dispatchEvent(new Event("resize"));
@@ -534,12 +535,12 @@ it("marks an anchored section below the header in short landscape viewports", ()
   const consultingSection = container.querySelector("#consulting");
   const contactSection = container.querySelector("#contact");
 
-  header.getBoundingClientRect = jest.fn(() => createBounds(0, 75));
-  heroSection.getBoundingClientRect = jest.fn(() => createBounds(-500, 93));
-  experienceSection.getBoundingClientRect = jest.fn(() => createBounds(93, 700));
-  aboutSection.getBoundingClientRect = jest.fn(() => createBounds(700, 1200));
-  consultingSection.getBoundingClientRect = jest.fn(() => createBounds(1200, 1700));
-  contactSection.getBoundingClientRect = jest.fn(() => createBounds(1700, 2200));
+  header.getBoundingClientRect = vi.fn(() => createBounds(0, 75));
+  heroSection.getBoundingClientRect = vi.fn(() => createBounds(-500, 93));
+  experienceSection.getBoundingClientRect = vi.fn(() => createBounds(93, 700));
+  aboutSection.getBoundingClientRect = vi.fn(() => createBounds(700, 1200));
+  consultingSection.getBoundingClientRect = vi.fn(() => createBounds(1200, 1700));
+  contactSection.getBoundingClientRect = vi.fn(() => createBounds(1700, 2200));
 
   act(() => {
     window.dispatchEvent(new Event("resize"));
@@ -564,7 +565,7 @@ it("marks an anchored section below the header in short landscape viewports", ()
 });
 
 it("keeps anchor clearance aligned with a header that grows when text wraps", () => {
-  const setProperty = jest.spyOn(document.documentElement.style, "setProperty");
+  const setProperty = vi.spyOn(document.documentElement.style, "setProperty");
   const container = document.createElement("div");
   document.body.appendChild(container);
   act(() => {
@@ -572,7 +573,7 @@ it("keeps anchor clearance aligned with a header that grows when text wraps", ()
   });
 
   const header = container.querySelector(".site-header");
-  header.getBoundingClientRect = jest.fn(() => ({
+  header.getBoundingClientRect = vi.fn(() => ({
     top: 0,
     bottom: 244,
     height: 244,
@@ -611,16 +612,16 @@ it("moves focus to main content when the skip link is activated", () => {
 it("returns to the hero and restores focus to the visible wordmark", () => {
   const originalMatchMedia = window.matchMedia;
   let reduceMotion = true;
-  window.matchMedia = jest.fn(() => ({ matches: reduceMotion }));
+  window.matchMedia = vi.fn(() => ({ matches: reduceMotion }));
   window.history.replaceState(null, "", "/#contact");
-  const pushState = jest.spyOn(window.history, "pushState");
+  const pushState = vi.spyOn(window.history, "pushState");
 
   const container = document.createElement("div");
   document.body.appendChild(container);
   ReactDOM.render(<App />, container);
 
   const hero = container.querySelector("#top");
-  hero.scrollIntoView = jest.fn();
+  hero.scrollIntoView = vi.fn();
   const wordmark = container.querySelector(".wordmark");
   const footerLink = container.querySelector('.site-footer a[href="#top"]');
 

@@ -2206,3 +2206,38 @@ Date: 2026-10-04. Status: accepted. Owner: Jason (cleanup/stable request).
 Keep the repository's existing default name master and use dated source/build stable tags for the accepted website. Retire obsolete local worktrees and working branches only after preserving commit tips and non-committed generated output. Keep cancelled drafts in the existing stash and archive references, outside the active task list. Dependencies remain a separate review.
 
 Rationale: local historical branches diverged from the public source despite identical product content; one active master checkout reduces ambiguity without merging drafts or rewriting public history. Renaming the default branch to main and deleting experimental history were unnecessary. Recovery is by selected files/branches from local archive tags; a later authorized task may reopen them. Existing historical decision records are retained. Evidence: stable-2026-10-04 release record and2026-10-04worklog.
+
+## DEC-V2-032: Bounded dependency hygiene and a shared non-deploying verification gate
+
+Date: 2026-10-23. Status: implemented locally, awaiting user review. Owner: root under Jason's approved dependency/CI/bee-recovery request.
+
+Pin Node 24.22.1/npm 11.19.1 and modernize the lockfile while retaining React 16.9 and CRA 3.3.1. Remove unused direct dependencies, move tools to devDependencies, update gh-pages and scoped compatible transitives. Use one fail-fast test/build/prerender/artifact gate both locally and in read-only CI; predeploy uses it but publication remains manual. Distinguish explicit bee pause intent from safety blockage, allowing only safe recovery while preserving the existing route and design.
+
+Rationale: clean installation and behavioral evidence give a reviewable improvement without coupling it to a framework migration or a new animation design. Rejected for this scope: automatic major audit fixes, CRA migration, a visible Resume control, automated deployment or GitHub settings changes. Remaining CRA audit/deprecation debt is explicit. Reversal: discard the candidate branch changes before publication; stable master/tag are unchanged. Evidence: CURRENT V2-032, worklog/2026-10-23.md, docs/development.md, 114-test local gate and browser smoke.
+
+## DEC-V2-033: Live UI regression coverage and standalone provider identity
+
+Date: 2026-10-23. Status: implemented locally, awaiting user review. Owner: root under Jason's selected tests/small-fixes continuation.
+
+Add missing focus/navigation assertions to the currently shipped PortfolioV2 suite, correct image fallback descriptions without changing visible content, and inline canonical Person identity in each service's existing Service.provider. Retain the top-level Service shape and compare identity to the homepage in tests. Do not add a schema generator or remove the entire legacy UI/test surface in this bounded slice. Provider @id-only was valid; local identity completeness is the purpose, with no promised ranking gain. Reference: https://schema.org/provider.
+
+Rationale: these are independent, small fixes with direct behavior checks and no new architecture/design decision. A broad legacy-test cleanup or CRA migration would be a separate outcome. All visible service HTML/CSS remains identical; outgoing transition art stays hidden/decorative. Evidence: CURRENT V2-033 and worklog/2026-10-23.md, 119-test integrated gate plus browser keyboard/interest/navigation checks. Reversal: selected local patch rollback; public stable baseline remains unchanged.
+
+
+## DEC-V2-034: Replace CRA with Vite and Vitest while preserving the product
+
+Date: 2026-10-23. Status: approved, implementation in progress. Owner: root under Jason's explicit approval of CURRENT V2-034.
+
+Use Vite/classic JSX with React16.9, Vitest/jsdom, explicit ESLint and the Vite SSR loader for prerender. Preserve build/ and manual Pages publishing, static service content, browser policy and all existing test cases. CRA5 retains deprecated aggregate tooling; separate Jest/Babel is a fallback only for a demonstrated Vitest blocker. No redesign/runtime upgrade/deployment. Preserve prior candidate in the v2-034-before snapshot; rollback only this migration. Acceptance and stop conditions: CURRENT V2-034.
+
+
+### DEC-V2-034 implementation result - 2026-10-23
+
+Implemented locally, awaiting Jason review; public stable baseline unchanged. Locked replacement graph audits0, clean npm ci passes,124tests/11suites plus lint/build/prerender/output gate pass. Root markup/static design compare identical to the preserved V2-033 candidate. Retain React16.9 with default-import interop and classic .js JSX. Separate prerender cache prevents sharing dev optimizer files; browser repro/recheck evidence is distinct from an insensitive automated coexistence smoke.
+
+Explicit review tradeoffs: .js source edits use automatic full-page reload rather than state-preserving Fast Refresh; supported ESLint10 core/JSX-reference/classic-factory/Hooks checks do not fully replace old CRA React/import/jsx-a11y rules. No unsupported peer forcing or broader React/source-extension migration was introduced. These limits are recorded in docs/development.md and CURRENT; restore supported static lint equivalents as a focused future task. Physical Safari and hosted CI remain unverified. Exact evidence/rollback pointers: CURRENT V2-034 and2026-10-23worklog. No commit/push/deploy.
+
+
+## DEC-V2-035: Supported supplemental UI lint and authorized stable release
+
+Date:2026-10-24. Owner:root; approved by Jason's continue-all response to the concrete lint/verification/commit/CI/deploy/stable sequence. Retain ESLint10 and add exact Oxlint1.89.0 with29selected built-in React/jsx-a11y/import checks. Rejected unsupported peer forcing, ESLint downgrade, custom a11y rule engine and unrelated React upgrade.9CLI fixture cases demonstrate failure and valid acceptance; remaining non-equivalent CRA rules and dev full reload documented in development.md.133tests/12suites and clean installation/audit pass. Publish only the verified build after hosted CI, preserve master/build topology and dated paired stable tags. No DNS/GitHub settings changes. Browser tooling is unavailable for a fresh live visual run; artifact HTTP equality is distinct from prior browser checks and unrun physical Safari. Exact release identities/results follow in CURRENT and release record; no rollback publication without new authority.

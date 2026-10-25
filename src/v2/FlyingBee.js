@@ -1,6 +1,8 @@
-import React, {createContext, useContext, useEffect, useRef, useState} from "react";
-import {createPortal} from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 import {buildFlightPath, buildResizeBridge, cubicPoint, cubicTangent, sampleFlight, unionRects} from "./beeFlight";
+const {createContext, useContext, useEffect, useRef, useState} = React;
+const {createPortal} = ReactDOM;
 export const BeeFlightContext=createContext(null);
 export function BeeFlightProvider({children}) {
   const controller=useRef(null),[status,setStatus]=useState('parked');
@@ -43,7 +45,7 @@ export default function FlyingBee() {
   const [status,setStatus]=useState('parked'),[debugView,setDebugView]=useState(null),[Debug,setDebug]=useState(null);
   useEffect(()=>{
     const slot=slotRef.current,hero=slot.closest('.v2-hero');
-    const s={route:null,time:0,last:null,frame:0,measureFrame:0,paused:true,speed:1,pose:null,bank:0,heading:0,facing:1,bridge:null,conflicts:[],disposed:false,debug:false,lastDebug:0};
+    const s={route:null,time:0,last:null,frame:0,measureFrame:0,paused:true,userPaused:false,speed:1,pose:null,bank:0,heading:0,facing:1,bridge:null,conflicts:[],disposed:false,debug:false,lastDebug:0};
     const mark=value=>{setStatus(value);context.current.setStatus(value);};
     const write=(pose,dt=1/60)=>{
       if(!s.route)return;s.pose=pose;const n=Math.hypot(pose.tangent.x,pose.tangent.y)||1;
@@ -57,6 +59,7 @@ export default function FlyingBee() {
     };
     const publish=()=>{if(s.debug)setDebugView({route:s.route,time:s.time,status:s.paused?'paused':'flying',conflicts:s.conflicts,pose:s.pose,speed:s.speed});};
     const pause=()=>{s.paused=true;s.last=null;cancelAnimationFrame(s.frame);mark(s.conflicts.length?'blocked':s.route&&s.route.ok&&s.time>=s.route.duration?'parked':'paused');publish();};
+    const userPause=()=>{s.userPaused=true;pause();};
     const park=()=>{s.paused=true;s.bridge=null;s.bank=0;s.facing=1;s.time=s.route&&s.route.ok?s.route.duration:0;
       if(s.route&&s.route.ok){write({...sampleFlight(s.route,s.route.duration),tangent:{x:1,y:0}},1);svgRef.current.style.transform=`rotate(0deg) scale(${s.route.scale})`;faceRef.current.style.transform='scaleX(1)';}
       mark('parked');publish();};
@@ -68,9 +71,9 @@ export default function FlyingBee() {
       if(s.debug&&stamp-s.lastDebug>80){publish();s.lastDebug=stamp;}
       if(s.time>=s.route.duration&&!s.bridge){park();return;}s.frame=requestAnimationFrame(tick);
     };
-    const resume=()=>{if(!s.route||!s.route.ok||s.conflicts.length||reduced())return;s.paused=false;s.last=null;mark('flying');cancelAnimationFrame(s.frame);s.frame=requestAnimationFrame(tick);publish();};
+    const resume=()=>{if(!s.route||!s.route.ok||s.conflicts.length||reduced())return;s.paused=false;s.userPaused=false;s.last=null;mark('flying');cancelAnimationFrame(s.frame);s.frame=requestAnimationFrame(tick);publish();};
     const build=(preserve=false)=>{
-      const previous=s.route,pose=s.pose,oldTime=s.time,wasPaused=s.paused;
+      const previous=s.route,pose=s.pose,oldTime=s.time;
       const measured=measureFlight(slot),route=buildFlightPath(measured.layout,measured.measurements);s.conflicts=route.conflicts;
       if(!route.ok){if(!previous||!previous.ok)s.route=route;
         if(previous&&previous.ok&&pose){const from={x:previous.measurements.world.left+pose.x-measured.measurements.world.left,y:previous.measurements.world.top+pose.y-measured.measurements.world.top};positionRef.current.style.transform=`translate(${from.x-measured.measurements.P.x}px, ${from.y-measured.measurements.P.y}px)`;}pause();return;}s.route=route;
@@ -79,17 +82,19 @@ export default function FlyingBee() {
         const from={x:previous.measurements.world.left+pose.x-route.measurements.world.left,y:previous.measurements.world.top+pose.y-route.measurements.world.top};
         write({...from,tangent:pose.tangent,depth:pose.depth,depthScale:pose.depthScale},0);
         const bridge=buildResizeBridge(route,from,targetTime,pose.tangent,pose.speed);
-        if(!bridge.ok){s.conflicts=[bridge.conflict];pause();return;}s.bridge=bridge.duration?{...bridge,time:0,depth:pose.depth,depthScale:pose.depthScale}:null;s.time=targetTime;if(!wasPaused)resume();else pause();
+        if(!bridge.ok){s.conflicts=[bridge.conflict];pause();return;}s.bridge=bridge.duration?{...bridge,time:0,depth:pose.depth,depthScale:pose.depthScale}:null;s.time=targetTime;if(s.userPaused)pause();else resume();
       }else{s.time=0;s.bridge=null;s.bank=0;s.facing=1;write(sampleFlight(route,0),1);
         // Initial ResizeObserver/font settling is a new dock, not an in-flight
         // displacement. Restart its clock there; preserve genuine flown poses.
-        if(preserve&&previous&&previous.ok){if(oldTime>=previous.duration)park();else if(!wasPaused)resume();else publish();}else publish();}
+        if(preserve&&previous&&previous.ok){if(oldTime>=previous.duration)park();else if(s.userPaused)pause();else resume();}
+        else if(preserve&&previous&&!previous.ok){if(reduced())park();else if(s.userPaused)pause();else resume();}
+        else publish();}
     };
     const schedule=()=>{if(s.measureFrame)return;cancelAnimationFrame(s.frame);s.last=null;s.measureFrame=requestAnimationFrame(()=>{s.measureFrame=0;if(!s.disposed)build(true);});};
-    const onKeyDown=event=>{if(event.key==='Escape'&&!s.paused)pause();};
+    const onKeyDown=event=>{if(event.key==='Escape'&&(!s.paused||s.conflicts.length))userPause();};
     const replay=()=>{if(!reduced()&&(!s.route||s.time>=s.route.duration)){build();resume();}};
-    const controller={toggle:()=>{if(s.conflicts.length){build(true);if(!s.conflicts.length)resume();}else if(s.paused&&s.route&&s.route.ok&&s.time<s.route.duration)resume();else if(!s.paused)pause();else{build();resume();}},replay:()=>{build();resume();},pause,resume,
-      scrub:value=>{pause();if(s.route&&s.route.ok){s.time=value;write(sampleFlight(s.route,value),1);publish();}},speed:value=>{s.speed=value;publish();}};
+    const controller={toggle:()=>{if(s.conflicts.length){build(true);if(!s.conflicts.length)resume();}else if(s.paused&&s.route&&s.route.ok&&s.time<s.route.duration)resume();else if(!s.paused)userPause();else{build();resume();}},replay:()=>{build();resume();},pause:userPause,resume,
+      scrub:value=>{userPause();if(s.route&&s.route.ok){s.time=value;write(sampleFlight(s.route,value),1);publish();}},speed:value=>{s.speed=value;publish();}};
     context.current.controller.current=controller;
     const motion=window.matchMedia?window.matchMedia('(prefers-reduced-motion: reduce)'):null,onMotion=()=>{if(motion.matches){cancelAnimationFrame(s.frame);park();}else{build();resume();}};
     const observer=typeof ResizeObserver==='function'?new ResizeObserver(schedule):null;if(observer){observer.observe(hero);observer.observe(hero.querySelector('h1'));observer.observe(hero.querySelector('.v2-hero-lead'));}

@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import ReactDOMServer from "react-dom/server";
 import { act } from "react-dom/test-utils";
+import { expect, it, vi } from "vitest";
 import SiteVersion from "./SiteVersion";
 
 it.each(["/", "/#consulting", "/#contact"])("hydrates the same initial homepage at %s without replacing it", (url) => {
@@ -13,8 +14,8 @@ it.each(["/", "/#consulting", "/#contact"])("hydrates the same initial homepage 
   document.body.appendChild(container);
   const main = container.querySelector("main");
   const heading = container.querySelector("h1");
-  const errors = jest.spyOn(console, "error").mockImplementation(() => {});
-  const warnings = jest.spyOn(console, "warn").mockImplementation(() => {});
+  const errors = vi.spyOn(console, "error").mockImplementation(() => {});
+  const warnings = vi.spyOn(console, "warn").mockImplementation(() => {});
 
   try {
     window.history.replaceState({}, "", url);

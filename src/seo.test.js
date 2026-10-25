@@ -3,12 +3,13 @@ import path from "path";
 import React from "react";
 import ReactDOM from "react-dom";
 import { act } from "react-dom/test-utils";
+import { expect, it } from "vitest";
 import PortfolioV2 from "./v2/PortfolioV2";
 
 const read = (...segments) => fs.readFileSync(path.join(process.cwd(), ...segments), "utf8");
 
 it("keeps the three consulting offers, legacy links, and crawlable metadata consistent", () => {
-  const html = read("public", "index.html");
+  const html = read("index.html");
   const shell = new DOMParser().parseFromString(html, "text/html");
   const canonical = shell.querySelector('link[rel="canonical"]').getAttribute("href");
   const schema = JSON.parse(shell.querySelector('script[type="application/ld+json"]').textContent);
@@ -76,9 +77,10 @@ it("keeps the three consulting offers, legacy links, and crawlable metadata cons
 });
 
 it("publishes three distinct, linked, crawlable service briefs", () => {
-  const home = new DOMParser().parseFromString(read("public", "index.html"), "text/html");
-  const homeServices = JSON.parse(home.querySelector('script[type="application/ld+json"]').textContent)["@graph"]
-    .filter((item) => item["@type"] === "Service");
+  const home = new DOMParser().parseFromString(read("index.html"), "text/html");
+  const homeGraph = JSON.parse(home.querySelector('script[type="application/ld+json"]').textContent)["@graph"];
+  const homePerson = homeGraph.find((item) => item["@type"] === "Person");
+  const homeServices = homeGraph.filter((item) => item["@type"] === "Service");
   const slugs = ["ai-transformation", "prototype-to-product", "custom-digital-products"];
   const sitemap = read("public", "sitemap.xml");
   const llmsIndex = read("public", "llms.txt");
@@ -103,6 +105,13 @@ it("publishes three distinct, linked, crawlable service briefs", () => {
     expect(service["@id"]).toBe(homeServices[index]["@id"]);
     expect(service.name).toBe(homeServices[index].name);
     expect(service.description).toBe(homeServices[index].description);
+    expect(service.provider).toEqual({
+      "@type": "Person",
+      "@id": homePerson["@id"],
+      name: homePerson.name,
+      url: homePerson.url,
+      sameAs: homePerson.sameAs,
+    });
     expect(page.body.textContent).toContain(service.description);
     expect(sitemap).toContain("<loc>" + url + "</loc>");
     expect(llmsIndex).toContain(url);

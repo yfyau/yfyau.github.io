@@ -1,46 +1,10 @@
 const fs = require("fs");
-const Module = require("module");
 const path = require("path");
 const React = require("react");
 const ReactDOMServer = require("react-dom/server");
 
 const projectRoot = path.resolve(__dirname, "..");
-const sourceRoot = path.join(projectRoot, "src");
-const siteVersionPath = path.join(sourceRoot, "SiteVersion.js");
-const reactScriptsRoot = path.dirname(require.resolve("react-scripts/package.json"));
 const emptyRootPlaceholder = '<div id="root"></div>';
-
-function resolveReactScriptsDependency(name) {
-  return require.resolve(name, { paths: [reactScriptsRoot] });
-}
-
-const babel = require(resolveReactScriptsDependency("@babel/core"));
-const reactAppPresetPath = resolveReactScriptsDependency("babel-preset-react-app");
-
-function transformSource(source, filename) {
-  const previousBabelEnv = process.env.BABEL_ENV;
-  process.env.BABEL_ENV = "test";
-  try {
-    return babel.transformSync(source, {
-      filename,
-      babelrc: false,
-      configFile: false,
-      envName: "test",
-      caller: {
-        name: "homepage-prerender",
-        supportsStaticESM: false,
-      },
-      presets: [[reactAppPresetPath, { useESModules: false }]],
-      sourceType: "unambiguous",
-    });
-  } finally {
-    if (previousBabelEnv === undefined) {
-      delete process.env.BABEL_ENV;
-    } else {
-      process.env.BABEL_ENV = previousBabelEnv;
-    }
-  }
-}
 
 function resolveBuildYear(value) {
   const year = value === undefined ? new Date().getFullYear() : value;
@@ -50,61 +14,32 @@ function resolveBuildYear(value) {
   return year;
 }
 
-function isSourceFile(filename) {
-  const relativePath = path.relative(sourceRoot, filename);
-  return relativePath !== ".." &&
-    !relativePath.startsWith(`..${path.sep}`) &&
-    !path.isAbsolute(relativePath);
-}
-
-function installSourceLoaders() {
-  const extensions = Module._extensions;
-  const originalJavaScriptLoader = extensions[".js"];
-  const hadCssLoader = Object.prototype.hasOwnProperty.call(extensions, ".css");
-  const originalCssLoader = extensions[".css"];
-
-  extensions[".js"] = function loadSourceJavaScript(module, filename) {
-    if (!isSourceFile(filename)) {
-      return originalJavaScriptLoader(module, filename);
-    }
-
-    const source = fs.readFileSync(filename, "utf8");
-    const transformed = transformSource(source, filename);
-    module._compile(transformed.code, filename);
-  };
-
-  extensions[".css"] = function loadSourceCss(module, filename) {
-    if (isSourceFile(filename)) {
-      return module._compile("", filename);
-    }
-    if (originalCssLoader) {
-      return originalCssLoader(module, filename);
-    }
-    throw new Error(`Cannot load CSS outside src during homepage prerender: ${filename}`);
-  };
-
-  return function restoreSourceLoaders() {
-    extensions[".js"] = originalJavaScriptLoader;
-    if (hadCssLoader) {
-      extensions[".css"] = originalCssLoader;
-    } else {
-      delete extensions[".css"];
-    }
-  };
-}
-
-function renderHomepage(explicitYear) {
+async function renderHomepage(explicitYear) {
   const buildYear = resolveBuildYear(explicitYear);
-  const restoreLoaders = installSourceLoaders();
+  let vite;
   try {
-    const SiteVersionModule = require(siteVersionPath);
+    const { createServer } = await import("vite");
+    vite = await createServer({
+      configFile: path.join(projectRoot, "vite.config.mjs"),
+      root: projectRoot,
+      // Prerender must not invalidate a concurrently running dev server's
+      // optimized browser dependencies when its mode differs or it closes.
+      cacheDir: path.join(projectRoot, "node_modules", ".vite-prerender"),
+      mode: process.env.NODE_ENV === "production" ? "production" : "test",
+      server: { middlewareMode: true, hmr: false, watch: null },
+      appType: "custom",
+      logLevel: "error",
+    });
+    const SiteVersionModule = await vite.ssrLoadModule("/src/SiteVersion.js");
     const SiteVersion = SiteVersionModule.default || SiteVersionModule;
     const markup = ReactDOMServer.renderToString(
       React.createElement(SiteVersion, { initialYear: buildYear })
     );
     return validateHomepageMarkup(markup);
   } finally {
-    restoreLoaders();
+    if (vite) {
+      await vite.close();
+    }
   }
 }
 
@@ -162,23 +97,21 @@ function injectRenderedMarkup(template, markup, explicitYear) {
   );
 }
 
-function prerenderHomepage(htmlPath) {
+async function prerenderHomepage(htmlPath) {
   const outputPath = htmlPath || path.join(projectRoot, "build", "index.html");
   const template = fs.readFileSync(outputPath, "utf8");
   const buildYear = resolveBuildYear();
-  const markup = renderHomepage(buildYear);
+  const markup = await renderHomepage(buildYear);
   const renderedHtml = injectRenderedMarkup(template, markup, buildYear);
   fs.writeFileSync(outputPath, renderedHtml, "utf8");
   return renderedHtml;
 }
 
 if (require.main === module) {
-  try {
-    prerenderHomepage();
-  } catch (error) {
+  prerenderHomepage().catch((error) => {
     console.error(error && error.stack ? error.stack : error);
     process.exitCode = 1;
-  }
+  });
 }
 
 module.exports = {
