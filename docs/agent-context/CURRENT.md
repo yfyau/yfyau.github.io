@@ -1,3 +1,10 @@
+# SITE-FAVICON-20261026 — browser tab identity
+
+2026-10-26. Phase: local delivery complete. Renewed homepage + three service-page tab/touch/manifest icons with accepted round-glasses bee and versioned PNG names; added current ICO fallback. npm run verify passes (133 tests, lint, build, 4 HTML/53 references). Browser confirms four pages load/decode new icons. User approved commit and deploy on2026-10-26; release in progress. Physical Safari/browser chrome selection not tested. Existing Slack work preserved. See [contract and evidence](worklog/2026-10-26.md#site-favicon-20261026--current-mascot-tab-icon).
+
+
+---
+
 # V2-035 - Restore static UI lint coverage and release the verified candidate
 
 Date: 2026-10-24. Phase: released and live artifact-verified; stable bookkeeping. Owner: root. Jason explicitly said "continue and do all of it" after the proposed lint coverage, final verification, commit/push, hosted CI, deploy and stable sequence. This supersedes V2-034's former local-only boundary for this release; preserve the accepted design/function and all V2-032/033/034 work.

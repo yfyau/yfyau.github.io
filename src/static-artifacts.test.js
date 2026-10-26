@@ -29,38 +29,54 @@ const readWebpDimensions = (image) => {
 it("keeps the install identity encoding-safe and visually aligned", () => {
   const html = readProjectFile("index.html");
   const manifest = JSON.parse(readProjectFile("public", "manifest.json"));
-  const beeIcon = fs.readFileSync(
-    path.join(process.cwd(), "public", "jason-bee-icon.png")
-  );
 
   expect(manifest.short_name).toBe("Jason Yau");
   expect(manifest.name).toBe("Jason Yau | Senior Software Engineer");
   expect(manifest.background_color).toBe("#dcebf1");
   expect(manifest.theme_color).toBe("#dcebf1");
-  expect(manifest.icons).toEqual([
+  expect(manifest.icons).toEqual([192, 256].map((size) => (
     {
-      src: "jason-bee-icon.png",
-      sizes: "460x460",
+      src: `/icons/bee-v2-${size}.png`,
+      sizes: `${size}x${size}`,
       type: "image/png",
       purpose: "any",
-    },
-  ]);
+    }
+  )));
   expect(manifest.name).not.toContain("??");
   expect(html).toContain('<meta name="theme-color" content="#dcebf1" />');
-  expect(html).toContain(
-    '<link rel="icon" type="image/png" sizes="460x460" href="/jason-bee-icon.png" />'
-  );
-  expect(html).toContain(
-    '<link rel="apple-touch-icon" href="/jason-bee-icon.png" />'
-  );
-  expect(readPngDetails(beeIcon)).toEqual({
-    width: 460,
-    height: 460,
-    colorType: 2,
+  const pages = [html, ...[
+    "ai-transformation", "prototype-to-product", "custom-digital-products",
+  ].map((slug) => readProjectFile("public", "services", slug, "index.html"))];
+  pages.forEach((source) => {
+    const page = new DOMParser().parseFromString(source, "text/html");
+    expect([...page.querySelectorAll('link[rel="icon"]')].map((link) => [
+      link.getAttribute("href"), link.getAttribute("sizes"), link.getAttribute("type"),
+    ])).toEqual([
+      ["/icons/bee-v2-16.png", "16x16", "image/png"],
+      ["/icons/bee-v2-32.png", "32x32", "image/png"],
+    ]);
+    expect(page.querySelector('link[rel="apple-touch-icon"]').getAttribute("href"))
+      .toBe("/icons/bee-v2-180.png");
   });
-  ["favicon.svg", "favicon.ico", "apple-touch-icon.png", "icon-192.png", "icon-512.png"].forEach(
-    (asset) => expect(fs.existsSync(path.join(process.cwd(), "public", asset))).toBe(false)
-  );
+  [16, 32, 48, 180, 192, 256].forEach((size) => {
+    const icon = fs.readFileSync(path.join(process.cwd(), "public", "icons", `bee-v2-${size}.png`));
+    expect(readPngDetails(icon)).toEqual({ width: size, height: size, colorType: 6 });
+    expect(icon.length).toBeLessThan(100000);
+  });
+  const fallback = fs.readFileSync(path.join(process.cwd(), "public", "favicon.ico"));
+  expect(fallback.readUInt16LE(0)).toBe(0);
+  expect(fallback.readUInt16LE(2)).toBe(1);
+  expect(fallback.readUInt16LE(4)).toBe(3);
+  [16, 32, 48].forEach((size, index) => {
+    const entry = 6 + index * 16;
+    expect(fallback[entry]).toBe(size);
+    expect(fallback[entry + 1]).toBe(size);
+    const length = fallback.readUInt32LE(entry + 8);
+    const offset = fallback.readUInt32LE(entry + 12);
+    expect(fallback.subarray(offset, offset + length)).toEqual(
+      fs.readFileSync(path.join(process.cwd(), "public", "icons", `bee-v2-${size}.png`))
+    );
+  });
 });
 
 it("keeps the Playful portfolio factual instead of performative", () => {
@@ -310,8 +326,8 @@ it("makes the supplied personal mark discoverable in the initial HTML", () => {
 
   const page = new DOMParser().parseFromString(html, "text/html");
   expect(page.querySelector('link[rel="preload"][href$="jason-bee-icon.png"]')).toBeNull();
-  expect(page.querySelector('link[rel="icon"][href$="jason-bee-icon.png"]')).not.toBeNull();
-  expect(html.match(/jason-bee-icon\.png/g)).toHaveLength(2);
+  expect(page.querySelector('link[rel="icon"][href$="jason-bee-icon.png"]')).toBeNull();
+  expect(html).not.toContain("jason-bee-icon.png");
   expect(app).toContain('const PersonalBeeIcon = "/jason-bee-icon.png";');
   expect(readPngDetails(personalMark)).toEqual({
     width: 460,
