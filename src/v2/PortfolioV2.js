@@ -6,7 +6,9 @@ const { useEffect, useRef, useState } = React;
 
 const MascotAvatar = "/v2/mascot/bee-avatar.webp";
 const MascotAvatarAlt = "A bee avatar with round glasses and blue wings.";
-const HeroBee = "/v2/mascot/bee-coding.webp";
+const MascotGreeting = "/v2/mascot/bee-avatar-wave.gif";
+const HeroBee = "/v2/mascot/bee-coding-still.webp";
+const HeroBeeLoop = "/v2/mascot/bee-coding-loop.webp";
 
 const interestAssets = {
   snowboarding: {
@@ -129,6 +131,128 @@ function Icon({ name = "arrow" }) {
   );
 }
 
+function WordmarkMascot() {
+  const [greetingFailed, setGreetingFailed] = useState(false);
+  const avatarRef = useRef(null);
+
+  useEffect(() => {
+    const avatar = avatarRef.current;
+    // The prerendered GIF may fail before React attaches the error handler.
+    if (avatar.complete && !avatar.naturalWidth && avatar.currentSrc.endsWith(MascotGreeting)) {
+      setGreetingFailed(true);
+    }
+  }, []);
+
+  return (
+    <span className="v2-wordmark-mark" aria-hidden="true">
+      <picture>
+        {!greetingFailed && (
+          <source media="(prefers-reduced-motion: no-preference)" srcSet={MascotGreeting} type="image/gif" />
+        )}
+        <img ref={avatarRef} src={MascotAvatar} alt="" width="256" height="256" onError={() => setGreetingFailed(true)} />
+      </picture>
+    </span>
+  );
+}
+
+function HeroMascot() {
+  const posterRef = useRef(null);
+  const [posterFailed, setPosterFailed] = useState(false);
+  const [posterSettled, setPosterSettled] = useState(false);
+  const [motionAllowed, setMotionAllowed] = useState(false);
+  const [loopRequested, setLoopRequested] = useState(false);
+  const [animation, setAnimation] = useState("loading");
+
+  useEffect(() => {
+    const poster = posterRef.current;
+    // The prerendered image may finish before React attaches its handlers.
+    if (!poster.complete) return;
+    if (poster.naturalWidth || posterFailed) setPosterSettled(true);
+    else setPosterFailed(true);
+  }, [posterFailed]);
+
+  useEffect(() => {
+    if (typeof window.matchMedia !== "function") return;
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncMotion = () => {
+      setMotionAllowed(!preference.matches);
+      if (preference.matches) {
+        setAnimation((current) => current === "ready" ? "loading" : current);
+      }
+    };
+    syncMotion();
+    if (preference.addEventListener) {
+      preference.addEventListener("change", syncMotion);
+      return () => preference.removeEventListener("change", syncMotion);
+    }
+    preference.addListener?.(syncMotion);
+    return () => preference.removeListener?.(syncMotion);
+  }, []);
+
+  useEffect(() => {
+    if (!posterSettled || !motionAllowed || loopRequested) return;
+    let frame;
+    const cancelRequest = () => window.cancelAnimationFrame(frame);
+    const requestAfterPaint = () => {
+      cancelRequest();
+      // Give the browser a rendering opportunity with the still before loading the loop.
+      frame = window.requestAnimationFrame(() => {
+        frame = window.requestAnimationFrame(() => setLoopRequested(true));
+      });
+    };
+
+    if (!window.IntersectionObserver) {
+      requestAfterPaint();
+      return cancelRequest;
+    }
+
+    const observer = new window.IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) requestAfterPaint();
+      else cancelRequest();
+    });
+    observer.observe(posterRef.current);
+    return () => {
+      observer.disconnect();
+      cancelRequest();
+    };
+  }, [loopRequested, motionAllowed, posterSettled]);
+
+  const showLoop = loopRequested && motionAllowed && animation !== "failed";
+  const loopVisible = showLoop && animation === "ready";
+
+  return (
+    <div className="v2-hero-art" data-loop-visible={loopVisible ? "true" : undefined}>
+      <img
+        className="v2-hero-still"
+        ref={posterRef}
+        src={posterFailed ? MascotAvatar : HeroBee}
+        alt={posterFailed ? MascotAvatarAlt : "A matte 3D bee coding at a laptop"}
+        width="1088"
+        height="1088"
+        loading="eager"
+        fetchpriority="high"
+        onLoad={() => setPosterSettled(true)}
+        onError={() => {
+          if (posterFailed) setPosterSettled(true);
+          else setPosterFailed(true);
+        }}
+      />
+      {showLoop && (
+        <img
+          className="v2-hero-loop"
+          src={HeroBeeLoop}
+          alt=""
+          aria-hidden="true"
+          width="1254"
+          height="1254"
+          fetchpriority="low"
+          onLoad={() => setAnimation("ready")}
+          onError={() => setAnimation("failed")}
+        />
+      )}
+    </div>
+  );
+}
 
 function PortfolioV2({ initialYear = new Date().getFullYear() }) {
   // Build output and the first browser render must share the same state.
@@ -243,7 +367,7 @@ function PortfolioV2({ initialYear = new Date().getFullYear() }) {
     window.addEventListener("scroll", handleScroll, { passive: true });
     const target = sectionElements.find((section) => `#${section.id}` === window.location.hash);
     const frame = target && target.scrollIntoView ? window.requestAnimationFrame(() => {
-      target.scrollIntoView({ behavior: "auto", block: "start" });
+      target.scrollIntoView({ behavior: "instant", block: "start" });
     }) : null;
     return () => {
       if (observer) observer.disconnect();
@@ -293,17 +417,6 @@ function PortfolioV2({ initialYear = new Date().getFullYear() }) {
     });
   };
 
-  const handleMascotImageError = (event) => {
-    const image = event.currentTarget;
-    if (
-      image.dataset.mascotFallback === "true" ||
-      image.getAttribute("src") === MascotAvatar
-    ) return;
-    image.dataset.mascotFallback = "true";
-    image.alt = MascotAvatarAlt;
-    image.src = MascotAvatar;
-  };
-
   const handleInterestImageLoad = (key) => {
     setInterestImage((current) => {
       if (
@@ -348,9 +461,7 @@ function PortfolioV2({ initialYear = new Date().getFullYear() }) {
 
       <header className="v2-header">
         <a className="v2-wordmark" href="#top" aria-label="Jason Yau, back to top" onClick={() => handleNavClick("top")}>
-          <span className="v2-wordmark-mark" aria-hidden="true">
-            <img src={MascotAvatar} alt="" width="256" height="256" />
-          </span>
+          <WordmarkMascot />
           <span>Jason Yau</span>
         </a>
 
@@ -383,25 +494,15 @@ function PortfolioV2({ initialYear = new Date().getFullYear() }) {
               <a className="v2-button v2-button--ink" href="#experience">
                 My experience <Icon name="down" />
               </a>
-              <a className="v2-text-link" href="mailto:jason.yfyau@gmail.com">
-                Email Jason <Icon />
+              <a className="v2-text-link" href="#consulting" onClick={() => handleNavClick("consulting")}>
+                Consulting <Icon name="down" />
               </a>
             </div>
           </div>
 
           <div className="v2-hero-visual">
             <div className="v2-hero-sun" aria-hidden="true" />
-            <div className="v2-hero-art">
-              <img
-                src={HeroBee}
-                alt="A matte 3D bee coding at a laptop"
-                width="960"
-                height="960"
-                loading="eager"
-                fetchpriority="high"
-                onError={handleMascotImageError}
-              />
-            </div>
+            <HeroMascot />
           </div>
         </section></BeeFlightProvider>
 

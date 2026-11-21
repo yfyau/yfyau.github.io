@@ -109,10 +109,14 @@
   background: var(--v2-white);
 }
 
+.v2-wordmark-mark picture,
 .v2-wordmark-mark img {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.v2-wordmark-mark img {
   object-fit: cover;
 }
 
@@ -389,6 +393,20 @@
   aspect-ratio: 1;
   object-fit: contain;
   filter: none;
+}
+
+.v2-hero-loop {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+}
+
+.v2-hero-art[data-loop-visible="true"] .v2-hero-loop {
+  visibility: visible;
+}
+
+.v2-hero-art[data-loop-visible="true"] .v2-hero-still {
+  opacity: 0;
 }
 
 .v2-hero-note {

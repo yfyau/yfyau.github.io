@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { defineConfig, transformWithOxc } from "vite";
 import react from "@vitejs/plugin-react";
 
@@ -6,6 +8,38 @@ import react from "@vitejs/plugin-react";
 export default defineConfig(({ command }) => ({
   base: "/",
   plugins: [
+    {
+      name: "service-directory-index",
+      configureServer(server) {
+        const { publicDir } = server.config;
+        if (!publicDir) return;
+
+        server.middlewares.use((request, response, next) => {
+          if (request.method !== "GET" && request.method !== "HEAD") return next();
+
+          const url = request.url || "";
+          const pathname = url.split("?", 1)[0];
+          if (!/^\/services\/[a-z0-9-]+\/?$/.test(pathname)) return next();
+
+          const directory = pathname.endsWith("/") ? pathname : `${pathname}/`;
+          const indexPath = `${directory}index.html`;
+          if (!existsSync(join(publicDir, indexPath))) {
+            response.statusCode = 404;
+            return response.end("Service page not found.");
+          }
+
+          const query = url.slice(pathname.length);
+          if (directory !== pathname) {
+            response.writeHead(301, { Location: directory + query });
+            return response.end();
+          }
+
+          // Resolve directory URLs before Vite's public-file lookup and SPA fallback.
+          request.url = indexPath + query;
+          next();
+        });
+      },
+    },
     {
       name: "site-jsx-in-js",
       enforce: "pre",

@@ -45,9 +45,23 @@ it("renders the v2 playful structure and all five destinations", () => {
   ]);
   expect(container.querySelector('a[href*="version=1"]')).toBeNull();
   expect(container.querySelector(".v2-wordmark-mark img").getAttribute("src")).toBe("/v2/mascot/bee-avatar.webp");
-  expect(container.querySelector(".v2-hero-art img").getAttribute("src")).toBe("/v2/mascot/bee-coding.webp");
+  expect(container.querySelector(".v2-hero-art img").getAttribute("src")).toBe("/v2/mascot/bee-coding-still.webp");
   expect(container.querySelector(".v2-hero-art img").getAttribute("loading")).toBe("eager");
+  expect(container.querySelector('.v2-hero-actions a[href="#consulting"]').textContent.trim()).toBe("Consulting");
 
+  cleanup(container);
+});
+
+it("uses the original wordmark avatar if the motion-only greeting fails to load", () => {
+  const container = renderV2();
+  const mark = container.querySelector(".v2-wordmark-mark");
+  const source = mark.querySelector("source");
+  expect(source.getAttribute("media")).toBe("(prefers-reduced-motion: no-preference)");
+  expect(source.getAttribute("srcset")).toBe("/v2/mascot/bee-avatar-wave.gif");
+
+  act(() => { mark.querySelector("img").dispatchEvent(new Event("error")); });
+  expect(mark.querySelector("source")).toBeNull();
+  expect(mark.querySelector("img").getAttribute("src")).toBe("/v2/mascot/bee-avatar.webp");
   cleanup(container);
 });
 
@@ -197,6 +211,63 @@ it("describes the hero bee avatar after the scene image falls back", () => {
   expect(hero.getAttribute("alt")).toBe("A bee avatar with round glasses and blue wings.");
 
   cleanup(container);
+});
+
+it("keeps the still while the typing animation loads and after an animation failure", () => {
+  const media = Object.assign(new EventTarget(), { matches: false });
+  vi.stubGlobal("matchMedia", () => media);
+  vi.useFakeTimers({ toFake: ["requestAnimationFrame", "cancelAnimationFrame"] });
+  const container = renderV2();
+  try {
+    const art = container.querySelector(".v2-hero-art");
+    const loop = () => art.querySelector(".v2-hero-loop");
+    expect(loop()).toBeNull();
+    act(() => { art.querySelector(".v2-hero-still").dispatchEvent(new Event("load")); });
+    expect(loop()).toBeNull();
+    act(() => { vi.advanceTimersByTime(34); });
+    expect(loop().getAttribute("src")).toBe("/v2/mascot/bee-coding-loop.webp");
+    expect(art.hasAttribute("data-loop-visible")).toBe(false);
+    act(() => { loop().dispatchEvent(new Event("load")); });
+    expect(art.dataset.loopVisible).toBe("true");
+
+    act(() => { loop().dispatchEvent(new Event("error")); });
+    expect(loop()).toBeNull();
+    expect(art.hasAttribute("data-loop-visible")).toBe(false);
+    expect(art.querySelector("img").getAttribute("src")).toBe("/v2/mascot/bee-coding-still.webp");
+  } finally {
+    cleanup(container);
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+  }
+});
+
+it("does not mount the typing animation with reduced motion and removes it if the preference changes", () => {
+  const media = Object.assign(new EventTarget(), { matches: true });
+  vi.stubGlobal("matchMedia", () => media);
+  vi.useFakeTimers({ toFake: ["requestAnimationFrame", "cancelAnimationFrame"] });
+  const container = renderV2();
+  try {
+    const art = container.querySelector(".v2-hero-art");
+    const updateMotion = (matches) => act(() => {
+      media.matches = matches;
+      media.dispatchEvent(new Event("change"));
+    });
+
+    act(() => {
+      art.querySelector(".v2-hero-still").dispatchEvent(new Event("load"));
+      vi.advanceTimersByTime(34);
+    });
+    expect(art.querySelector(".v2-hero-loop")).toBeNull();
+    updateMotion(false);
+    act(() => { vi.advanceTimersByTime(34); });
+    expect(art.querySelector(".v2-hero-loop")).not.toBeNull();
+    updateMotion(true);
+    expect(art.querySelector(".v2-hero-loop")).toBeNull();
+  } finally {
+    cleanup(container);
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+  }
 });
 
 it("describes an interest fallback as an avatar and restores the selected scene description", () => {
