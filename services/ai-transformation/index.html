@@ -25,7 +25,13 @@
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
-      <a class="brand" href="/"><img src="/jason-bee-icon.png" width="46" height="46" alt="" />Jason Yau</a>
+      <a class="brand" href="/">
+        <picture class="brand-mark" aria-hidden="true">
+          <source media="(prefers-reduced-motion: no-preference)" srcset="/v2/mascot/bee-avatar-wave.gif" type="image/gif" />
+          <img src="/v2/mascot/bee-avatar.webp" width="256" height="256" alt="" />
+        </picture>
+        <span>Jason Yau</span>
+      </a>
       <a class="header-back" href="/#consulting">Back to the main site <svg class="service-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" stroke="currentColor" fill="none" width="1em" height="1em"><path d="M7 17 17 7 M7 7h10v10" /></svg></a>
     </header>
     <nav class="service-nav" aria-label="Consulting services">

@@ -51,8 +51,9 @@ a:focus-visible { outline: 3px solid var(--coral); outline-offset: 4px; }
   padding: 0.65rem clamp(1rem, 4vw, 4.5rem);
   border-bottom: 2px solid var(--ink);
 }
-.brand { display: inline-flex; align-items: center; gap: 0.55rem; font-weight: 800; text-decoration: none; }
-.brand img { width: 2.85rem; height: 2.85rem; border: 2px solid var(--ink); border-radius: 50%; background: var(--white); }
+.brand { display: inline-flex; align-items: center; gap: 0.55rem; font-size: 0.95rem; font-weight: 800; letter-spacing: -0.035em; text-decoration: none; white-space: nowrap; }
+.brand-mark { display: block; flex: none; width: 2.85rem; height: 2.85rem; overflow: hidden; border: 2px solid var(--ink); border-radius: 50%; background: var(--white); }
+.brand-mark img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .header-back { display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; font-size: 0.8rem; font-weight: 800; text-decoration-thickness: 2px; text-underline-offset: 0.25rem; }
 .header-back:hover, .service-nav a:hover, .related a:hover { color: #a24532; }
 
@@ -137,7 +138,6 @@ h1 { max-width: 13ch; margin: 0; font-size: clamp(3.4rem, 8vw, 8rem); font-weigh
 
 @media (max-width: 31rem) {
   .site-header { align-items: center; flex-wrap: wrap; min-height: 0; }
-  .brand { font-size: 0.85rem; }
   .header-back { font-size: 0.875rem; }
   h1 { font-size: clamp(3rem, 15vw, 4.8rem); letter-spacing: -0.035em; }
   .service-hero--ai h1 { font-size: clamp(2.25rem, 11vw, 3.8rem); }
